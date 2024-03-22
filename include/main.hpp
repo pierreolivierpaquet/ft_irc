@@ -11,8 +11,9 @@
 // # include	<list>
 // # include	<map>
 
-# include	"Network.hpp"
-# include	"errors.hpp"
+# include	"Network.hpp"	//	Socket API.
+# include	"errors.hpp"	//	Error management.
+# include	"Client.hpp"	//	Client data.
 
 # ifndef	EXIT_SUCCESS
 #  define	EXIT_SUCCESS	0
