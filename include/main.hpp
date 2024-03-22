@@ -7,9 +7,11 @@
 #ifndef		MAIN_HPP_
 # define	MAIN_HPP_
 
+# include	<iostream>
 # include	<vector>
 // # include	<list>
 // # include	<map>
+# include	<limits>		//	std::numeric_limits
 
 # include	"Network.hpp"	//	Socket API.
 # include	"errors.hpp"	//	Error management.
