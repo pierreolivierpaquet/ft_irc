@@ -7,5 +7,8 @@
 #include	"main.hpp"
 
 int	main ( int argc, char **argv ){
-	return ( EXIT_SUCCESS_LOL );
+	static_cast< void >( argc );
+	static_cast< void >( argv );
+
+	return ( EXIT_SUCCESS );
 }

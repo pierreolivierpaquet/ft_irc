@@ -4,22 +4,29 @@
 #                                                                              #
 # **************************************************************************** #
 
+TARGET = ircserv
+
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-TARGET = ircserv
-SRCS := src/main.cpp \
-		src/ft_irc.cpp
 
-HEADERS :=  include/main.hpp \
-			include/Network.hpp
+SRCS_PATH	:=	src/
+SRCS := $(SRCS_PATH)main.cpp \
+		$(SRCS_PATH)ft_irc.cpp
 
-OBJS = $(patsubst %.cpp,bin/%.o,$(SRCS))
+INCL_PATH	:=	include/
+INCL		:=	-I $(INCL_PATH)
+# HEADERS :=  include/main.hpp \
+# 			include/Network.hpp
+
+OBJS = $(patsubst %.cpp, bin/%.o,$(SRCS))
+
+# **************************************************************************** #
 
 all: $(TARGET)
 
 bin/%.o: %.cpp
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) -c $< -o $@ -I.
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INCL)
 
 $(TARGET): $(OBJS)
 	$(CXX) $(OBJS) -o $(TARGET) $(CXXFLAGS)

@@ -9,8 +9,8 @@
 
 # include	"Network.hpp"
 
-# ifndef	EXIT_SUCCESS_LOL
-#  define	EXIT_SUCCESS_LOL	0
-# endif	/*	EXIT_SUCCESS_LOL	*/
+# ifndef	EXIT_SUCCESS
+#  define	EXIT_SUCCESS	0
+# endif	/*	EXIT_SUCCESS	*/
 
 #endif	/*	MAIN_HPP_	*/
