@@ -45,6 +45,6 @@
 
 ///	--------------------------------------------------------- @section TYPEDEF.S
 
-
+typedef	struct pollfd	t_pollfd;
 
 #endif	/*	NETWORK_HPP_	*/
