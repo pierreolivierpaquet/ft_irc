@@ -4,20 +4,16 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef		CLIENT_HPP_
-# define	CLIENT_HPP_
+#include	"Server.hpp"
 
-# include	"main.hpp"
+/// @brief Default constructor.
+Server::Server( void ) {
 
-class	Client {
-	private:
+	return;
+}
 
-	public:
-		Client( void );
-		~Client( void );
-		// Client( const Client &rhs );	//	Coplien form requisite
-		// Client &operator=( const Client &rhs );	//	Coplien form requisite
+/// @brief Default destructor.
+Server::~Server( void ) {
 
-};	/*	Client	*/
-
-#endif	/*	CLIENT_HPP_	*/
+	return ;
+}

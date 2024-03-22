@@ -1,0 +1,14 @@
+# EXECUTABLE
+ircserv
+
+# COMPILATION
+*.o
+bin/
+*.out
+
+# CONFIG && IDE
+.vscode/
+.DS_Store
+
+# MISCELLANEOUS
+*.txt

@@ -4,20 +4,20 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef		CLIENT_HPP_
-# define	CLIENT_HPP_
+#ifndef		SERVER_HPP_
+# define	SERVER_HPP_
 
 # include	"main.hpp"
 
-class	Client {
+class	Server {
 	private:
 
 	public:
-		Client( void );
-		~Client( void );
-		// Client( const Client &rhs );	//	Coplien form requisite
-		// Client &operator=( const Client &rhs );	//	Coplien form requisite
+		Server( void );
+		~Server( void );
+		// Server( const Server &rhs );	//	Coplien form requisite
+		// Server &operator=( const Server &rhs );	//	Coplien form requisite
 
-};	/*	Client	*/
+};	/*	Server	*/
 
-#endif	/*	CLIENT_HPP_	*/
+#endif	/*	SERVER_HPP_	*/

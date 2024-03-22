@@ -36,3 +36,11 @@ fclean: clean
 	rm -f $(TARGET)
 
 re: fclean all
+
+pdf:
+	@open https://cdn.intra.42.fr/pdf/pdf/94732/fr.subject.pdf
+
+intra:
+	@open https://projects.intra.42.fr/projects/ft_irc
+
+.PHONY: all $(TARGET) clean fclean re
