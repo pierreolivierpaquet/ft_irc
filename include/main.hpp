@@ -15,7 +15,7 @@
 
 # include	"Network.hpp"	//	Socket API.
 # include	"errors.hpp"	//	Error management.
-# include	"Client.hpp"	//	Client data.
+# include	"Clients.hpp"	//	Client data.
 # include	"Server.hpp"	//	Server side data.
 
 # ifndef	EXIT_SUCCESS

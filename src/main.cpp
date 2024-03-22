@@ -13,9 +13,9 @@
 /// @return Exit status.
 int	main ( int argc, char **argv ){
 	static_cast< void >( argc );
+	Server ircserv;
 	try {
-		Server ircserv;
-		ircserv.setPort( argv[ 1 ] );
+		ircserv.serverInit( argv[ 1 ] );
 
 	} catch ( std::exception &e ) {
 		std::cerr << e.what() << std::endl;

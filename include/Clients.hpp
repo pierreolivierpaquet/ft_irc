@@ -4,8 +4,8 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef		CLIENT_HPP_
-# define	CLIENT_HPP_
+#ifndef		CLIENTS_HPP_
+# define	CLIENTS_HPP_
 
 # include	"main.hpp"
 
@@ -19,15 +19,20 @@
 
 ///	---------------------------------------------------------- @section CLASS.ES
 
-class	Client {
+class	Clients {
 	private:
-		
+		int _fd;
+		std::string _IPadd;
 
 	public:
-		Client( void );
-		~Client( void );
+		Clients( void );
+		~Clients( void );
 		// Client( const Client &rhs );	//	Coplien form requisite
 		// Client &operator=( const Client &rhs );	//	Coplien form requisite
+
+		int		getFd( void );
+		void	setFd( int fd );
+		void	setIpAdd( std::string ipadd);
 
 };	/*	Client	*/
 

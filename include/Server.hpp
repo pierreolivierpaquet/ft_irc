@@ -10,7 +10,7 @@
 # include	"main.hpp"
 
 /// @brief Forward declaration.
-class Client;
+class Clients;
 
 ///	----------------------------------------------------------- @section MACRO.S
 
@@ -18,7 +18,7 @@ class Client;
 
 ///	--------------------------------------------------------- @section TYPEDEF.S
 
-typedef std::vector< Client >		t_vec_Client;
+typedef std::vector< Clients >		t_vec_Clients;
 typedef std::vector< t_pollfd >		t_vec_pollfd;
 
 typedef	struct sockaddr_in t_sockaddr_in;
@@ -28,10 +28,9 @@ typedef	struct sockaddr_in t_sockaddr_in;
 class	Server {
 	private:
 		static bool		_sig;		//	Program signal.
-		t_sockaddr_in	_sockaddr_in;	//	Internet socket address.
 		in_port_t		_port;		//	0 to 65353
 		int				_sock_fd;	//	return from socket() call.
-		t_vec_Client 	_clients;	//	Client vector; keep track of all the clients, manage their requests.
+		t_vec_Clients 	_clients;	//	Client vector; keep track of all the clients, manage their requests.
 		t_vec_pollfd	_fds;		//	struct pollfd vector.
 
 	public:
@@ -42,8 +41,11 @@ class	Server {
 
 		void	setPort( std::string portnum );
 		void	signalHandle( int num );
-		void	setSocketAddress( void );
 		void	setSocket();
+		void	serverInit( std::string portnum );
+		void	acceptNewClient( void );
+		void	receiveNewData( int fd );
+		void	clearClient( int fd );
 
 };	/*	Server	*/
 

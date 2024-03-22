@@ -24,42 +24,123 @@ void	Server::setPort( std::string portnum ) {
 	return ;
 }
 
-void	Server::setSocketAddress( void ) {
-	this->_sockaddr_in.sin_family = AF_INET; // Specifies that it's an internet connection.
-	this->_sockaddr_in.sin_port = htons( this->_port ); // big-endian format.
-	this->_sockaddr_in.sin_addr.s_addr = INADDR_ANY; // or loopback 127.0.0.1 ?
-	return ;
+void Server::clearClient( int fd ) {
+	for (size_t i = 0; i < _fds.size(); i++) {
+		if (_fds[i].fd == fd) {
+			_fds.erase(_fds.begin() + i);
+			break;
+		}
+	}
+	for (size_t i = 0; i < _clients.size(); i++) {
+		if (_clients[i].getFd() == fd) {
+			_clients.erase(_clients.begin() + i);
+			break;
+		}
+	}
 }
 
 void	Server::setSocket( void ) {
 	int	option_value = 1;
 	t_pollfd	poll;
+	sockaddr_in add;
+
+	add.sin_family = AF_INET;
+	add.sin_addr.s_addr = INADDR_ANY;
+	add.sin_port = htons(_port);
 
 	this->_sock_fd = socket( AF_INET, SOCK_STREAM, 0 );
 	if (this->_sock_fd < 0) {
-		//	THROW ERROR MANAGEMENT
+		std::cout << "Error sock_fd" << std::endl; //	THROW ERROR MANAGEMENT
 	} else if (setsockopt(	this->_sock_fd,
 							SOL_SOCKET,
 							SO_REUSEADDR,
 							&option_value,
 							sizeof(option_value) )) {
-		//	THROW ERROR MANAGEMENT
+		std::cout << "Error setsock" << std::endl;//	THROW ERROR MANAGEMENT
 	} else if (fcntl(	this->_sock_fd,
 						F_SETFL,
 						O_NONBLOCK ) < 0) {
-		//	THROW ERROR MANAGEMENT
+		std::cout << "Error fcntl" << std::endl;//	THROW ERROR MANAGEMENT
 	} else if (	bind(this->_sock_fd,
-				reinterpret_cast< struct sockaddr * >( &this->_sockaddr_in ),
-				sizeof(this->_sockaddr_in) ) < 0) {
-		// THROW ERROR MANAGEMENT
+				reinterpret_cast< struct sockaddr * >( &add ),
+				sizeof(add) ) == -1) {
+		std::cout << "Error bind" << std::endl;// THROW ERROR MANAGEMENT
 	} else if (listen(this->_sock_fd, SOMAXCONN) < 0) {
-		// THROW ERROR MANAGEMENT
+		std::cout << "Error listen" << std::endl;// THROW ERROR MANAGEMENT
 	}
 	poll.fd = this->_sock_fd;
 	poll.events = POLLIN;
 	poll.revents = 0;
 	this->_fds.push_back( poll );
 	return ;
+}
+
+void Server::acceptNewClient( void ) {
+	Clients newClient;
+	t_sockaddr_in clientAdd;
+	t_pollfd newPoll;
+	socklen_t len = sizeof(clientAdd);
+
+	int incofd = accept(_sock_fd, reinterpret_cast< struct sockaddr * >( &clientAdd) , &len);
+	if (incofd == -1) {
+		std::cout << "Accept() failed!" << std::endl;
+		return;
+	}
+
+	if (fcntl(incofd, F_SETFL, O_NONBLOCK) == -1) {
+		std::cout << "fctnl() failed!" << std::endl;
+		return;
+	}
+
+	newPoll.fd = incofd;
+	newPoll.events = POLLIN;
+	newPoll.revents = 0;
+
+	newClient.setFd(incofd);
+	newClient.setIpAdd(inet_ntoa((clientAdd.sin_addr)));
+	_clients.push_back(newClient);
+	_fds.push_back(newPoll);
+
+	std::cout << "Client connected!" << std::endl;
+}
+
+void Server::receiveNewData( int fd ) {
+	char buff[1024]; // buffer to receive the data
+	memset(buff, 0, sizeof(buff)); // set the buffer to 0
+
+	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1, 0); // receive the actual data
+
+	if (bytes <= 0) { // checks if the client disconnected
+		std::cout << "Client disconnected" << std::endl;
+		clearClient(fd);
+		close(fd);
+	} else {
+		buff[bytes] = '\0';
+		std::cout << "client : " << fd << " data : " << buff << std::endl;
+		// here is for the parsing of the data
+	}
+}
+
+void Server::serverInit( std::string portnum ) {
+	setPort(portnum); // sets the port
+	setSocket(); // create a new socket
+
+	std::cout << "Server connected" << std::endl;
+
+	while (Server::_sig == false) { // main runtime loop of the program
+		if ((poll(&_fds[0], _fds.size(), -1)) == -1 && Server::_sig == false) // checks for events
+			throw(std::runtime_error("poll() failed"));
+		
+		for (size_t i = 0; i < _fds.size(); i++) {
+			if (_fds[i].events & POLLIN) { // checks  if there is data to read
+				if (_fds[i].fd == _sock_fd)
+					acceptNewClient();
+				else
+					receiveNewData(_fds[i].fd);
+			}
+		}
+	}
+	//function to close all the fds
 }
 
 /// @brief Default constructor.
