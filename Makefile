@@ -15,8 +15,6 @@ SRCS := $(SRCS_PATH)main.cpp \
 
 INCL_PATH	:=	include/
 INCL		:=	-I $(INCL_PATH)
-# HEADERS :=  include/main.hpp \
-# 			include/Network.hpp
 
 OBJS = $(patsubst %.cpp, bin/%.o,$(SRCS))
 
