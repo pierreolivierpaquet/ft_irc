@@ -34,7 +34,7 @@
 # include	<sys/stat.h>
 
 /*	sigaction(), signal() */
-# include	<signal.h>
+# include	<csignal>
 
 /*	inet_ntoa(), inet_addr(), htons(), htonl(), ntohs(), ntohl() */
 # include	<arpa/inet.h>
