@@ -32,6 +32,11 @@ std::string	Clients::getInputBuffer( void ) {
 	return ( this->_input_buffer );
 }
 
+void	Clients::clearInputBuffer( void ) {
+	this->_input_buffer.clear();
+	return ;
+}
+
 /// @brief Default constructor.
 Clients::Clients( void ) {
 

@@ -27,7 +27,7 @@ void	Server::signalHandle( int num ) {
 
 void	Server::setPort( std::string portnum ) {
 	int	set_port = std::atoi( portnum.c_str() );
-	if (set_port > 49151 || set_port < 1024) {
+	if (set_port < 1024 || set_port > 49151 ) {
 		throw( std::runtime_error(BLD_RED ERR_MSG WHI INVALID_PORT) );
 	}
 	this->_port = static_cast< in_port_t >( set_port );
@@ -64,9 +64,9 @@ void	Server::setPassword( std::string passwd ) {
 }
 
 void	Server::setSocket( void ) {
-	int	option_value = 1;
-	t_pollfd	poll;	// Used for monitoring file descriptors I/O events.
-	t_sockaddr_in add;	// Contains important information about server address.
+	int				option_value = 1;
+	t_pollfd		poll;	// Used for monitoring file descriptors I/O events.
+	t_sockaddr_in	add;	// Contains important information about server address.
 	memset(&add, 0, sizeof(add));
 
 	add.sin_family = AF_INET;
@@ -77,27 +77,25 @@ void	Server::setSocket( void ) {
 								SOCK_STREAM,	// https://stackoverflow.com/questions/5815675/what-is-sock-dgram-and-sock-stream
 								0 );
 	if (this->_sock_fd < 0) {
-		std::cout << "Error sock_fd" << std::endl; //	THROW ERROR MANAGEMENT
+		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_SOCK_FD ) );
 	} else if (setsockopt(	this->_sock_fd,
 							SOL_SOCKET,	// socket level: https://stackoverflow.com/questions/21515946/what-is-sol-socket-used-for
 							SO_REUSEADDR,	// 
 							&option_value,
 							sizeof(option_value) )) {
-		std::cout << "Error setsock" << std::endl;//	THROW ERROR MANAGEMENT
+		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_SETSOCKOPT ) );
 	} else if (fcntl(	this->_sock_fd,
 						F_SETFL,	// Sets flag
 						O_NONBLOCK ) < 0) {
-		std::cout << "Error fcntl" << std::endl;//	THROW ERROR MANAGEMENT
+		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_FCNTL ) );
 	} else if (	bind(this->_sock_fd,
 				reinterpret_cast< struct sockaddr * >( &add ),
 				sizeof(add) ) == -1) {
-		std::cout << "Error bind" << std::endl;// THROW ERROR MANAGEMENT
+		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_BIND ) );
 	} else if (listen(this->_sock_fd, SOMAXCONN) < 0) {
-		std::cout << "Error listen" << std::endl;// THROW ERROR MANAGEMENT
+		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_LISTEN ) );
 	}
-	poll.fd = this->_sock_fd;
-	poll.events = POLLIN;
-	poll.revents = 0;
+	poll = serv::newPoll( this->_sock_fd );
 	this->_fds.push_back( poll );
 	return ;
 }
@@ -120,10 +118,7 @@ void Server::acceptNewClient( void ) {
 		std::cout << "fctnl() failed!" << std::endl;
 		return;
 	}
-
-	newPoll.fd = incofd;
-	newPoll.events = POLLIN;
-	newPoll.revents = 0;
+	newPoll = serv::newPoll( incofd );
 
 	newClient.setFd(incofd);
 	newClient.setIpAdd(inet_ntoa((clientAdd.sin_addr)));
@@ -134,10 +129,10 @@ void Server::acceptNewClient( void ) {
 }
 
 void Server::receiveNewData( int fd ) {
-	char buff[1024]; // buffer to receive the data
+	char buff[ 1024 ]; // buffer to receive the data
 	memset(buff, 0, sizeof(buff)); // set the buffer to 0
 
-	Clients	*tmp_client = this->getClient( fd );	// Retrieves the right client to store it's buffer
+	Clients	*client_data = this->getClient( fd );	// Retrieves the right client to store it's buffer
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1, 0); // receive the actual data
 
 	if (bytes <= 0) { // checks if the client disconnected
@@ -145,13 +140,14 @@ void Server::receiveNewData( int fd ) {
 		clearClient(fd);
 		close(fd);
 	} else {
-		tmp_client->setInputBuffer( buff );
-		if (tmp_client->getInputBuffer().find_first_of( CR_LF ) == NOT_FOUND) {
+		client_data->setInputBuffer( buff );
+		if (client_data->getInputBuffer().find_first_of( CR_LF ) == NOT_FOUND) {
 			return ;
 		}
-		buff[bytes] = '\0';
-		std::cout << "client : " << fd << " data : " << buff << std::endl;
+		buff[ bytes ] = '\0';
+		std::cout << "client : " << fd << " data : " << client_data->getInputBuffer() << std::endl;
 		// here is for the parsing of the data
+		client_data->clearInputBuffer();
 	}
 }
 
@@ -190,4 +186,15 @@ Server::Server( void ) :
 Server::~Server( void ) {
 
 	return ;
+}
+
+/******************************************************************************/
+
+/// @brief Creates and fills a new poll_fd.
+t_pollfd	serv::newPoll( int socket_fd) {
+	t_pollfd	new_poll;
+	new_poll.fd =		socket_fd;
+	new_poll.events =	POLLIN;
+	new_poll.revents =	0;
+	return ( new_poll );
 }

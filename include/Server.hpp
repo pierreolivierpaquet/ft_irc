@@ -56,4 +56,8 @@ class	Server {
 
 };	/*	Server	*/
 
+namespace	serv {
+	t_pollfd	newPoll( int socket_fd );
+};	/*	serv	*/
+
 #endif	/*	SERVER_HPP_	*/

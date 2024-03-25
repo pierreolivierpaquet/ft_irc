@@ -37,6 +37,8 @@ class	Clients {
 		void	setInputBuffer( std::string buffer );
 		std::string	getInputBuffer( void );
 
+		void	clearInputBuffer( void );
+
 };	/*	Client	*/
 
 #endif	/*	CLIENT_HPP_	*/
