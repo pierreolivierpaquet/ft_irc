@@ -45,4 +45,14 @@ pdf:
 intra:
 	@open https://projects.intra.42.fr/projects/ft_irc
 
+debug:	CXX += -g
+debug:	CXX += -Wno-unused-variable -Wno-unused-function
+debug:	CXX += -Wno-unused-parameter -Wno-unused-const-variable
+debug:	CXX += -Wno-unused-private-field
+debug:	fclean $(OBJS) $(TARGET)
+
+run:
+	@echo "MAKE RUN\t"
+	./$(TARGET) "6667" "123456789"
+
 .PHONY: all $(TARGET) clean fclean re

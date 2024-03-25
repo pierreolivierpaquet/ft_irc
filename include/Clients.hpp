@@ -23,6 +23,7 @@ class	Clients {
 	private:
 		int _fd;
 		std::string _IPadd;
+		std::string	_input_buffer; // stores the input from client
 
 	public:
 		Clients( void );
@@ -33,6 +34,8 @@ class	Clients {
 		int		getFd( void );
 		void	setFd( int fd );
 		void	setIpAdd( std::string ipadd);
+		void	setInputBuffer( std::string buffer );
+		std::string	getInputBuffer( void );
 
 };	/*	Client	*/
 

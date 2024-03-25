@@ -23,6 +23,15 @@ void Clients::setIpAdd( std::string ipadd ) {
 	_IPadd = ipadd;
 }
 
+void	Clients::setInputBuffer( std::string buffer) {
+	this->_input_buffer.append( buffer );
+	return ;
+}
+
+std::string	Clients::getInputBuffer( void ) {
+	return ( this->_input_buffer );
+}
+
 /// @brief Default constructor.
 Clients::Clients( void ) {
 

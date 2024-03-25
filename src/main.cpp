@@ -15,7 +15,8 @@ int	main ( int argc, char **argv ){
 	static_cast< void >( argc );
 	Server ircserv;
 	try {
-		ircserv.serverInit( argv[ 1 ] );
+		ircserv.checkParameters( argc );
+		ircserv.serverInit( argv[ 1 ], argv[ 2 ] );
 
 	} catch ( std::exception &e ) {
 		std::cerr << e.what() << std::endl;

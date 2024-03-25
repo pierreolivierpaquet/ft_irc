@@ -14,7 +14,8 @@ class Clients;
 
 ///	----------------------------------------------------------- @section MACRO.S
 
-
+# define	CR_LF		"\r\n" // Carriage return - Line feed
+# define	NOT_FOUND	std::string::npos
 
 ///	--------------------------------------------------------- @section TYPEDEF.S
 
@@ -28,6 +29,7 @@ typedef	struct sockaddr_in t_sockaddr_in;
 class	Server {
 	private:
 		static bool		_sig;		//	Program signal.
+		std::string		_passwd;	//	Password
 		in_port_t		_port;		//	0 to 65353
 		int				_sock_fd;	//	return from socket() call.
 		t_vec_Clients 	_clients;	//	Client vector; keep track of all the clients, manage their requests.
@@ -42,10 +44,15 @@ class	Server {
 		void	setPort( std::string portnum );
 		void	signalHandle( int num );
 		void	setSocket();
-		void	serverInit( std::string portnum );
+		void	serverInit( std::string portnum, std::string passwd );
 		void	acceptNewClient( void );
 		void	receiveNewData( int fd );
 		void	clearClient( int fd );
+
+		Clients	*getClient( int fd );
+		void	setPassword( std::string passwd );
+
+		static	void checkParameters( int ac );
 
 };	/*	Server	*/
 
