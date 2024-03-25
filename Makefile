@@ -14,6 +14,7 @@ SRCS := $(SRCS_PATH)main.cpp \
 		$(SRCS_PATH)ft_irc.cpp \
 		$(SRCS_PATH)Clients.cpp \
 		$(SRCS_PATH)Server.cpp \
+		$(SRCS_PATH)Channel.cpp \
 
 INCL_PATH	:=	include/
 INCL		:=	-I $(INCL_PATH)

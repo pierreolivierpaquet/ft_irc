@@ -11,6 +11,7 @@
 
 /// @brief Forward declaration.
 class Clients;
+class Channel;
 
 ///	----------------------------------------------------------- @section MACRO.S
 
@@ -21,6 +22,7 @@ class Clients;
 
 typedef std::vector< Clients >		t_vec_Clients;
 typedef std::vector< t_pollfd >		t_vec_pollfd;
+typedef std::map<std::string, Channel> t_map_Channel;
 
 typedef	struct sockaddr_in t_sockaddr_in;
 
@@ -28,12 +30,13 @@ typedef	struct sockaddr_in t_sockaddr_in;
 
 class	Server {
 	private:
-		static bool		_sig;		//	Program signal.
-		std::string		_passwd;	//	Password
-		in_port_t		_port;		//	0 to 65353
-		int				_sock_fd;	//	return from socket() call.
-		t_vec_Clients 	_clients;	//	Client vector; keep track of all the clients, manage their requests.
-		t_vec_pollfd	_fds;		//	struct pollfd vector.
+		static bool		_sig;			//	Program signal.
+		std::string		_passwd;		//	Password
+		in_port_t		_port;			//	0 to 65353
+		int				_sock_fd;		//	return from socket() call.
+		t_vec_Clients 	_clients;		//	Client vector; keep track of all the clients, manage their requests.
+		t_vec_pollfd	_fds;			//	struct pollfd vector.
+		t_map_Channel	_channelList; 	// map containing all the channel in the server.
 
 	public:
 		Server( void );
@@ -53,6 +56,9 @@ class	Server {
 		void	setPassword( std::string passwd );
 
 		static	void checkParameters( int ac );
+
+		void addChannel( std::string name );
+		Channel & getChannel( std::string name );
 
 };	/*	Server	*/
 

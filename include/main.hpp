@@ -10,13 +10,14 @@
 # include	<iostream>
 # include	<vector>
 // # include	<list>
-// # include	<map>
+# include	<map>
 # include	<limits>		//	std::numeric_limits
 
 # include	"Network.hpp"	//	Socket API.
 # include	"errors.hpp"	//	Error management.
 # include	"Clients.hpp"	//	Client data.
 # include	"Server.hpp"	//	Server side data.
+# include	"Channel.hpp"
 
 # ifndef	EXIT_SUCCESS
 #  define	EXIT_SUCCESS	0

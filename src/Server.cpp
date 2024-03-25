@@ -147,6 +147,10 @@ void Server::receiveNewData( int fd ) {
 		buff[ bytes ] = '\0';
 		std::cout << "client : " << fd << " data : " << client_data->getInputBuffer() << std::endl;
 		// here is for the parsing of the data
+		if (client_data->getInputBuffer() == "JOIN #allo") {
+			addChannel("allo");
+			getChannel("allo").addClient(*getClient(fd));
+		}
 		client_data->clearInputBuffer();
 	}
 }
@@ -173,6 +177,26 @@ void Server::serverInit( std::string portnum, std::string passwd ) {
 		}
 	}
 	//function to close all the fds
+}
+
+Channel & Server::getChannel( std::string name ) {
+	std::map<std::string, Channel>::iterator it;
+	it = _channelList.lower_bound(name);
+	return (it->second);
+}
+
+void Server::addChannel( std::string name ) {
+	std::map<std::string, Channel>::iterator it;
+
+	for (it = _channelList.begin(); it != _channelList.end(); ++it) {
+		if (it->first == name) {
+			std::cout << "Channel already exist, please chose another name!" << std::endl;
+			return;
+		}
+	}
+
+	Channel newChannel(name);
+	_channelList.insert(std::make_pair(name, newChannel));
 }
 
 /// @brief Default constructor.
