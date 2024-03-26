@@ -4,22 +4,24 @@
 #                                                                              #
 # **************************************************************************** #
 
-TARGET = ircserv
+TARGET		:=	ircserv
 
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXX			:=	c++
+CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98
 
 SRCS_PATH	:=	src/
-SRCS := $(SRCS_PATH)main.cpp \
-		$(SRCS_PATH)ft_irc.cpp \
-		$(SRCS_PATH)Clients.cpp \
-		$(SRCS_PATH)Server.cpp \
-		$(SRCS_PATH)Channel.cpp \
+SRCS		:=	$(SRCS_PATH)main.cpp		\
+				$(SRCS_PATH)ft_irc.cpp		\
+				$(SRCS_PATH)Clients.cpp		\
+				$(SRCS_PATH)Server.cpp		\
+				$(SRCS_PATH)Channel.cpp		\
+				$(SRCS_PATH)parsing.cpp		\
+				$(SRCS_PATH)Commands.cpp 	\
 
 INCL_PATH	:=	include/
 INCL		:=	-I $(INCL_PATH)
 
-OBJS = $(patsubst %.cpp, bin/%.o,$(SRCS))
+OBJS		:=	$(patsubst %.cpp, bin/%.o,$(SRCS))
 
 # **************************************************************************** #
 
@@ -52,8 +54,10 @@ debug:	CXX += -Wno-unused-parameter -Wno-unused-const-variable
 debug:	CXX += -Wno-unused-private-field
 debug:	fclean $(OBJS) $(TARGET)
 
-run:
+PASSWORD := toto
+PORT := 6667
+run: $(TARGET)
 	@echo "MAKE RUN\t"
-	./$(TARGET) "6667" "123456789"
+	./$(TARGET) $(PORT) $(PASSWORD)
 
 .PHONY: all $(TARGET) clean fclean re

@@ -15,7 +15,7 @@ void Channel::addClient( Clients client ) {
 			return;
 		}
 	}
-	
+
 	_clientList.insert(std::make_pair(client.getFd(), client));
 }
 

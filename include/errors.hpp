@@ -9,7 +9,7 @@
 
 # include	"main.hpp"
 
-///	----------------------------------------------------------- @section MACRO.S
+///	------------------------------------------------------------------- @section MACRO.S
 
 # define	ERR				"error"
 # define	ERR_MSG			"error: "

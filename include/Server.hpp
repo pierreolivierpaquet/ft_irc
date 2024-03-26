@@ -13,12 +13,12 @@
 class Clients;
 class Channel;
 
-///	----------------------------------------------------------- @section MACRO.S
+///	------------------------------------------------------------------- @section MACRO.S
 
-# define	CR_LF		"\r\n" // Carriage return - Line feed
+# define	CR_LF		"\r\n" // Carriage return - Line feed (page 6 - Internet Relay Chat: Client Protocol)
 # define	NOT_FOUND	std::string::npos
 
-///	--------------------------------------------------------- @section TYPEDEF.S
+///	------------------------------------------------------------------- @section TYPEDEF.S
 
 typedef std::vector< Clients >		t_vec_Clients;
 typedef std::vector< t_pollfd >		t_vec_pollfd;
@@ -26,7 +26,7 @@ typedef std::map<std::string, Channel> t_map_Channel;
 
 typedef	struct sockaddr_in t_sockaddr_in;
 
-///	---------------------------------------------------------- @section CLASS.ES
+///	------------------------------------------------------------------- @section CLASS.ES
 
 class	Server {
 	private:

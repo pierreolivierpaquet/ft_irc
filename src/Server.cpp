@@ -147,7 +147,8 @@ void Server::receiveNewData( int fd ) {
 		buff[ bytes ] = '\0';
 		std::cout << "client : " << fd << " data : " << client_data->getInputBuffer() << std::endl;
 		// here is for the parsing of the data
-		client_data->clearInputBuffer();
+		execute( *client_data );
+		// -----------------------
 	}
 }
 
@@ -204,7 +205,6 @@ Server::Server( void ) :
 
 /// @brief Default destructor.
 Server::~Server( void ) {
-
 	return ;
 }
 

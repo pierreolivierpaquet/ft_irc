@@ -4,26 +4,25 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef __CHANNEL_H__
-#define __CHANNEL_H__
+#ifndef		__CHANNEL_H__
+# define	__CHANNEL_H__
 
-#include "main.hpp"
+# include "main.hpp"
 
-class Channel {
+class	Channel {
 
-public:
+	public:
 
-	Channel( std::string name );
-	~Channel( void );
+		Channel( std::string name );			// Name of the channel
+		~Channel( void );
 
-	std::string getName( void );
-	void addClient( Clients client );
+		std::string getName( void );
+		void addClient( Clients client );
 
-private:
+	private:
 
-	std::map<int, Clients> _clientList;
-	std::string _name;
-
-};
+		std::map<int, Clients> _clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
+		std::string _name;
+};	/*	Channel	*/
 
 #endif // __CHANNEL_H__
