@@ -71,6 +71,14 @@ void	Clients::setRealName( std::string realname ) {
 	return ;
 }
 
+std::string Clients::getPort( void ) {
+	return (_port);
+}
+
+void Clients::setPort( std::string port ) {
+	_port = port;
+}
+
 /// @brief Default constructor.
 Clients::Clients( void ) :
 	_fd( 0 ),

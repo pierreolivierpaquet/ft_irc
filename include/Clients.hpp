@@ -29,6 +29,7 @@ class	Clients {
 		std::string	_nickname;
 		std::string	_realname;
 		u_int16_t	_mode;
+		std::string _port;
 
 	public:
 		Clients( void );
@@ -38,6 +39,8 @@ class	Clients {
 
 		int		getFd( void );
 		void	setFd( int fd );
+		std::string getPort( void );
+		void 	setPort( std::string port );
 		void	setIpAdd( std::string ipadd);
 		void	setInputBuffer( std::string buffer );
 		std::string	getInputBuffer( void );

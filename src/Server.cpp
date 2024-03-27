@@ -110,6 +110,7 @@ void Server::acceptNewClient( void ) {
 	t_sockaddr_in clientAdd;
 	t_pollfd newPoll;
 	socklen_t len = sizeof(clientAdd);
+	std::stringstream ss;
 
 	int incofd = accept(_sock_fd, reinterpret_cast< struct sockaddr * >( &clientAdd) , &len);
 	if (incofd == -1) {
@@ -125,10 +126,16 @@ void Server::acceptNewClient( void ) {
 
 	newClient.setFd(incofd);
 	newClient.setIpAdd(inet_ntoa((clientAdd.sin_addr)));
+	ss << clientAdd.sin_port;
+	newClient.setPort(ss.str());
 	_clients.push_back(newClient);
 	_fds.push_back(newPoll);
 
 	std::cout << "Client connected!" << std::endl;
+	send(newClient.getFd(), ":127.0.0.1 001 antho :Welcome to the test\r\n", 43, 0);
+	send(newClient.getFd(), ":127.0.0.1 002 antho :Your host is ft_irc, running version 0.1\r\n", 64, 0);
+	send(newClient.getFd(), ":127.0.0.1 003 antho :This server was created now!\r\n", 52, 0);	
+	send(newClient.getFd(), ":127.0.0.1 004 antho :127.0.0.1 ft_irc0.1 * itkol\r\n", 51, 0);	
 }
 
 void Server::receiveNewData( int fd ) {
@@ -148,8 +155,18 @@ void Server::receiveNewData( int fd ) {
 			return ;
 		}
 		buff[ bytes ] = '\0';
-		std::cout << "client : " << fd << " data : " << client_data->getInputBuffer() << std::endl;
 		// here is for the parsing of the data
+		// if (client_data->getInputBuffer() == "JOIN #allo\r\n") {
+        //     addChannel("allo");
+        //     getChannel("allo").addClient(*client_data);
+        //     std::string str = ":antho!anthony@127.0.0.1:" + client_data->getPort() + " JOIN #allo\r\n";
+        //     send(fd, str.c_str(), str.length(), 0);
+        //     send(fd, ":127.0.0.1 332 antho #allo :A test channel\r\n", 44, 0);
+        //     send(fd, ":127.0.0.1 353 antho = #allo :@antho\r\n", 38, 0);
+        //     send(fd, ":127.0.0.1 366 antho #allo :END of /NAMES list.\r\n", 51, 0);
+        //     std::cout << str << std::endl;
+        // }
+
 		execute( *this , *client_data );
 		// -----------------------
 	}
