@@ -37,9 +37,50 @@ void	Clients::clearInputBuffer( void ) {
 	return ;
 }
 
-/// @brief Default constructor.
-Clients::Clients( void ) {
+void	Clients::setMode( u_int16_t mode ) {
+	this->_mode = mode;
+	return ;
+}
 
+u_int16_t	Clients::getRegistration( void ) const {
+	return ( this->_registered );
+}
+
+void	Clients::setRegistration( u_int16_t mask ) {
+	this->_registered |= mask;
+	return ;
+}
+
+void	Clients::setNickName( std::string nickname ) {
+	this->_nickname = nickname;
+	return ;
+}
+
+std::string	Clients::getNickName( void ) const {
+	return ( this->_nickname );
+}
+
+
+void	Clients::setUserName( std::string username ) {
+	this->_username = username;
+	return ;
+}
+
+void	Clients::setRealName( std::string realname ) {
+	this->_realname = realname;
+	return ;
+}
+
+/// @brief Default constructor.
+Clients::Clients( void ) :
+	_fd( 0 ),
+	_IPadd( EMPTY_STR ),
+	_input_buffer( EMPTY_STR ),
+	_registered( 1 ),
+	_username( EMPTY_STR ),
+	_nickname( EMPTY_STR ),
+	_realname( EMPTY_STR ),
+	_mode( 0 ) {
 	return;
 }
 

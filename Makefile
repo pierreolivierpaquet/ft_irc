@@ -10,13 +10,16 @@ CXX			:=	c++
 CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98
 
 SRCS_PATH	:=	src/
-SRCS		:=	$(SRCS_PATH)main.cpp		\
-				$(SRCS_PATH)ft_irc.cpp		\
-				$(SRCS_PATH)Clients.cpp		\
-				$(SRCS_PATH)Server.cpp		\
-				$(SRCS_PATH)Channel.cpp		\
-				$(SRCS_PATH)parsing.cpp		\
-				$(SRCS_PATH)Commands.cpp 	\
+SRCS		:=	$(SRCS_PATH)main.cpp			\
+				$(SRCS_PATH)ft_irc.cpp			\
+				$(SRCS_PATH)Clients.cpp			\
+				$(SRCS_PATH)Server.cpp			\
+				$(SRCS_PATH)Channel.cpp			\
+				$(SRCS_PATH)parsing.cpp			\
+				$(SRCS_PATH)Commands.cpp 		\
+				$(SRCS_PATH)cmd_pass.cpp		\
+				$(SRCS_PATH)cmd_user.cpp		\
+				$(SRCS_PATH)cmd_nick.cpp		\
 
 INCL_PATH	:=	include/
 INCL		:=	-I $(INCL_PATH)

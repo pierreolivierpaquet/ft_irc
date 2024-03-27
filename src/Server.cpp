@@ -8,6 +8,7 @@
 
 /// @brief	Sets the static signal variable to false.
 bool Server::_sig = false;
+const u_int16_t	Server::_password_lenght = PASSWORD_LENGHT;
 
 /// @brief Validates the minimum arguments requirements for Server initialization.
 void	Server::checkParameters( int ac ) {
@@ -63,6 +64,10 @@ void	Server::setPassword( std::string passwd ) {
 	return ;
 }
 
+int	Server::checkPassword( std::string rhs ) const {
+	return ( this->_passwd.compare( rhs ) );
+}
+
 void	Server::setSocket( void ) {
 	int				option_value = 1;
 	t_pollfd		poll;	// Used for monitoring file descriptors I/O events.
@@ -106,8 +111,6 @@ void Server::acceptNewClient( void ) {
 	t_pollfd newPoll;
 	socklen_t len = sizeof(clientAdd);
 
-	memset( &newClient, 0, sizeof(newClient));
-
 	int incofd = accept(_sock_fd, reinterpret_cast< struct sockaddr * >( &clientAdd) , &len);
 	if (incofd == -1) {
 		std::cout << "Accept() failed!" << std::endl;
@@ -147,10 +150,23 @@ void Server::receiveNewData( int fd ) {
 		buff[ bytes ] = '\0';
 		std::cout << "client : " << fd << " data : " << client_data->getInputBuffer() << std::endl;
 		// here is for the parsing of the data
-		execute( *client_data );
+		execute( *this , *client_data );
 		// -----------------------
 	}
 }
+
+bool	Server::checkAvailableNickName( std::string needle ) {
+	t_vec_Clients::iterator it = this->_clients.begin();
+	t_vec_Clients::iterator ite = this->_clients.end();
+
+	for (; it != ite; it++) {
+		if (it->getNickName().compare( needle ) == 0){
+			return ( false );
+		}
+	}
+	return ( true );
+}
+
 
 void Server::serverInit( std::string portnum, std::string passwd ) {
 	setPort( portnum ); // sets the port
