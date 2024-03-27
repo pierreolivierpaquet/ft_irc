@@ -131,11 +131,7 @@ void Server::acceptNewClient( void ) {
 	_clients.push_back(newClient);
 	_fds.push_back(newPoll);
 
-	std::cout << "Client connected!" << std::endl;
-	send(newClient.getFd(), ":127.0.0.1 001 antho :Welcome to the test\r\n", 43, 0);
-	send(newClient.getFd(), ":127.0.0.1 002 antho :Your host is ft_irc, running version 0.1\r\n", 64, 0);
-	send(newClient.getFd(), ":127.0.0.1 003 antho :This server was created now!\r\n", 52, 0);	
-	send(newClient.getFd(), ":127.0.0.1 004 antho :127.0.0.1 ft_irc0.1 * itkol\r\n", 51, 0);	
+	std::cout << "Client connected!" << std::endl;	
 }
 
 void Server::receiveNewData( int fd ) {

@@ -19,5 +19,6 @@ void	execute( Server &ircserv, Clients &client_data );
 void	pass( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	user( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param );
+void	sendMessage(Clients client);
 
 #endif	/*	COMMANDS_HPP_	*/
