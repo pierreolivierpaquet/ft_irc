@@ -25,7 +25,6 @@ void Clients::setIpAdd( std::string ipadd ) {
 
 void	Clients::setInputBuffer( std::string buffer) {
 	this->_input_buffer.append( buffer );
-	return ;
 }
 
 std::string	Clients::getInputBuffer( void ) {
@@ -34,17 +33,14 @@ std::string	Clients::getInputBuffer( void ) {
 
 void	Clients::clearInputBuffer( void ) {
 	this->_input_buffer.clear();
-	return ;
 }
 
 /// @brief Default constructor.
-Clients::Clients( void ) {
+Clients::Clients( void ): _fd(-1) {
 
-	return;
 }
 
 /// @brief Default destructor.
 Clients::~Clients( void ) {
 
-	return ;
 }
