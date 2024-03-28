@@ -134,15 +134,6 @@ void Server::acceptNewClient( void ) {
 	std::cout << "Client connected!" << std::endl;
 }
 
-static void splitInput(std::vector<std::string>& vecStr, std::string input) {
-	std::stringstream stream(input);
-	std::string substr;
-
-	while(std::getline(stream, substr, ' ')) {
-		vecStr.push_back(substr);
-	}
-}
-
 void Server::receiveNewData( int fd ) {
 	char buff[ 1024 ]; // buffer to receive the data
 	memset(buff, 0, sizeof(buff)); // set the buffer to 0
@@ -162,8 +153,6 @@ void Server::receiveNewData( int fd ) {
 		buff[ bytes ] = '\0';
 		std::cout << "client : " << fd << " data : " << client_data->getInputBuffer() << std::endl;
 
-		std::vector<std::string> inputVec;
-		splitInput(inputVec, client_data->getInputBuffer());
 		// here is for the parsing of the data
 		execute( *this , *client_data );
 		// -----------------------
