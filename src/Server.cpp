@@ -11,7 +11,7 @@
 
 /// @brief	Sets the static signal variable to false.
 bool Server::_sig = false;
-const u_int16_t	Server::_password_lenght = PASSWORD_LENGHT;
+const u_int8_t	Server::_password_lenght = PASSWORD_LENGHT;
 
 /// @brief Validates the minimum arguments requirements for Server initialization.
 void	Server::checkParameters( int ac ) {
@@ -113,6 +113,7 @@ void Server::acceptNewClient( void ) {
 	t_sockaddr_in clientAdd;
 	t_pollfd newPoll;
 	socklen_t len = sizeof(clientAdd);
+	std::stringstream ss;
 
 	int incofd = accept(_sock_fd, reinterpret_cast< struct sockaddr * >( &clientAdd) , &len);
 	if (incofd == -1) {
@@ -128,6 +129,8 @@ void Server::acceptNewClient( void ) {
 
 	newClient.setFd(incofd);
 	newClient.setIpAdd(inet_ntoa((clientAdd.sin_addr)));
+	ss << clientAdd.sin_port;
+	newClient.setPort(ss.str());
 	_clients.push_back(newClient);
 	_fds.push_back(newPoll);
 
@@ -151,9 +154,18 @@ void Server::receiveNewData( int fd ) {
 			return ;
 		}
 		buff[ bytes ] = '\0';
-		std::cout << "client : " << fd << " data : " << client_data->getInputBuffer() << std::endl;
-
 		// here is for the parsing of the data
+		// if (client_data->getInputBuffer() == "JOIN #allo\r\n") {
+        //     addChannel("allo");
+        //     getChannel("allo").addClient(*client_data);
+        //     std::string str = ":antho!anthony@127.0.0.1:" + client_data->getPort() + " JOIN #allo\r\n";
+        //     send(fd, str.c_str(), str.length(), 0);
+        //     send(fd, ":127.0.0.1 332 antho #allo :A test channel\r\n", 44, 0);
+        //     send(fd, ":127.0.0.1 353 antho = #allo :@antho\r\n", 38, 0);
+        //     send(fd, ":127.0.0.1 366 antho #allo :END of /NAMES list.\r\n", 51, 0);
+        //     std::cout << str << std::endl;
+        // }
+
 		execute( *this , *client_data );
 		// -----------------------
 	}

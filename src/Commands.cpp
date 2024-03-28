@@ -30,6 +30,6 @@ void	execute( Server &ircserv, Clients &client_data ) {
 		input = input.substr( cr_lf + 2 ); // '+ 2' Since CR_LF was found.
 		cr_lf = input.find( CR_LF );
 	}
-	client_data.clearInputBuffer(); // DONT CLEAR, BUT TRIM UNTIL \r\n to avoid losing data
+	client_data.trimInputBuffer(); // DONT CLEAR, BUT TRIM UNTIL \r\n to avoid losing data
 	return ;
 }
