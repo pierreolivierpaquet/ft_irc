@@ -9,7 +9,7 @@
 
 # include	"main.hpp"
 # define RPL_NOTOPIC	331
-# define RPL_NOTOPIC	332
+# define RPL_TOPIC		332
 # define RPL_TOPICTIME	333
 
 
