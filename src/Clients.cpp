@@ -71,6 +71,10 @@ void	Clients::setRealName( std::string realname ) {
 	return ;
 }
 
+std::string Clients::getRealName( void ) const {
+	return (_realname);
+}
+
 std::string Clients::getPort( void ) {
 	return (_port);
 }

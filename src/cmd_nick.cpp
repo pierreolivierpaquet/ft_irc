@@ -25,9 +25,10 @@ void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	}
 	if (client.getRegistration() != 0b1111) {
 		// Silently accept nick name
-		//	send() 
+		//	send()
 	} else { 
 		// send() 
+		sendMessageLogging(client);
 	}
 	return ;
 }

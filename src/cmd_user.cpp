@@ -39,5 +39,7 @@ void	user( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	--ite;
 	client.setMode( std::atoi( (--ite)->c_str() ) ); // Eventually transfers to bitfield
 	client.setRegistration( 0b1000 );
+	if (client.getRegistration() == 0b1111)
+		sendMessageLogging(client);
 	return ;
 }

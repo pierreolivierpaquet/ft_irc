@@ -55,6 +55,7 @@ class	Clients {
 		std::string	getNickName( void ) const;
 		void	setUserName( std::string username );
 		void	setRealName( std::string realname );
+		std::string getRealName( void ) const;
 
 };	/*	Client	*/
 

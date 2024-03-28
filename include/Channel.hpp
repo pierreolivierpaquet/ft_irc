@@ -17,11 +17,15 @@ class	Channel {
 		~Channel( void );
 
 		std::string getName( void );
-		void addClient( Clients client );
+		void setOper( Clients & client );
+		std::vector<int> & getOper( void );
+		int addClient( Clients client );
+		std::map<int, Clients> & getClientList( void );
 
 	private:
 
 		std::map<int, Clients> _clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
+		std::vector<int> _operList;
 		std::string _name;
 };	/*	Channel	*/
 
