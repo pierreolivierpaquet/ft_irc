@@ -20,6 +20,9 @@ SRCS		:=	$(SRCS_PATH)main.cpp			\
 				$(SRCS_PATH)cmd_pass.cpp		\
 				$(SRCS_PATH)cmd_user.cpp		\
 				$(SRCS_PATH)cmd_nick.cpp		\
+				$(SRCS_PATH)cmd_invite.cpp		\
+				$(SRCS_PATH)cmd_kick.cpp		\
+				$(SRCS_PATH)cmd_topic.cpp		\
 
 INCL_PATH	:=	include/
 INCL		:=	-I $(INCL_PATH)

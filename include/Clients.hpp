@@ -24,11 +24,11 @@ class	Clients {
 		int _fd;
 		std::string _IPadd;
 		std::string	_input_buffer;	// Stores the input from client
-		u_int16_t	_registered;	// Bitfield to monitor registration process.
+		u_int16_t	_registered;	// Bitfield to monitor registration process. 
 		std::string	_username;
 		std::string	_nickname;
 		std::string	_realname;
-		u_int16_t	_mode;
+		// u_int8_t	_mode; // NO NEED FOR USER MODE? ONLY CHANNELS ?
 		std::string _port;
 
 	public:
@@ -45,8 +45,8 @@ class	Clients {
 		void	setInputBuffer( std::string buffer );
 		std::string	getInputBuffer( void );
 
-		void	clearInputBuffer( void );
-		void	setMode( u_int16_t mode );
+		void	trimInputBuffer( void );
+		// void	setMode( u_int8_t mode );
 
 		u_int16_t	getRegistration( void ) const;
 		void	setRegistration( u_int16_t mask );

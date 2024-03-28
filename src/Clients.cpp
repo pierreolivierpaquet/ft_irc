@@ -32,15 +32,15 @@ std::string	Clients::getInputBuffer( void ) {
 	return ( this->_input_buffer );
 }
 
-void	Clients::clearInputBuffer( void ) {
-	this->_input_buffer.clear();
+void	Clients::trimInputBuffer( void ) {
+	this->_input_buffer = this->_input_buffer.substr( this->_input_buffer.rfind( CR_LF ) + 2, std::string::npos );
 	return ;
 }
 
-void	Clients::setMode( u_int16_t mode ) {
-	this->_mode = mode;
-	return ;
-}
+// void	Clients::setMode( u_int16_t mode ) {
+// 	this->_mode = mode;
+// 	return ;
+// }
 
 u_int16_t	Clients::getRegistration( void ) const {
 	return ( this->_registered );
@@ -87,8 +87,7 @@ Clients::Clients( void ) :
 	_registered( 1 ),
 	_username( EMPTY_STR ),
 	_nickname( EMPTY_STR ),
-	_realname( EMPTY_STR ),
-	_mode( 0 ) {
+	_realname( EMPTY_STR ) {
 	return;
 }
 

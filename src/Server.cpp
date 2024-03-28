@@ -8,7 +8,7 @@
 
 /// @brief	Sets the static signal variable to false.
 bool Server::_sig = false;
-const u_int16_t	Server::_password_lenght = PASSWORD_LENGHT;
+const u_int8_t	Server::_password_lenght = PASSWORD_LENGHT;
 
 /// @brief Validates the minimum arguments requirements for Server initialization.
 void	Server::checkParameters( int ac ) {
@@ -131,7 +131,7 @@ void Server::acceptNewClient( void ) {
 	_clients.push_back(newClient);
 	_fds.push_back(newPoll);
 
-	std::cout << "Client connected!" << std::endl;	
+	std::cout << "Client connected!" << std::endl;
 }
 
 void Server::receiveNewData( int fd ) {

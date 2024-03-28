@@ -12,22 +12,37 @@
 /// @param param 
 /// @link https://dd.ircdocs.horse/refs/commands/nick
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) {
+	if ((client.getRegistration() & 0b0010) != 0b0010) {
+		if (ircserv.checkPassword( EMPTY_STR ) != 0) {
+			std::cout << "NEED TO KICK OUT/ CLOSE CLIENT FD" << std::endl;
+			return ;
+		} else {
+			client.setRegistration( 0b0010 );
+		}
+	}
 	if (param.size() < 2) {
 		// send() ERR_NONICKNAMEGIVEN
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NONICKNAMEGIVEN ) + " " + client.getNickName() + " :No nickname given\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return ;
 	} else if (ircserv.checkAvailableNickName( param.at( 1 ) ) == false) {
 		// send() ERR_NICKNAMEINUSE
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NICKNAMEINUSE ) + " " + client.getNickName() + " :Nickname already in use\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return ;
 	} else if (param.at( 1 ).find_first_not_of( NICKNAME_CHAR ) != NOT_FOUND) {
 		// send() ERR_ERRONEUSNICKNAME
-		std::cout << "BAD CHAR DELETE THIS" << std::endl;
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_ERRONEUSNICKNAME ) + " " + client.getNickName() + " :Erroneous nickname\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return ;
 	} else {
 		client.setNickName( param.at( 1 ).substr(0, 9) );
 		client.setRegistration( 0b0100 );
 	}
-	if (client.getRegistration() != 0b1111) {
-		// Silently accept nick name
-		//	send() 
-	} else { 
+	if (client.getRegistration() == 0b1111) { 
 		// send() 
+			std::string temp(":127.0.0.1 " + client.getPort() + " NICK " + param.at( 1 ) + "\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
 	}
 	return ;
 }

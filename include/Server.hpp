@@ -37,7 +37,7 @@ typedef	struct sockaddr_in t_sockaddr_in;
 class	Server {
 	private:
 		static bool				_sig;			//	Program signal.
-		static const u_int16_t	_password_lenght;	// MAX lenght of nickname
+		static const u_int8_t	_password_lenght;	// MAX lenght of nickname
 
 		std::string		_passwd;		//	Password
 		in_port_t		_port;			//	0 to 65353
