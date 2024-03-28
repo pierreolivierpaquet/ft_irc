@@ -11,6 +11,7 @@
 
 /// @brief	Sets the static signal variable to false.
 bool Server::_sig = false;
+const u_int16_t	Server::_password_lenght = PASSWORD_LENGHT;
 
 /// @brief Validates the minimum arguments requirements for Server initialization.
 void	Server::checkParameters( int ac ) {
@@ -64,6 +65,10 @@ Clients	*Server::getClient( int fd) {
 void	Server::setPassword( std::string passwd ) {
 	this->_passwd = passwd;
 	return ;
+}
+
+int	Server::checkPassword( std::string rhs ) const {
+	return ( this->_passwd.compare( rhs ) );
 }
 
 void	Server::setSocket( void ) {
@@ -160,13 +165,23 @@ void Server::receiveNewData( int fd ) {
 		std::vector<std::string> inputVec;
 		splitInput(inputVec, client_data->getInputBuffer());
 		// here is for the parsing of the data
-
-		std::vector<std::string> vecStr;
-
-		split(vecStr, client_data->getInputBuffer());
-		client_data->clearInputBuffer();
+		execute( *this , *client_data );
+		// -----------------------
 	}
 }
+
+bool	Server::checkAvailableNickName( std::string needle ) {
+	t_vec_Clients::iterator it = this->_clients.begin();
+	t_vec_Clients::iterator ite = this->_clients.end();
+
+	for (; it != ite; it++) {
+		if (it->getNickName().compare( needle ) == 0){
+			return ( false );
+		}
+	}
+	return ( true );
+}
+
 
 void Server::serverInit( std::string portnum, std::string passwd ) {
 	setPort( portnum ); // sets the port
@@ -192,6 +207,26 @@ void Server::serverInit( std::string portnum, std::string passwd ) {
 	//function to close all the fds
 }
 
+Channel & Server::getChannel( std::string name ) {
+	std::map<std::string, Channel>::iterator it;
+	it = _channelList.lower_bound(name);
+	return (it->second);
+}
+
+void Server::addChannel( std::string name ) {
+	std::map<std::string, Channel>::iterator it;
+
+	for (it = _channelList.begin(); it != _channelList.end(); ++it) {
+		if (it->first == name) {
+			std::cout << "Channel already exist, please chose another name!" << std::endl;
+			return;
+		}
+	}
+
+	Channel newChannel(name);
+	_channelList.insert(std::make_pair(name, newChannel));
+}
+
 /// @brief Default constructor.
 Server::Server( void ) :
 	_port( 0 ),
@@ -201,7 +236,6 @@ Server::Server( void ) :
 
 /// @brief Default destructor.
 Server::~Server( void ) {
-
 	return ;
 }
 

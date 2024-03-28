@@ -7,7 +7,7 @@
 #ifndef		NETWORK_HPP_
 # define	NETWORK_HPP_
 
-///	---------------------------------------------------------- @section HEADER.S
+///	------------------------------------------------------------------- @section HEADER.S
 
 # include	"main.hpp"
 
@@ -39,11 +39,11 @@
 /*	inet_ntoa(), inet_addr(), htons(), htonl(), ntohs(), ntohl() */
 # include	<arpa/inet.h>
 
-///	----------------------------------------------------------- @section MACRO.S
+///	------------------------------------------------------------------- @section MACRO.S
 
 
 
-///	--------------------------------------------------------- @section TYPEDEF.S
+///	------------------------------------------------------------------- @section TYPEDEF.S
 
 typedef	struct pollfd	t_pollfd;
 

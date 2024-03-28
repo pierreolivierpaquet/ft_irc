@@ -10,19 +10,23 @@
 # include	<iostream>
 # include	<vector>
 // # include	<list>
-// # include	<map>
+# include	<map>
 # include	<limits>		//	std::numeric_limits
+# include	<sstream>		//	istringstream (parsing)
 
 # include	"Network.hpp"	//	Socket API.
 # include	"errors.hpp"	//	Error management.
 # include	"Clients.hpp"	//	Client data.
 # include	"Server.hpp"	//	Server side data.
+# include	"Channel.hpp"
+# include	"parsing.hpp"
+# include	"Commands.hpp"
 
 # ifndef	EXIT_SUCCESS
 #  define	EXIT_SUCCESS	0
 # endif	/*	EXIT_SUCCESS	*/
 
-///	----------------------------------------------------------- @section COLOR.S
+///	------------------------------------------------------------------- @section COLOR.S
 
 # define BLD_RED "\033[1;31m"			//	BOLD RED
 # define RED "\033[31m"					//	RED
