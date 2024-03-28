@@ -35,11 +35,6 @@ void	Clients::clearInputBuffer( void ) {
 	this->_input_buffer.clear();
 }
 
-<<<<<<< HEAD
-/// @brief Default constructor.
-Clients::Clients( void ): _fd(-1) {
-
-=======
 void	Clients::setMode( u_int16_t mode ) {
 	this->_mode = mode;
 	return ;
@@ -76,7 +71,7 @@ void	Clients::setRealName( std::string realname ) {
 
 /// @brief Default constructor.
 Clients::Clients( void ) :
-	_fd( 0 ),
+	_fd( -1 ),
 	_IPadd( EMPTY_STR ),
 	_input_buffer( EMPTY_STR ),
 	_registered( 1 ),
@@ -85,7 +80,6 @@ Clients::Clients( void ) :
 	_realname( EMPTY_STR ),
 	_mode( 0 ) {
 	return;
->>>>>>> 29d4649d936e1c6388d7be45a7e643d1d9d68898
 }
 
 /// @brief Default destructor.
