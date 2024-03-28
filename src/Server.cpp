@@ -154,20 +154,8 @@ void Server::receiveNewData( int fd ) {
 			return ;
 		}
 		buff[ bytes ] = '\0';
-		// here is for the parsing of the data
-		// if (client_data->getInputBuffer() == "JOIN #allo\r\n") {
-        //     addChannel("allo");
-        //     getChannel("allo").addClient(*client_data);
-        //     std::string str = ":antho!anthony@127.0.0.1:" + client_data->getPort() + " JOIN #allo\r\n";
-        //     send(fd, str.c_str(), str.length(), 0);
-        //     send(fd, ":127.0.0.1 332 antho #allo :A test channel\r\n", 44, 0);
-        //     send(fd, ":127.0.0.1 353 antho = #allo :@antho\r\n", 38, 0);
-        //     send(fd, ":127.0.0.1 366 antho #allo :END of /NAMES list.\r\n", 51, 0);
-        //     std::cout << str << std::endl;
-        // }
 
 		execute( *this , *client_data );
-		// -----------------------
 	}
 }
 
