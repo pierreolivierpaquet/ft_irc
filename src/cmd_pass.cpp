@@ -10,7 +10,7 @@
 /// @param
 /// @link https://dd.ircdocs.horse/refs/commands/pass
 void	pass( Server &ircserv, Clients &client, std::vector< std::string > param ) {
-	if (client.passwordAuthenticated()) {
+	if ( client.isAuthenticatedAs( DEFAULT_AUTH | PASS_AUTH ) ) {
 			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_ALREADYREGISTERED ) + " " + client.getNickName() + " :Already registered\r\n");
 			send( client.getFd(), temp.c_str(), temp.size(), 0 );
 		std::cout << "ALREADY REGISTERED DELETE THIS" << std::endl;

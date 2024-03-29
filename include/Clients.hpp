@@ -14,6 +14,7 @@ class Server;
 
 ///	----------------------------------------------------------- @section MACRO.S
 
+# define	DEFAULT_AUTH	0b0001
 # define	PASS_AUTH		0b0010
 # define	NICK_AUTH		0b0100
 # define	USER_AUTH		0b1000
@@ -42,27 +43,25 @@ class	Clients {
 		// Client( const Client &rhs );	//	Coplien form requisite
 		// Client &operator=( const Client &rhs );	//	Coplien form requisite
 
-		int		getFd( void );
-		void	setFd( int fd );
+		int			getFd( void );
+		void		setFd( int fd );
 		std::string getPort( void );
-		void 	setPort( std::string port );
-		void	setIpAdd( std::string ipadd);
-		void	setInputBuffer( std::string buffer );
+		void 		setPort( std::string port );
+		void		setIpAdd( std::string ipadd);
+		void		setInputBuffer( std::string buffer );
 		std::string	getInputBuffer( void );
 
-		void	trimInputBuffer( void );
+		void		trimInputBuffer( void );
 
+		bool		isAuthenticatedAs( u_int16_t status ) const;
 		u_int16_t	getRegistration( void ) const;
-		void	setRegistration( u_int16_t mask );
-		bool	passwordAuthenticated( void ) const ;
-		bool	userAuthenticated( void ) const ;
-		bool	authenticated( void ) const;
-		bool	validateServerPassword( const Server &ircserv ); // test
+		void		setRegistration( u_int16_t mask );
+		bool		validateServerPassword( const Server &ircserv ); // test
 
-		void	setNickName( std::string nickname );
+		void		setNickName( std::string nickname );
 		std::string	getNickName( void ) const;
-		void	setUserName( std::string username );
-		void	setRealName( std::string realname );
+		void		setUserName( std::string username );
+		void		setRealName( std::string realname );
 
 };	/*	Client	*/
 

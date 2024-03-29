@@ -41,26 +41,22 @@ u_int16_t	Clients::getRegistration( void ) const {
 	return ( this->_registered );
 }
 
+bool	Clients::isAuthenticatedAs( u_int16_t status ) const {
+	u_int16_t	auth_status = this->getRegistration() & status;
+	return ( auth_status == status ) ;
+}
+
 void	Clients::setRegistration( u_int16_t mask ) {
 	this->_registered |= mask;
 	return ;
 }
 
-bool	Clients::passwordAuthenticated( void ) const {
-	u_int16_t	status = this->getRegistration() & PASS_AUTH;
-	return ( status == PASS_AUTH );
-}
-
-bool	Clients::userAuthenticated( void ) const {
-	u_int16_t	status = this->getRegistration() & USER_AUTH;
-	return ( status == USER_AUTH );
-}
-
-bool	Clients::authenticated( void ) const {
-	u_int16_t	auth_status = this->getRegistration() & FULL_AUTH;
-	return ( auth_status == FULL_AUTH );
-}
-
+/// @brief	In the event that an authentication command is sent AND the password
+///			has not been already checked, it is then assumed that the user
+///			requests access without password. This function checks if the server
+///			provides access with an empty password.
+/// @param ircserv The current server reference.
+/// @returns Whether if the client can execute authentication commands.
 bool	Clients::validateServerPassword( const Server &ircserv ) {
 	if (ircserv.checkPassword( EMPTY_STR ) != 0) {
 			std::cout << "NEED TO KICK OUT/ CLOSE CLIENT FD" << std::endl;
@@ -101,10 +97,10 @@ void Clients::setPort( std::string port ) {
 
 /// @brief Default constructor.
 Clients::Clients( void ) :
-	_fd( 0 ),
+	_fd( -1 ),
 	_IPadd( EMPTY_STR ),
 	_input_buffer( EMPTY_STR ),
-	_registered( 1 ),
+	_registered( DEFAULT_AUTH ),
 	_username( EMPTY_STR ),
 	_nickname( EMPTY_STR ),
 	_realname( EMPTY_STR ) {
@@ -113,6 +109,5 @@ Clients::Clients( void ) :
 
 /// @brief Default destructor.
 Clients::~Clients( void ) {
-
 	return ;
 }

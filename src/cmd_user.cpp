@@ -8,13 +8,13 @@
 
 /// @link https://dd.ircdocs.horse/refs/commands/user
 void	user( Server &ircserv, Clients &client, std::vector< std::string > param ) {
-	if ( client.passwordAuthenticated() == false ) {
+	if ( client.isAuthenticatedAs( DEFAULT_AUTH | PASS_AUTH ) == false ) {
 		if (client.validateServerPassword( ircserv ) == false) {
 			// send() ERR_NOTREGISTERED
 		}
 		return ;
 	}
-	if( client.userAuthenticated() ) {
+	if( client.isAuthenticatedAs( DEFAULT_AUTH | USER_AUTH ) ) {
 		// send() ERR_ALREADYREGISTERED
 		std::cout << "ALREADY REGISTERED DELETE THIS" << std::endl;
 		return ;

@@ -4,8 +4,8 @@
 /*                                                                            */
 /******************************************************************************/
 
-#ifndef		__CHANNEL_H
-# define	__CHANNEL_H
+#ifndef		CHANNEL_HPP_
+# define	CHANNEL_HPP_
 
 # include	"main.hpp"
 
@@ -20,6 +20,7 @@
 # define	KEY_MODE		0b00001000
 # define	OPERATOR_MODE	0b00010000
 # define	LIMIT_MODE		0b00100000
+# define	FULL_MODE		0b00111111
 
 ///	------------------------------------------------------------------- @section CLASS.ES
 
@@ -44,4 +45,4 @@ class	Channel {
 		u_int16_t	_mode; // Bitfield to monitor channel's mode(s).
 };	/*	Channel	*/
 
-#endif // __CHANNEL_H
+#endif // 0CHANNEL_HPP_
