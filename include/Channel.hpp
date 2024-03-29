@@ -23,6 +23,7 @@ class	Channel {
 
 		std::map<int, Clients> _clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
 		std::string _name;
+		// u_int16_t	_mode; // Bitfield to monitor channel's mode(s).
 };	/*	Channel	*/
 
 #endif // __CHANNEL_H__

@@ -12,12 +12,10 @@
 /// @param param 
 /// @link https://dd.ircdocs.horse/refs/commands/nick
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) {
-	if ((client.getRegistration() & 0b0010) != 0b0010) {
-		if (ircserv.checkPassword( EMPTY_STR ) != 0) {
+	if ( client.passwordAuthenticated() == false ) {
+		if (client.validateServerPassword( ircserv ) == false) {
 			std::cout << "NEED TO KICK OUT/ CLOSE CLIENT FD" << std::endl;
 			return ;
-		} else {
-			client.setRegistration( 0b0010 );
 		}
 	}
 	if (param.size() < 2) {
@@ -37,9 +35,9 @@ void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 			return ;
 	} else {
 		client.setNickName( param.at( 1 ).substr(0, 9) );
-		client.setRegistration( 0b0100 );
+		client.setRegistration( NICK_AUTH );
 	}
-	if (client.getRegistration() == 0b1111) { 
+	if (client.authenticated()) { 
 		// send() 
 			std::string temp(":127.0.0.1 " + client.getPort() + " NICK " + param.at( 1 ) + "\r\n");
 			send( client.getFd(), temp.c_str(), temp.size(), 0 );

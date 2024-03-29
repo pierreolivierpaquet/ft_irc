@@ -37,11 +37,6 @@ void	Clients::trimInputBuffer( void ) {
 	return ;
 }
 
-// void	Clients::setMode( u_int16_t mode ) {
-// 	this->_mode = mode;
-// 	return ;
-// }
-
 u_int16_t	Clients::getRegistration( void ) const {
 	return ( this->_registered );
 }
@@ -49,6 +44,31 @@ u_int16_t	Clients::getRegistration( void ) const {
 void	Clients::setRegistration( u_int16_t mask ) {
 	this->_registered |= mask;
 	return ;
+}
+
+bool	Clients::passwordAuthenticated( void ) const {
+	u_int16_t	status = this->getRegistration() & PASS_AUTH;
+	return ( status == PASS_AUTH );
+}
+
+bool	Clients::userAuthenticated( void ) const {
+	u_int16_t	status = this->getRegistration() & USER_AUTH;
+	return ( status == USER_AUTH );
+}
+
+bool	Clients::authenticated( void ) const {
+	u_int16_t	auth_status = this->getRegistration() & FULL_AUTH;
+	return ( auth_status == FULL_AUTH );
+}
+
+bool	Clients::validateServerPassword( const Server &ircserv ) {
+	if (ircserv.checkPassword( EMPTY_STR ) != 0) {
+			std::cout << "NEED TO KICK OUT/ CLOSE CLIENT FD" << std::endl;
+			return ( false );
+		} else {
+			this->setRegistration( PASS_AUTH );
+		}
+	return ( true );
 }
 
 void	Clients::setNickName( std::string nickname ) {

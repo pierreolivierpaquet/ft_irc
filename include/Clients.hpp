@@ -9,9 +9,15 @@
 
 # include	"main.hpp"
 
+/// Forward class declaration.
+class Server;
+
 ///	----------------------------------------------------------- @section MACRO.S
 
-
+# define	PASS_AUTH		0b0010
+# define	NICK_AUTH		0b0100
+# define	USER_AUTH		0b1000
+# define	FULL_AUTH		0b1111
 
 ///	--------------------------------------------------------- @section TYPEDEF.S
 
@@ -28,7 +34,6 @@ class	Clients {
 		std::string	_username;
 		std::string	_nickname;
 		std::string	_realname;
-		// u_int8_t	_mode; // NO NEED FOR USER MODE? ONLY CHANNELS ?
 		std::string _port;
 
 	public:
@@ -46,10 +51,13 @@ class	Clients {
 		std::string	getInputBuffer( void );
 
 		void	trimInputBuffer( void );
-		// void	setMode( u_int8_t mode );
 
 		u_int16_t	getRegistration( void ) const;
 		void	setRegistration( u_int16_t mask );
+		bool	passwordAuthenticated( void ) const ;
+		bool	userAuthenticated( void ) const ;
+		bool	authenticated( void ) const;
+		bool	validateServerPassword( const Server &ircserv ); // test
 
 		void	setNickName( std::string nickname );
 		std::string	getNickName( void ) const;
