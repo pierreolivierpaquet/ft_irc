@@ -26,7 +26,7 @@ void	user( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	channel( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	channelJoin( Server &ircserv, Clients &client, std::vector< std::string > param );
-void	sendPrivateMessage(std::string sendID, std::string message, int fd);
+void	sendPrivateMessage( std::string sendID, std::string message, int fd );
 void	privmsg( Server &ircserv, Clients &client, std::vector< std::string > param );
 
 std::string		getSend( Clients &client );

@@ -23,9 +23,9 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 			}
 				
 		}
-	} 
-	// else if (ircserv.) {
-	// 	send_str = param.at(1) + " :" + param.at(2) + "\r\n";
-	// 	sendPrivateMessage(getSend(client), send_str, )
-	// }
+	} else if (ircserv.getClientWithName(param.at(1)) != NULL) { // privmsg working but not with multiple target.
+		send_str = param.at(1) + " :" + param.at(2) + "\r\n";
+		sendPrivateMessage(getSend(client), send_str.c_str(), ircserv.getClientWithName(param.at(1))->getFd());
+	} else
+		std::cout << "Destination non existant!" << std::endl;
 }
