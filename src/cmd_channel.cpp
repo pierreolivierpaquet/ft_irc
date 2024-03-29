@@ -19,7 +19,7 @@ void channelJoin( Channel &channel, Clients &client, std::vector< std::string > 
 void channel( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	int channelExist = 0;
 	std::string str1 = getSend(client) + " JOIN " + param.at(1) + "\r\n";
-	std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " :Miscellaneous shit.\r\n";
+	//std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " :Miscellaneous shit.\r\n";
 	std::string str3;
 	std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + param.at(1) + " :END if /NAMES list.\r\n";
 	std::map<int, Clients>::iterator it;
@@ -38,6 +38,8 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 
 	channelJoin(ircserv.getChannel(param.at(1)), client, param);
 	send(client.getFd(), str1.c_str(), str1.length(), 0);
+
+	std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " " + ircserv.getChannel(param.at(1)).getTopic() + "\r\n";
     send(client.getFd(), str2.c_str(), str2.length(), 0);
 	if (channelExist == 0) {
 		str3 = ":127.0.0.1 353 " + client.getNickName() + " = " + param.at(1) + " :@" + client.getNickName() +  "\r\n";
