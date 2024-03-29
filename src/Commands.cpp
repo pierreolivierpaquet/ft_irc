@@ -19,7 +19,7 @@ void	sendMessageLogging(Clients &client) {
 }
 
 
-std::string getSend( Clients &client ) {
+std::string getSendID( Clients &client ) {
 	return ( ":" + client.getNickName() + "!" + client.getRealName() + "@127.0.0.1:" + client.getPort() );
 }
 
@@ -46,6 +46,8 @@ void	execute( Server &ircserv, Clients &client_data ) {
 			channel( ircserv, client_data, tmp_split );
 		} else if (tmp_split.at(0).compare( "PRIVMSG" ) == 0) {
 			privmsg( ircserv, client_data, tmp_split );
+		} else if (tmp_split.at(0).compare( "PART" ) == 0) {
+			part( ircserv, client_data, tmp_split );
 		}
 		//
 		input = input.substr( cr_lf + 2 ); // '+ 2' Since CR_LF was found.

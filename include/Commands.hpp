@@ -28,8 +28,9 @@ void	channel( Server &ircserv, Clients &client, std::vector< std::string > param
 void	channelJoin( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	sendPrivateMessage( std::string sendID, std::string message, int fd );
 void	privmsg( Server &ircserv, Clients &client, std::vector< std::string > param );
+void	part( Server &ircserv, Clients &client, std::vector< std::string > param );
 
-std::string		getSend( Clients &client );
+std::string		getSendID( Clients &client );
 
 #endif	/*	COMMANDS_HPP_	*/
 

@@ -71,6 +71,15 @@ std::vector<int> & Channel::getOper( void ) {
 	return (_operList);
 }
 
+void Channel::deleteClient( Clients client) {
+	std::map<int, Clients>::iterator it;
+
+	for (it = _clientList.begin(); it != _clientList.end(); ++it) {
+		if (it->first != client.getFd())
+			_clientList.erase(client.getFd());
+	}
+}
+
 Channel::Channel( std::string name): _name(name) {}
 
 Channel::~Channel( void ) {}

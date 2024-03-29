@@ -19,13 +19,13 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 		for (it = ircserv.getChannel(param.at(1)).getClientList().begin(); it != ircserv.getChannel(param.at(1)).getClientList().end(); ++it) {
 			if (it->first != client.getFd()) {
 				send_str = param.at(1) + " :" + param.at(2) + "\r\n";
-				sendPrivateMessage(getSend(client), send_str, it->first);
+				sendPrivateMessage(getSendID(client), send_str, it->first);
 			}
 				
 		}
 	} else if (ircserv.getClientWithName(param.at(1)) != NULL) { // privmsg working but not with multiple target.
 		send_str = param.at(1) + " :" + param.at(2) + "\r\n";
-		sendPrivateMessage(getSend(client), send_str.c_str(), ircserv.getClientWithName(param.at(1))->getFd());
+		sendPrivateMessage(getSendID(client), send_str.c_str(), ircserv.getClientWithName(param.at(1))->getFd());
 	} else
 		std::cout << "Destination non existant!" << std::endl;
 }

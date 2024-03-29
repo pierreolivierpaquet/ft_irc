@@ -25,6 +25,7 @@ SRCS		:=	$(SRCS_PATH)main.cpp			\
 				$(SRCS_PATH)cmd_topic.cpp		\
 				$(SRCS_PATH)cmd_channel.cpp		\
 				$(SRCS_PATH)cmd_privatemsg.cpp	\
+				$(SRCS_PATH)cmd_part.cpp		\
 
 INCL_PATH	:=	include/
 INCL		:=	-I $(INCL_PATH)
