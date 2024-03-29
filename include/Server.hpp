@@ -65,7 +65,7 @@ class	Server {
 		void	setPassword( std::string passwd );
 		int		checkPassword( std::string rhs ) const;
 
-		void	addChannel( std::string name );
+		int	addChannel( std::string name );
 		Channel & getChannel( std::string name );
 		bool	checkAvailableNickName( std::string needle );
 

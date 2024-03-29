@@ -152,17 +152,6 @@ void Server::receiveNewData( int fd ) {
 		}
 		buff[ bytes ] = '\0';
 		// here is for the parsing of the data
-		// if (client_data->getInputBuffer() == "JOIN #allo\r\n") {
-        //     addChannel("allo");
-        //     getChannel("allo").addClient(*client_data);
-        //     std::string str = ":antho!anthony@127.0.0.1:" + client_data->getPort() + " JOIN #allo\r\n";
-        //     send(fd, str.c_str(), str.length(), 0);
-        //     send(fd, ":127.0.0.1 332 antho #allo :A test channel\r\n", 44, 0);
-        //     send(fd, ":127.0.0.1 353 antho = #allo :@antho\r\n", 38, 0);
-        //     send(fd, ":127.0.0.1 366 antho #allo :END of /NAMES list.\r\n", 51, 0);
-        //     std::cout << str << std::endl;
-        // }
-
 		execute( *this , *client_data );
 		// -----------------------
 	}
@@ -211,18 +200,17 @@ Channel & Server::getChannel( std::string name ) {
 	return (it->second);
 }
 
-void Server::addChannel( std::string name ) {
+int Server::addChannel( std::string name ) {
 	std::map<std::string, Channel>::iterator it;
 
 	for (it = _channelList.begin(); it != _channelList.end(); ++it) {
-		if (it->first == name) {
-			std::cout << "Channel already exist, please chose another name!" << std::endl;
-			return;
-		}
+		if (it->first == name)
+			return (1);
 	}
 
 	Channel newChannel(name);
 	_channelList.insert(std::make_pair(name, newChannel));
+	return (0);
 }
 
 /// @brief Default constructor.

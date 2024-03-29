@@ -37,5 +37,9 @@ void	user( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	ite++;
 	client.setRealName( *ite );
 	client.setRegistration( USER_AUTH );
+	if (client.isAuthenticatedAs( FULL_AUTH )) { 
+		// send() 
+		sendMessageLogging(client);
+	}
 	return ;
 }

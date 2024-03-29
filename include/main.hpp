@@ -9,7 +9,7 @@
 
 # include	<iostream>
 # include	<vector>
-// # include	<list>
+# include	<list>
 # include	<map>
 # include	<limits>		//	std::numeric_limits
 # include	<sstream>		//	istringstream (parsing)
