@@ -16,11 +16,13 @@ void	user( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	}
 	if( client.isAuthenticatedAs( DEFAULT_AUTH | USER_AUTH ) ) {
 		// send() ERR_ALREADYREGISTERED
-		std::cout << "ALREADY REGISTERED DELETE THIS" << std::endl;
+		std::cout << "USER ALREADY REGISTERED DELETE THIS" << std::endl;
 		return ;
 	}
 	if ( param.size() < 5) {
-		// send() ERR_
+		// send() ERR_NEEDMOREPARAMS
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
 	}
 	client.setUserName( param.at( 1 ) );
 	client.setRealName( param.back() );
