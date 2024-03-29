@@ -4,7 +4,10 @@
 /*                                                                            */
 /******************************************************************************/
 
-#include	"Server.hpp"
+#include <cstring>
+#include <cstdlib>
+#include <sstream>
+#include "Server.hpp"
 
 /// @brief	Sets the static signal variable to false.
 bool Server::_sig = false;
@@ -27,7 +30,7 @@ void	Server::signalHandle( int num ) {
 }
 
 void	Server::setPort( std::string portnum ) {
-	int	set_port = std::atoi( portnum.c_str() );
+	int	set_port = atoi( portnum.c_str() );
 	if (set_port < 1024 || set_port > 49151 ) {
 		throw( std::runtime_error(BLD_RED ERR_MSG WHI INVALID_PORT) );
 	}
@@ -153,7 +156,6 @@ void Server::receiveNewData( int fd ) {
 		buff[ bytes ] = '\0';
 		// here is for the parsing of the data
 		execute( *this , *client_data );
-		// -----------------------
 	}
 }
 

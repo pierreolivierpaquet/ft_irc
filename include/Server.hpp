@@ -7,6 +7,7 @@
 #ifndef		SERVER_HPP_
 # define	SERVER_HPP_
 
+# include	<sstream>
 # include	"main.hpp"
 
 /// @note Forward declaration.

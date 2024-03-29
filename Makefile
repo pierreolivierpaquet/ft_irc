@@ -50,6 +50,9 @@ fclean: clean
 
 re: fclean all
 
+ip:
+	@ipconfig getifaddr en1 
+
 pdf:
 	@open https://cdn.intra.42.fr/pdf/pdf/94732/fr.subject.pdf
 

@@ -25,7 +25,6 @@ void Clients::setIpAdd( std::string ipadd ) {
 
 void	Clients::setInputBuffer( std::string buffer) {
 	this->_input_buffer.append( buffer );
-	return ;
 }
 
 std::string	Clients::getInputBuffer( void ) {

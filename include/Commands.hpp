@@ -8,6 +8,10 @@
 # define	COMMANDS_HPP_
 
 # include	"main.hpp"
+# define RPL_NOTOPIC	331
+# define RPL_TOPIC		332
+# define RPL_TOPICTIME	333
+
 
 /// @note Forward declaration.
 class Server;

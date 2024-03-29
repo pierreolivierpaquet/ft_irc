@@ -31,6 +31,13 @@
 # define	ERR_ALREADYREGISTERED		462 // If a client tries to sent the PASS command after connection registration has been completed
 # define	ERR_PASSWDMISMATCH			464
 
+# define	ERR_NOSUCHNICK				401
+# define	ERR_NOSUCHCHANNEL			403
+# define	ERR_USERNOTINCHANNEL		441
+# define	ERR_NOTONCHANNEL			442
+# define	ERR_BADCHANMASK				476
+# define	ERR_CHANOPRIVSNEEDED		482
+
 # define	ERR_NONICKNAMEGIVEN			431
 # define	ERR_ERRONEUSNICKNAME		432
 # define	ERR_NICKNAMEINUSE			433
