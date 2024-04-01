@@ -25,6 +25,7 @@ SRCS		:=	$(SRCS_PATH)main.cpp			\
 				$(SRCS_PATH)cmd_topic.cpp		\
 				$(SRCS_PATH)cmd_channel.cpp		\
 				$(SRCS_PATH)cmd_privatemsg.cpp	\
+				$(SRCS_PATH)cmd_mode.cpp		\
 
 INCL_PATH	:=	include/
 INCL		:=	-I $(INCL_PATH)
@@ -51,7 +52,7 @@ fclean: clean
 re: fclean all
 
 ip:
-	@ipconfig getifaddr en1 
+	@ipconfig getifaddr en1
 
 pdf:
 	@open https://cdn.intra.42.fr/pdf/pdf/94732/fr.subject.pdf

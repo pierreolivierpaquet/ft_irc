@@ -40,7 +40,7 @@ class	Channel {
 		int		addClient( Clients client );
 		std::map<int, Clients> & getClientList( void );
 
-		void		mode( char mode );
+		void		ModeOption( short set, char mode, std::vector< std::string > param );
 		void		setMode( u_int16_t mask );
 		void		unsetMode( u_int16_t mask );
 		u_int16_t	getMode( void ) const;
@@ -49,9 +49,14 @@ class	Channel {
 	private:
 
 		std::map<int, Clients>	_clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
-		std::vector<int> _operList;
+		std::vector<int>		_operList;
 		std::string				_name;
 		u_int16_t				_mode; // Bitfield to monitor channel's mode(s).
+		void					ChanMode( char mode );
+		int						findClient( std::string name ) const;
+		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
+		std::string	 			_key;
+		u_int32_t				_clients_limit;
 };	/*	Channel	*/
 
-#endif // 0CHANNEL_HPP_
+#endif // CHANNEL_HPP_

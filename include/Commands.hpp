@@ -24,6 +24,7 @@ void	sendMessageLogging(Clients &client);
 void	pass( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	user( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param );
+void	mode( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	channel( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	channelJoin( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	privatemsg( std::string sendID, std::string message, int fd );

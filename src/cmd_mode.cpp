@@ -23,14 +23,25 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 		std::cout << "MODE BAD TOKEN DELETE THIS" << std::endl;
 		return ;
 	}
+
 	short set;
 	if (param.at(2).find( "+" ) == 0) {
+		static_cast< void >( ircserv );
 		set = +1;
 	} else {
 		set = -1;
 	}
+
+	std::string mode = "";
+	char c;
+	if (param.size() >= 4) {
+		mode = param.at(2);
+		c = mode.at( mode.find_first_of( MODE_CHAR ) );
+		ircserv.getChannel( param.at(1) ).ModeOption( set, c, param ) ;
+	}
+
+
 	// Locate the right channel.
-	//	Iterate throught the string, and for each letter, send to Mode member func of channel
 	/*	channel.mode( (*it) * set )	*/
 	return ;
 }
