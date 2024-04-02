@@ -22,7 +22,7 @@ std::string Channel::getName( void ) {
 	return (_name);
 }
 
-/// @brief Modifies the channel mode itself.
+/// @brief Modifies the channel mode bit (flag).
 void	Channel::ChanMode( char mode ) {
 	switch ( mode ) {
 		case ( 'i' * -1 ) : this->unsetMode( ~INVITE_MODE );	break;
@@ -41,57 +41,82 @@ void	Channel::ChanMode( char mode ) {
 	return ;
 }
 
-void	Channel::ModeOption( short set, char mode, std::vector< std::string > param ) {
-	if (mode == 'i') {
-		this->ChanMode( set * mode );
-	} else if (mode == 't') {
-		this->ChanMode( set * mode );
-	} else if ( mode == 'k' ) {
-		if (param.size() < 4) {
-			std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
-			return ;
-		}
-		if (set < 0) {
-			if (this->_key == param.at( 3 )) {
-				this->_key.clear();
-				this->ChanMode( set * mode );
-			} else {
-				std::cout << "SEND() ERR CANT DEACTIVATE KEY BECAUSE NOT SAME AS PROVIDED DELETE THIS" << std::endl;
-			}
-		} else {
-			this->_key = param.at( 3 );
-			this->ChanMode( set * mode );
-		}
-	} else if ( mode == 'o' ) {
-		if (param.size() < 4) {
+void Channel::_mode_topic( short set, char mode, std::vector< std::string > param ) {
+	static_cast< void >( param );
+	this->ChanMode( set * mode );
+	return;
+}
+
+void Channel::_mode_invite( short set, char mode, std::vector< std::string > param ) {
+	static_cast< void >( param );
+	this->ChanMode( set * mode );
+	return ;
+}
+
+void Channel::_mode_key( short set, char mode, std::vector< std::string > param ) {
+	if (param.size() < 4) {
 		std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
 		return ;
-		}
-		int client_fd = this->findClient( param.at( 3 ) );
-		if (client_fd < 0) {
-			std::cout << "SEND() OPERATOR NOT FOUND - DELETE THIS" << std::endl;
-			return ;
-		}
-		if (set < 0) {
-			this->_operList.erase( this->findOperator( client_fd ) );
-			if (this->_operList.size() == 0) {
-				this->ChanMode( set * mode );
-			}
-		} else {
-			this->_operList.push_back( client_fd );
-			this->ChanMode( set * mode );
-		}
-	} else if ( mode == 'l' ) {
-		if (set > 0) {
-			if ( param.size() < 4 ) {
-				std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
-			}
-			this->_clients_limit = std::atoi( param.at( 3 ).c_str() );
+	}
+	if (set < 0) {
+		if (this->_key == param.at( 3 )) {
+			this->_key.clear();
 			this->ChanMode( set * mode );
 		} else {
-			this->_clients_limit = 0;
+			std::cout << "SEND() ERR CANT DEACTIVATE KEY BECAUSE NOT SAME AS PROVIDED DELETE THIS" << std::endl;
+		}
+	} else {
+		this->_key = param.at( 3 );
+		this->ChanMode( set * mode );
+	}
+	return ;
+}
+
+void	Channel::_mode_operator( short set, char mode, std::vector< std::string > param ) {
+	if (param.size() < 4) {
+	std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
+	return ;
+	}
+	int client_fd = this->findClient( param.at( 3 ) );
+	if (client_fd < 0) {
+		std::cout << "SEND() OPERATOR NOT FOUND - DELETE THIS" << std::endl;
+		return ;
+	}
+	if (set < 0) {
+		this->_operList.erase( this->findOperator( client_fd ) );
+		if (this->_operList.size() == 0) {
 			this->ChanMode( set * mode );
 		}
+	} else {
+		this->_operList.push_back( client_fd );
+		this->ChanMode( set * mode );
+	}
+	return ;
+}
+
+void	Channel::_mode_limit( short set, char mode, std::vector< std::string > param  ) {
+	if (set > 0) {
+		if ( param.size() < 4 ) {
+			std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
+		}
+		this->_clients_limit = std::atoi( param.at( 3 ).c_str() );
+		this->ChanMode( set * mode );
+	} else {
+		this->_clients_limit = 0;
+		this->ChanMode( set * mode );
+	}
+	return ;
+}
+
+void	Channel::ModeOption( short set, char mode, std::vector< std::string > param ) {
+	switch ( mode )
+	{
+		case ( 'i' ) : ( this->*_mode_func[ INV ] )( set, mode, param ); break;
+		case ( 't' ) : ( this->*_mode_func[ TOP ] )( set, mode, param ); break;
+		case ( 'k' ) : ( this->*_mode_func[ KEY ] )( set, mode, param ); break;
+		case ( 'o' ) : ( this->*_mode_func[ OPS ] )( set, mode, param ); break;
+		case ( 'l' ) : ( this->*_mode_func[ LIM ] )( set, mode, param ); break;
+		default : break;
 	}
 	return ;
 }
@@ -172,8 +197,19 @@ void Channel::deleteOper( Clients client ) {
 	}
 }
 
+void	Channel::_modefuncmapping( void ) {
+	this->_mode_func[ INV ] = &Channel::_mode_invite;
+	this->_mode_func[ TOP ] = &Channel::_mode_topic;
+	this->_mode_func[ KEY ] = &Channel::_mode_key;
+	this->_mode_func[ OPS ] = &Channel::_mode_operator;
+	this->_mode_func[ LIM ] = &Channel::_mode_limit;
+	return ;
+}
+
 Channel::Channel( std::string name) :
 	_name(name),
-	_mode( DEFAULT_MODE ) {}
+	_mode( DEFAULT_MODE ) {
+	this->_modefuncmapping();
+}
 
 Channel::~Channel( void ) {}

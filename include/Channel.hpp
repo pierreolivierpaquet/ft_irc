@@ -12,7 +12,7 @@
 ///	------------------------------------------------------------------- @section MACRO.S
 
 # ifndef	DEFAULT_MODE
-#  define	DEFAULT_MODE	0b00000001
+#  define	DEFAULT_MODE		0b00000001
 # endif	/*	DEFAULT_MODE	*/
 
 # define	INVITE_MODE			0b00000010
@@ -22,8 +22,10 @@
 # define	LIMIT_MODE			0b00100000
 # define	FULL_MODE			0b00111111
 
-# define	CHMOD_CHAR		"+-"
-# define	MODE_CHAR		"itkol"
+# define	CHMOD_CHAR			"+-"
+# define	MODE_CHAR			"itkol"
+
+# define	MODE_FUNC_AMOUNT	5
 
 ///	------------------------------------------------------------------- @section CLASS.ES
 
@@ -59,6 +61,19 @@ class	Channel {
 		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
 		std::string	 			_key;
 		u_int32_t				_clients_limit;
+
+		typedef	enum {
+			INV, TOP, KEY, OPS, LIM
+		}	e_func_mode;
+		typedef	void (Channel::*fmode)( short, char, std::vector< std::string > );
+		void	_modefuncmapping( void );
+		fmode	_mode_func[ MODE_FUNC_AMOUNT ];
+		void	_mode_topic( short set, char mode, std::vector< std::string > param );
+		void	_mode_invite( short set, char mode, std::vector< std::string > param );
+		void	_mode_key( short set, char mode, std::vector< std::string > param );
+		void	_mode_operator( short set, char mode, std::vector< std::string > param );
+		void	_mode_limit( short set, char mode, std::vector< std::string > param );
+
 };	/*	Channel	*/
 
 #endif // CHANNEL_HPP_
