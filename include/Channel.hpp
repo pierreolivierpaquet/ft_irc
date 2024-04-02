@@ -34,11 +34,13 @@ class	Channel {
 		Channel( std::string name );			// Name of the channel
 		~Channel( void );
 
-		std::string	getName( void );
-		void setOper( Clients & client );
-		std::vector<int> & getOper( void );
-		int		addClient( Clients client );
-		std::map<int, Clients> & getClientList( void );
+		std::string				getName( void );
+		std::vector<int>		&getOper( void );
+		std::map<int, Clients>	&getClientList( void );
+		void					setOper( Clients & client );
+		int						addClient( Clients client );
+		void					deleteClient( Clients client );
+		void					deleteOper( Clients client );
 
 		void		ModeOption( short set, char mode, std::vector< std::string > param );
 		void		setMode( u_int16_t mask );

@@ -62,6 +62,15 @@ Clients	*Server::getClient( int fd) {
 	return ( NULL );
 }
 
+Clients *Server::getClientWithName( std::string name ) {
+	for ( size_t i = 0; i < this->_clients.size(); i++) {
+		if ( this->_clients[ i ].getNickName() == name ) {
+			return ( &this->_clients[ i ] );
+		}
+	}
+	return ( NULL );
+}
+
 void	Server::setPassword( std::string passwd ) {
 	this->_passwd = passwd;
 	return ;

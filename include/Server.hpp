@@ -63,6 +63,8 @@ class	Server {
 		void	clearClient( int fd );
 
 		Clients	*getClient( int fd );
+		Clients *getClientWithName( std::string name );
+
 		void	setPassword( std::string passwd );
 		int		checkPassword( std::string rhs ) const;
 
