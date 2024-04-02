@@ -205,10 +205,16 @@ void Server::serverInit( std::string portnum, std::string passwd ) {
 	//function to close all the fds
 }
 
-Channel & Server::getChannel( std::string name ) {
-	std::map<std::string, Channel>::iterator it;
-	it = _channelList.lower_bound(name);
-	return (it->second);
+bool Server::getChannel( std::string name , Channel **channel) {
+	t_map_Channel::iterator it;
+
+	for (it = _channelList.begin(); it != _channelList.end(); ++it) {
+		if (it->first == name) {
+			*channel = &it->second;
+			return (true);
+		}
+	}
+	return (false);
 }
 
 int Server::addChannel( std::string name ) {
@@ -222,6 +228,17 @@ int Server::addChannel( std::string name ) {
 	Channel newChannel(name);
 	_channelList.insert(std::make_pair(name, newChannel));
 	return (0);
+}
+
+void Server::deleteChannel( std::string name ) {
+	t_map_Channel::iterator it;
+
+	for (it = _channelList.begin(); it != _channelList.end(); ++it) {
+		if (it->first == name) {
+			_channelList.erase(name);
+			break;
+		}
+	}
 }
 
 /// @brief Default constructor.
