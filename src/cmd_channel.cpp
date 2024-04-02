@@ -38,7 +38,7 @@ static void makeUserListSend(Channel *channel, Clients &client, int channelExist
 
 void channel( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	int channelExist = 0;
-	std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " :Miscellaneous shit.\r\n";
+	//std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " :Miscellaneous shit.\r\n";
 	std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + param.at(1) + " :END if /NAMES list.\r\n";
 	Channel *channel = NULL;
 
@@ -60,6 +60,8 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 	}
 
 	channelJoin(channel, client, param);
+
+	std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " " + ircserv.getChannel(param.at(1)).getTopic() + "\r\n";
     send(client.getFd(), str2.c_str(), str2.length(), 0);
 	makeUserListSend(channel, client, channelExist);
     send(client.getFd(), str4.c_str(), str4.length(), 0);

@@ -154,6 +154,15 @@ void	Channel::unsetMode( u_int16_t mask ) {
 	return ;
 }
 
+void	Channel::setTopic(const std::string& topic) {
+	if (topic.size() == 0) return;
+	_topic = topic;
+}
+
+std::string	Channel::getTopic( void ) const {
+	return _topic;
+}
+
 u_int16_t	Channel::getMode( void ) const {
 	return ( this->_mode );
 }
