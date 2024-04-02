@@ -36,6 +36,11 @@ static void makeUserListSend(Channel *channel, Clients &client, int channelExist
 	send(client.getFd(), str.c_str(), str.length(), 0);
 }
 
+// static bool parseJoinRequest(Channel *channel, Clients &client) {
+
+// 	return (true);
+// }
+
 void channel( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	int channelExist = 0;
 	std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " :Miscellaneous shit.\r\n";
@@ -49,6 +54,10 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 		
 	channelExist = ircserv.addChannel(param.at(1));
 	ircserv.getChannel(param.at(1), &channel);
+
+	// if (parseJoinRequest(channel, client) == false)
+	// 	return ;
+
 	if (channelExist == 0)
 		channel->setOper(client);
 		

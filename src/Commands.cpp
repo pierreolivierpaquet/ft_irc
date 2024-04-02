@@ -38,7 +38,7 @@ void	execute( Server &ircserv, Clients &client_data ) {
 		//
 		if (tmp_split.at(0).compare( "PASS" ) == 0) {
 			pass( ircserv, client_data, tmp_split );
-		} else if ( tmp_split.at( 0 ).compare( "NICK" ) == 0 ) {
+		} else if (tmp_split.at(0).compare( "NICK" ) == 0 ) {
 			nick( ircserv, client_data, tmp_split );
 		} else if (tmp_split.at(0).compare( "USER" ) == 0) {
 			user( ircserv, client_data, tmp_split );
@@ -50,6 +50,8 @@ void	execute( Server &ircserv, Clients &client_data ) {
 			part( ircserv, client_data, tmp_split );
 		} else if (tmp_split.at(0).compare( "MODE" ) == 0) {
 			mode( ircserv, client_data, tmp_split );
+		} else if (tmp_split.at(0).compare( "INVITE" ) == 0) {
+			invite( ircserv, client_data, tmp_split );
 		}
 		//
 		input = input.substr( cr_lf + 2 ); // '+ 2' Since CR_LF was found.

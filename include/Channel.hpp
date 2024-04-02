@@ -41,24 +41,26 @@ class	Channel {
 		std::map<int, Clients>	&getClientList( void );
 		void					setOper( Clients & client );
 		int						addClient( Clients client );
+		void					addWhiteList( Clients & client);
 		void					deleteClient( Clients client );
 		void					deleteOper( Clients client );
 
-		void		ModeOption( short set, char mode, std::vector< std::string > param );
-		void		setMode( u_int16_t mask );
-		void		unsetMode( u_int16_t mask );
-		u_int16_t	getMode( void ) const;
-		bool		isMode( u_int16_t mode ) const;
+		void					ModeOption( short set, char mode, std::vector< std::string > param );
+		void					setMode( u_int16_t mask );
+		void					unsetMode( u_int16_t mask );
+		u_int16_t				getMode( void ) const;
+		bool					isMode( u_int16_t mode ) const;
+		int						findClient( std::string name ) const;
+		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
 
 	private:
 
 		std::map<int, Clients>	_clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
 		std::vector<int>		_operList;
+		std::vector<std::string> _whiteList;
 		std::string				_name;
 		u_int16_t				_mode; // Bitfield to monitor channel's mode(s).
 		void					ChanMode( char mode );
-		int						findClient( std::string name ) const;
-		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
 		std::string	 			_key;
 		u_int32_t				_clients_limit;
 

@@ -206,6 +206,18 @@ void	Channel::_modefuncmapping( void ) {
 	return ;
 }
 
+void Channel::addWhiteList( Clients & client ) {
+	std::vector<std::string>::iterator it;
+
+	for (it = _whiteList.begin(); it != _whiteList.end(); ++it) {
+		if (*it == client.getNickName())
+			return ;
+	}
+
+	_whiteList.push_back(client.getNickName());
+	return ;
+}
+
 Channel::Channel( std::string name) :
 	_name(name),
 	_mode( DEFAULT_MODE ) {
