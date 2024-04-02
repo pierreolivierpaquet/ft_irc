@@ -75,8 +75,21 @@ void Channel::deleteClient( Clients client) {
 	std::map<int, Clients>::iterator it;
 
 	for (it = _clientList.begin(); it != _clientList.end(); ++it) {
-		if (it->first != client.getFd())
+		if (it->first == client.getFd()) {
 			_clientList.erase(client.getFd());
+			break;
+		}
+	}
+}
+
+void Channel::deleteOper( Clients client ) {
+	std::vector<int>::iterator it;
+
+	for (it = _operList.begin(); it != _operList.end(); ++it) {
+		if (*it == client.getFd()) {
+			_operList.erase(it);
+			break;
+		}
 	}
 }
 
