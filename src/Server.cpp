@@ -197,7 +197,6 @@ void Server::serverInit( std::string portnum, std::string passwd ) {
 }
 
 Channel & Server::getChannel( std::string name ) {
-	std::map<std::string, Channel>::iterator it;
 	return (_channelList.at(name));
 }
 
