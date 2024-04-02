@@ -11,7 +11,6 @@ CXXFLAGS	:=	-Wall -Wextra -Werror -std=c++98
 
 SRCS_PATH	:=	src/
 SRCS		:=	$(SRCS_PATH)main.cpp			\
-				$(SRCS_PATH)ft_irc.cpp			\
 				$(SRCS_PATH)Clients.cpp			\
 				$(SRCS_PATH)Server.cpp			\
 				$(SRCS_PATH)Channel.cpp			\
