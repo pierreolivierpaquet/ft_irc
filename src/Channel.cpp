@@ -217,6 +217,7 @@ void	Channel::_modefuncmapping( void ) {
 
 Channel::Channel( std::string name) :
 	_name(name),
+	_topic( ":Channel topic!" ),
 	_mode( DEFAULT_MODE ) {
 	this->_modefuncmapping();
 }

@@ -52,6 +52,9 @@ class	Channel {
 		void			setTopic( const std::string& );
 		bool			isMode( u_int16_t mode ) const;
 
+		int						findClient( std::string name ) const;
+		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
+
 	private:
 
 		std::map<int, Clients>	_clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
@@ -60,8 +63,6 @@ class	Channel {
 		std::string				_topic;
 		u_int16_t				_mode; // Bitfield to monitor channel's mode(s).
 		void					ChanMode( char mode );
-		int						findClient( std::string name ) const;
-		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
 		std::string	 			_key;
 		u_int32_t				_clients_limit;
 
