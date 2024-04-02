@@ -37,9 +37,14 @@ void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 		client.setNickName( param.at( 1 ).substr(0, 9) );
 		client.setRegistration( NICK_AUTH );
 	}
-	if (client.isAuthenticatedAs( FULL_AUTH )) { 
-		// send() 
+	if (client.isAuthenticatedAs( FULL_AUTH ) &&
+		client.isAuthenticatedAs( WELCOMED_AUTH ) == false) {
 		sendMessageLogging(client);
+		client.setRegistration( WELCOMED_AUTH );
 	}
+
+	std::vector<int> advise_client = ircserv.getConcernedClients( client );
+
+
 	return ;
 }

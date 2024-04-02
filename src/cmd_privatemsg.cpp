@@ -38,7 +38,9 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHNICK ) + " " + client.getNickName() + " :No such nickname\r\n");
 		send( client.getFd(), temp.c_str(), temp.size(), 0 );
 		return ;
+	} else {
+		send_str = param.at(1) + " :" + param.at(2) + "\r\n";
+		sendPrivateMessage(getSendID(client), send_str.c_str(), ircserv.getClientWithName(param.at(1))->getFd());
 	}
-	send_str = param.at(1) + " :" + param.at(2) + "\r\n";
-	sendPrivateMessage(getSendID(client), send_str.c_str(), ircserv.getClientWithName(param.at(1))->getFd());
+	return ;
 }

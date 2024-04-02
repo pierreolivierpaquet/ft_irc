@@ -14,11 +14,12 @@ class Server;
 
 ///	----------------------------------------------------------- @section MACRO.S
 
-# define	DEFAULT_AUTH	0b0001
-# define	PASS_AUTH		0b0010
-# define	NICK_AUTH		0b0100
-# define	USER_AUTH		0b1000
-# define	FULL_AUTH		0b1111
+# define	WELCOMED_AUTH	0b00010000
+# define	DEFAULT_AUTH	0b00000001
+# define	PASS_AUTH		0b00000010
+# define	NICK_AUTH		0b00000100
+# define	USER_AUTH		0b00001000
+# define	FULL_AUTH		0b00001111
 
 ///	--------------------------------------------------------- @section TYPEDEF.S
 

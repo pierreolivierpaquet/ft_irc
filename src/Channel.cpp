@@ -111,6 +111,8 @@ void	Channel::_mode_limit( short set, char mode, std::vector< std::string > para
 void	Channel::ModeOption( short set, char mode, std::vector< std::string > param ) {
 	switch ( mode )
 	{
+		case ( 's' ) :
+		case ( 'n' ) : std::cout << "SEND() NOT SUPPORTED" << std::endl; break;
 		case ( 'i' ) : ( this->*_mode_func[ INV ] )( set, mode, param ); break;
 		case ( 't' ) : ( this->*_mode_func[ TOP ] )( set, mode, param ); break;
 		case ( 'k' ) : ( this->*_mode_func[ KEY ] )( set, mode, param ); break;
@@ -142,7 +144,6 @@ std::vector< int >::const_iterator	Channel::findOperator( int client_fd ) const 
 	}
 	return ( it );
 }
-
 
 void	Channel::setMode( u_int16_t mask ) {
 	this->_mode |= mask;

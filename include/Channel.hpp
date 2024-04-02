@@ -23,7 +23,7 @@
 # define	FULL_MODE			0b00111111
 
 # define	CHMOD_CHAR			"+-"
-# define	MODE_CHAR			"itkol"
+# define	MODE_CHAR			"snitkol"
 
 # define	MODE_FUNC_AMOUNT	5
 
@@ -49,6 +49,8 @@ class	Channel {
 		void		unsetMode( u_int16_t mask );
 		u_int16_t	getMode( void ) const;
 		bool		isMode( u_int16_t mode ) const;
+		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
+		int									findClient( std::string name ) const;
 
 	private:
 
@@ -57,8 +59,6 @@ class	Channel {
 		std::string				_name;
 		u_int16_t				_mode; // Bitfield to monitor channel's mode(s).
 		void					ChanMode( char mode );
-		int						findClient( std::string name ) const;
-		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
 		std::string	 			_key;
 		u_int32_t				_clients_limit;
 

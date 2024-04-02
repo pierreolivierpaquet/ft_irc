@@ -180,6 +180,25 @@ bool	Server::checkAvailableNickName( std::string needle ) {
 	return ( true );
 }
 
+std::vector< int >	Server::getConcernedClients( Clients &client ) {
+	std::vector< int > concerned_clients;
+	int	client_fd = client.getFd();
+
+	t_map_Channel::iterator	it = this->_channelList.begin();
+	t_map_Channel::iterator	ite = this->_channelList.end();
+
+	for (; it != ite; ++it) {
+		if (it->second.getClientList().find( client_fd ) != it->second.getClientList().end() ) {
+			for (	std::map<int, Clients>::iterator it_client = it->second.getClientList().begin();
+					it_client != it->second.getClientList().end(); it++) {
+				if (it_client->first != client_fd) {
+					concerned_clients.push_back( it_client->first );
+				}
+			}
+		}
+	}
+	return ( concerned_clients );
+}
 
 void Server::serverInit( std::string portnum, std::string passwd ) {
 	setPort( portnum ); // sets the port

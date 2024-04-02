@@ -8,12 +8,11 @@
 
 void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	Channel *channel = NULL;
-	//	CHECK IF THE USER CAN EXECUTE A MODE CHANGE (is operator)
 	if (param.size() < 3) {
 		// send() ERR_NEEDMOREPARAMS
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
+		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
+		send( client.getFd(), temp.c_str(), temp.size(), 0 );
+		return ;
 	} else if ( ircserv.getChannel(param.at(1), &channel) == false ) {
 		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHCHANNEL ) + " " + client.getNickName() + " :No such channel\r\n");
 		send( client.getFd(), temp.c_str(), temp.size(), 0 );
@@ -23,6 +22,11 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 				param.at(2).find_first_not_of( static_cast<std::string>(CHMOD_CHAR) + MODE_CHAR ) != NOT_FOUND )) {
 		// +/- not found at thew beginning of token OR character not permitted found
 		std::cout << "MODE BAD TOKEN DELETE THIS" << std::endl;
+		return ;
+	}
+
+	if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
+		std::cout << "SEND() NOT OPERATOR DELETE THIS" << std::endl;
 		return ;
 	}
 
@@ -36,7 +40,7 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 
 	std::string mode = "";
 	char c;
-	if (param.size() >= 4) {
+	if (param.size() >= 3) {
 		mode = param.at(2);
 		c = mode.at( mode.find_first_of( MODE_CHAR ) );
 		channel->ModeOption( set, c, param ) ;

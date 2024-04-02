@@ -27,9 +27,9 @@ class Channel;
 
 ///	------------------------------------------------------------------- @section TYPEDEF.S
 
-typedef std::vector< Clients >		t_vec_Clients;
-typedef std::vector< t_pollfd >		t_vec_pollfd;
-typedef std::map<std::string, Channel> t_map_Channel;
+typedef std::vector< Clients >			t_vec_Clients;
+typedef std::vector< t_pollfd >			t_vec_pollfd;
+typedef std::map<std::string, Channel>	t_map_Channel;
 
 typedef	struct sockaddr_in t_sockaddr_in;
 
@@ -72,6 +72,8 @@ class	Server {
 		bool	getChannel( std::string name, Channel **channel );
 		void 	deleteChannel( std::string name );
 		bool	checkAvailableNickName( std::string needle );
+
+		std::vector< int >	getConcernedClients( Clients &client ) ;
 
 };	/*	Server	*/
 
