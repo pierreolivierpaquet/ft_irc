@@ -27,6 +27,10 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHCHANNEL ) + " " + client.getNickName() + " :No such channel\r\n");
 			send( client.getFd(), temp.c_str(), temp.size(), 0 );
 			return ;
+		} else if (channel->findClient(client.getNickName()) == -1) {
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOTONCHANNEL ) + " " + client.getNickName() + " :User not on channel\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return ;
 		}
 		for (it = channel->getClientList().begin(); it != channel->getClientList().end(); ++it) {
 			if (it->first != client.getFd()) {

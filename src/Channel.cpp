@@ -216,6 +216,51 @@ void	Channel::_modefuncmapping( void ) {
 	return ;
 }
 
+void Channel::addWhiteList( Clients & client ) {
+	std::vector<std::string>::iterator it;
+
+	for (it = _whiteList.begin(); it != _whiteList.end(); ++it) {
+		if (*it == client.getNickName())
+			return ;
+	}
+
+	_whiteList.push_back(client.getNickName());
+	return ;
+}
+
+void Channel::deleteWhiteList( Clients & client ) {
+	std::vector<std::string>::iterator it;
+
+	for (it = _whiteList.begin(); it != _whiteList.end(); ++it) {
+		if (*it == client.getNickName()) {
+			_whiteList.erase(it);
+			return ;
+		}
+	}
+}
+
+bool Channel::isInvited( Clients & client ) {
+	std::vector<std::string>::iterator it;
+
+	for (it = _whiteList.begin(); it != _whiteList.end(); ++it) {
+		if (*it == client.getNickName())
+			return (true);
+	}
+	return (false);
+}
+
+bool Channel::checkKey( std::string key ) {
+	if (key == _key)
+		return (true);
+	return (false);
+}
+
+bool Channel::checkLimit( void ) {
+	if (_clientList.size() == _clients_limit)
+		return (true);
+	return (false);
+}
+
 Channel::Channel( std::string name) :
 	_name(name),
 	_mode( DEFAULT_MODE ) {
