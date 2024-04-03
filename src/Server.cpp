@@ -184,15 +184,20 @@ std::vector< int >	Server::getConcernedClients( Clients &client ) {
 	std::vector< int > concerned_clients;
 	int	client_fd = client.getFd();
 
-	t_map_Channel::iterator	it = this->_channelList.begin();
-	t_map_Channel::iterator	ite = this->_channelList.end();
+	if (this->_channelList.size() == 0) {
+		return ( concerned_clients );
+	}
+
+	std::map<std::string, Channel >::iterator	it = this->_channelList.begin();
+	std::map<std::string, Channel >::iterator	ite = this->_channelList.end();
 
 	for (; it != ite; ++it) {
 		if (it->second.getClientList().find( client_fd ) != it->second.getClientList().end() ) {
 			for (	std::map<int, Clients>::iterator it_client = it->second.getClientList().begin();
-					it_client != it->second.getClientList().end(); it++) {
-				if (it_client->first != client_fd) {
-					concerned_clients.push_back( it_client->first );
+					it_client != it->second.getClientList().end(); it_client++) {
+				if (it_client->first != client_fd &&
+					std::find( concerned_clients.begin(), concerned_clients.end(), it_client->first ) == concerned_clients.end()) {
+						concerned_clients.push_back( it_client->first );
 				}
 			}
 		}

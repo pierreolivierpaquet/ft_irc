@@ -44,19 +44,22 @@ class	Channel {
 		void					deleteClient( Clients client );
 		void					deleteOper( Clients client );
 
-		void		ModeOption( short set, char mode, std::vector< std::string > param );
-		void		setMode( u_int16_t mask );
-		void		unsetMode( u_int16_t mask );
-		u_int16_t	getMode( void ) const;
-		bool		isMode( u_int16_t mode ) const;
-		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
-		int									findClient( std::string name ) const;
+		void			ModeOption( short set, char mode, std::vector< std::string > param );
+		void			setMode( u_int16_t mask );
+		void			unsetMode( u_int16_t mask );
+		u_int16_t		getMode( void ) const;
+		std::string		getTopic( void ) const;
+		void			setTopic( const std::string& );
+		bool			isMode( u_int16_t mode ) const;
+		int				findClient( std::string name ) const;
+		std::vector< int >::const_iterator	findOperator( int client_fd ) const ;
 
 	private:
 
 		std::map<int, Clients>	_clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
-		std::vector<int>		_operList;
+		std::vector<int> 		_operList;
 		std::string				_name;
+		std::string				_topic;
 		u_int16_t				_mode; // Bitfield to monitor channel's mode(s).
 		void					ChanMode( char mode );
 		std::string	 			_key;
