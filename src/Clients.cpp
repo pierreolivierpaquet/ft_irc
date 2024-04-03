@@ -67,6 +67,7 @@ bool	Clients::validateServerPassword( const Server &ircserv ) {
 }
 
 void	Clients::setNickName( std::string nickname ) {
+	this->_nickname_prev = this->_nickname;
 	this->_nickname = nickname;
 	return ;
 }
@@ -75,6 +76,9 @@ std::string	Clients::getNickName( void ) const {
 	return ( this->_nickname );
 }
 
+std::string	Clients::getNickNamePrev( void ) const {
+	return ( this->_nickname_prev );
+}
 
 void	Clients::setUserName( std::string username ) {
 	this->_username = username;
@@ -106,6 +110,7 @@ Clients::Clients( void ) :
 	_registered( DEFAULT_AUTH ),
 	_username( EMPTY_STR ),
 	_nickname( EMPTY_STR ),
+	_nickname_prev( EMPTY_STR ),
 	_realname( EMPTY_STR ) {
 	return;
 }

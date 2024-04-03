@@ -45,4 +45,7 @@
 # define	ERR_NICKNAMEINUSE			433
 # define	ERR_NICKCOLLISION			436 // Same as ERR_NICKNAMEINUSE ??
 
+# define	ERR_UNKNOWNMODE				472	//	"<char> :is unknown mode char to me for <channel>"
+# define	ERR_NOPRIVILEGES			481	//	":Permission Denied- You’re not an IRC operator"
+
 # endif	/*	ERRORS_HPP_	*/

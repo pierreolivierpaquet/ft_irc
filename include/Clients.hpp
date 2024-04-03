@@ -35,6 +35,7 @@ class	Clients {
 		u_int16_t	_registered;	// Bitfield to monitor registration process. 
 		std::string	_username;
 		std::string	_nickname;
+		std::string	_nickname_prev; // Previous nickname
 		std::string	_realname;
 		std::string _port;
 
@@ -57,12 +58,13 @@ class	Clients {
 		bool		isAuthenticatedAs( u_int16_t status ) const;
 		u_int16_t	getRegistration( void ) const;
 		void		setRegistration( u_int16_t mask );
-		bool		validateServerPassword( const Server &ircserv ); // test
+		bool		validateServerPassword( const Server &ircserv );
 
 		void		setNickName( std::string nickname );
 		std::string	getNickName( void ) const;
-		void	setUserName( std::string username );
-		void	setRealName( std::string realname );
+		std::string	getNickNamePrev( void ) const;
+		void		setUserName( std::string username );
+		void		setRealName( std::string realname );
 		std::string getRealName( void ) const;
 
 };	/*	Client	*/
