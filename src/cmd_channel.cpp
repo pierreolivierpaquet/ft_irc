@@ -36,10 +36,33 @@ static void makeUserListSend(Channel *channel, Clients &client, int channelExist
 	send(client.getFd(), str.c_str(), str.length(), 0);
 }
 
-// static bool parseJoinRequest(Channel *channel, Clients &client) {
-
-// 	return (true);
-// }
+static bool parseJoinRequest(Channel *channel, Clients &client, std::vector<std::string> param) {
+	if (channel->isMode(LIMIT_MODE) == true) {
+		if (channel->checkLimit() == true) {
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_CHANNELISFULL ) + " " + client.getNickName() + " :Channel is full\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return (false);
+		}
+	} else if (channel->isMode(KEY_MODE) == true) {
+		if (param.size() < 3) {
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return (false);
+		} else if (channel->checkKey(param.at(2)) == false) {
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_BADCHANNELKEY ) + " " + client.getNickName() + " :Bad channel key\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return (false);
+		}
+	} else if (channel->isMode(INVITE_MODE) == true) {
+		if (channel->isInvited(client) == false) {
+			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_INVITEONLYCHAN ) + " " + client.getNickName() + " :This is an invite only channel\r\n");
+			send( client.getFd(), temp.c_str(), temp.size(), 0 );
+			return (false);
+		} else
+			channel->deleteWhiteList(client);
+	}
+	return (true);
+}
 
 void channel( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	int channelExist = 0;
@@ -55,13 +78,12 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 	channelExist = ircserv.addChannel(param.at(1));
 	ircserv.getChannel(param.at(1), &channel);
 
-	// if (parseJoinRequest(channel, client) == false)
-	// 	return ;
+	if (parseJoinRequest(channel, client, param) == false)
+		return ;
 
 	if (channelExist == 0)
 		channel->setOper(client);
 		
-
 	if (channel->addClient(client) == 1) {
 		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_USERONCHANNEL ) + " " + client.getNickName() + " :already in channel\r\n");
 		send( client.getFd(), temp.c_str(), temp.size(), 0 );

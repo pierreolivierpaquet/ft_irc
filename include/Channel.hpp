@@ -41,9 +41,13 @@ class	Channel {
 		std::map<int, Clients>	&getClientList( void );
 		void					setOper( Clients & client );
 		int						addClient( Clients client );
-		void					addWhiteList( Clients & client);
+		void					addWhiteList( Clients & client );
+		void					deleteWhiteList( Clients & client );
+		bool					isInvited( Clients & client );
 		void					deleteClient( Clients client );
 		void					deleteOper( Clients client );
+		bool					checkKey( std::string key );
+		bool					checkLimit( void );
 
 		void					ModeOption( short set, char mode, std::vector< std::string > param );
 		void					setMode( u_int16_t mask );
