@@ -41,6 +41,38 @@ static void sendError(int& errorCode, Clients& client) {
 		case ERR_USERONCHANNEL:
 			errMsg += "User already in channel";
 			break;
+		case ERR_NOTONCHANNEL:
+			errMsg += "Not on channel";
+		case ERR_NOSUCHNICK:
+			errMsg += "No such nickname";
+			break;
+		case ERR_CHANOPRIVSNEEDED:
+			errMsg += "You're not channel operator";
+			break;
+		case ERR_NOSUCHCHANNEL:
+			errMsg += "No such channel";
+			break;
+		case ERR_USERNOTINCHANNEL:
+			errMsg += "User not in channel";
+			break;
+		case ERR_NOPRIVILEGES:
+			errMsg += "Permission Denied - You're not an IRC operator";
+			break;
+		case ERR_NONICKNAMEGIVEN:
+			errMsg += "No nickname given";
+			break;
+		case ERR_NICKNAMEINUSE:
+			errMsg += "Nickname already in use";
+			break;
+		case ERR_ERRONEUSNICKNAME:
+			errMsg += "Erroneous nickname";
+			break;
+		case ERR_ALREADYREGISTERED:
+			errMsg += "Already registered";
+			break;
+		case ERR_PASSWDMISMATCH:
+			errMsg += "Password mismatch";
+			break;
 		default:
 			errMsg += "Undefined error message";
 	}

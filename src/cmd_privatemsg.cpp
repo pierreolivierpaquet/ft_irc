@@ -16,22 +16,10 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 	std::string send_str;
 	Channel *channel = NULL;
 
-	if (param.size() < 3) {
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
-		return ;
-	}
-
+	if (param.size() < 3) throw ERR_NEEDMOREPARAMS;
 	if (param.at(1).find("#") == 0) {
-		if (ircserv.getChannel(param.at(1), &channel) == false) {
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHCHANNEL ) + " " + client.getNickName() + " :No such channel\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
-		} else if (channel->findClient(client.getNickName()) == -1) {
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOTONCHANNEL ) + " " + client.getNickName() + " :User not on channel\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
-		}
+		if (ircserv.getChannel(param.at(1), &channel) == false) throw ERR_NOSUCHCHANNEL;
+		if (channel->findClient(client.getNickName()) == -1) throw ERR_NOTONCHANNEL;
 		for (it = channel->getClientList().begin(); it != channel->getClientList().end(); ++it) {
 			if (it->first != client.getFd()) {
 				send_str = param.at(1) + " :" + param.at(2) + "\r\n";
@@ -39,9 +27,7 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 			}
 		}
 	} else if (ircserv.getClientWithName(param.at(1)) == NULL) {
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHNICK ) + " " + client.getNickName() + " :No such nickname\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
-		return ;
+		throw ERR_NOSUCHNICK;
 	} else {
 		send_str = param.at(1) + " :" + param.at(2) + "\r\n";
 		sendPrivateMessage(getSendID(client), send_str.c_str(), ircserv.getClientWithName(param.at(1))->getFd());

@@ -25,24 +25,14 @@ static char	mode_id( std::string parameter ) {
 void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	Channel *channel = NULL;
 
-	if (param.size() < 3) {
+	if (param.size() < 3) throw ERR_NEEDMOREPARAMS;
 
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
-		return ;
-
-	} else if ( ircserv.getChannel(param.at(1), &channel) == false ) {
-
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHCHANNEL ) + " " + client.getNickName() + " :No such channel\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
-		return ;
-
-	} else if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOPRIVILEGES ) + " " + client.getNickName() + " :Permission Denied - You’re not an IRC operator\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
+	if ( ircserv.getChannel(param.at(1), &channel) == false ) throw ERR_NOSUCHCHANNEL; 
+	if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
 		std::cout << "SEND() NOT OPERATOR DELETE THIS" << std::endl;
-		return ;
-	} else if ( param.at(2).size() >= 1 &&
+		throw ERR_NOPRIVILEGES;
+	}
+	if ( param.at(2).size() >= 1 &&
 				(param.at(2).find_first_of( CHMOD_CHAR ) != 0 ||
 				param.at(2).find_first_of( MODE_CHAR ) == NOT_FOUND ||
 				param.at(2).find_first_not_of( static_cast< std::string >(CHMOD_CHAR) + MODE_CHAR ) != NOT_FOUND )) {

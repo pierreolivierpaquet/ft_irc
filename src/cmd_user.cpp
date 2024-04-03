@@ -19,11 +19,7 @@ void	user( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 		std::cout << "USER ALREADY REGISTERED DELETE THIS" << std::endl;
 		return ;
 	}
-	if ( param.size() < 5) {
-		// send() ERR_NEEDMOREPARAMS
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-	}
+	if ( param.size() < 5) throw ERR_NEEDMOREPARAMS;
 	client.setUserName( param.at( 1 ) );
 	client.setRealName( param.back() );
 	std::vector< std::string >::const_iterator ite = param.end();

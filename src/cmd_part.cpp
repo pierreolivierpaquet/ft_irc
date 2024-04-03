@@ -11,12 +11,7 @@ void	part( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	std::map<int, Clients>::iterator it;
 	Channel *channel = NULL;
 
-	if (ircserv.getChannel(param.at(1), &channel) == false) {
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHCHANNEL ) + " " + client.getNickName() + " :No such channel\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
-		return ;
-	}
-	
+	if (ircserv.getChannel(param.at(1), &channel) == false) throw ERR_NOSUCHCHANNEL;
 	//manque d'ajouter ERR_NOTONCHANNEL
 
 	if (param.size() > 2) {
