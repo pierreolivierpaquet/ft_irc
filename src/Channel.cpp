@@ -263,7 +263,8 @@ bool Channel::checkLimit( void ) {
 
 Channel::Channel( std::string name) :
 	_name(name),
-	_mode( DEFAULT_MODE ) {
+	_topic( ":Channel topic!" ),
+	_mode( DEFAULT_MODE | TOPIC_MODE ) {
 	this->_modefuncmapping();
 }
 
