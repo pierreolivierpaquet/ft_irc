@@ -61,7 +61,7 @@ class	Channel {
 		std::string				_name;
 		std::string				_topic;
 		u_int16_t				_mode; // Bitfield to monitor channel's mode(s).
-		void					ChanMode( char mode );
+		void					_ChanMode( char mode );
 		std::string	 			_key;
 		u_int32_t				_clients_limit;
 

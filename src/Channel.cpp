@@ -23,7 +23,7 @@ std::string Channel::getName( void ) {
 }
 
 /// @brief Modifies the channel mode bit (flag).
-void	Channel::ChanMode( char mode ) {
+void	Channel::_ChanMode( char mode ) {
 	switch ( mode ) {
 		case ( 'i' * -1 ) : this->unsetMode( ~INVITE_MODE );	break;
 		case ( 't' * -1 ) : this->unsetMode( ~TOPIC_MODE );		break;
@@ -43,13 +43,13 @@ void	Channel::ChanMode( char mode ) {
 
 void Channel::_mode_topic( short set, char mode, std::vector< std::string > param ) {
 	static_cast< void >( param );
-	this->ChanMode( set * mode );
+	this->_ChanMode( set * mode );
 	return;
 }
 
 void Channel::_mode_invite( short set, char mode, std::vector< std::string > param ) {
 	static_cast< void >( param );
-	this->ChanMode( set * mode );
+	this->_ChanMode( set * mode );
 	return ;
 }
 
@@ -61,13 +61,13 @@ void Channel::_mode_key( short set, char mode, std::vector< std::string > param 
 	if (set < 0) {
 		if (this->_key == param.at( 3 )) {
 			this->_key.clear();
-			this->ChanMode( set * mode );
+			this->_ChanMode( set * mode );
 		} else {
 			std::cout << "SEND() ERR CANT DEACTIVATE KEY BECAUSE NOT SAME AS PROVIDED DELETE THIS" << std::endl;
 		}
 	} else {
 		this->_key = param.at( 3 );
-		this->ChanMode( set * mode );
+		this->_ChanMode( set * mode );
 	}
 	return ;
 }
@@ -85,11 +85,11 @@ void	Channel::_mode_operator( short set, char mode, std::vector< std::string > p
 	if (set < 0) {
 		this->_operList.erase( this->findOperator( client_fd ) );
 		if (this->_operList.size() == 0) {
-			this->ChanMode( set * mode );
+			this->_ChanMode( set * mode );
 		}
 	} else {
 		this->_operList.push_back( client_fd );
-		this->ChanMode( set * mode );
+		this->_ChanMode( set * mode );
 	}
 	return ;
 }
@@ -100,10 +100,10 @@ void	Channel::_mode_limit( short set, char mode, std::vector< std::string > para
 			std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
 		}
 		this->_clients_limit = std::atoi( param.at( 3 ).c_str() );
-		this->ChanMode( set * mode );
+		this->_ChanMode( set * mode );
 	} else {
 		this->_clients_limit = 0;
-		this->ChanMode( set * mode );
+		this->_ChanMode( set * mode );
 	}
 	return ;
 }
