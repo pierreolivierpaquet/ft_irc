@@ -24,6 +24,7 @@ void	sendMessageLogging(Clients &client);
 void	pass( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	user( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param );
+void	kick( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	mode( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	topic( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	channel( Server &ircserv, Clients &client, std::vector< std::string > param );
