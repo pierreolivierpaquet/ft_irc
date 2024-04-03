@@ -43,6 +43,7 @@ static void sendError(int& errorCode, Clients& client) {
 			break;
 		case ERR_NOTONCHANNEL:
 			errMsg += "Not on channel";
+			break;
 		case ERR_NOSUCHNICK:
 			errMsg += "No such nickname";
 			break;
