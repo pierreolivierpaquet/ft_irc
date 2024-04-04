@@ -28,11 +28,11 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	if (param.size() < 3) throw ERR_NEEDMOREPARAMS;
 
 	if ( ircserv.getChannel(param.at(1), &channel) == false ) throw ERR_NOSUCHCHANNEL; 
-	if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
+	else if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
 		std::cout << "SEND() NOT OPERATOR DELETE THIS" << std::endl;
 		throw ERR_NOPRIVILEGES;
 	}
-	if ( param.at(2).size() >= 1 &&
+	else if ( param.at(2).size() >= 1 &&
 				(param.at(2).find_first_of( CHMOD_CHAR ) != 0 ||
 				param.at(2).find_first_of( MODE_CHAR ) == NOT_FOUND ||
 				param.at(2).find_first_not_of( static_cast< std::string >(CHMOD_CHAR) + MODE_CHAR ) != NOT_FOUND )) {

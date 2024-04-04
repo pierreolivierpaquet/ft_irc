@@ -19,7 +19,7 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 	if (param.size() < 3) throw ERR_NEEDMOREPARAMS;
 	if (param.at(1).find("#") == 0) {
 		if (ircserv.getChannel(param.at(1), &channel) == false) throw ERR_NOSUCHCHANNEL;
-		if (channel->findClient(client.getNickName()) == -1) throw ERR_NOTONCHANNEL;
+		else if (channel->findClient(client.getNickName()) == -1) throw ERR_NOTONCHANNEL;
 		for (it = channel->getClientList().begin(); it != channel->getClientList().end(); ++it) {
 			if (it->first != client.getFd()) {
 				send_str = param.at(1) + " :" + param.at(2) + "\r\n";

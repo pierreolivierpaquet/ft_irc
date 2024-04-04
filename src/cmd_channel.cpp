@@ -41,7 +41,7 @@ static void parseJoinRequest(Channel *channel, Clients &client, std::vector<std:
 		if (channel->checkLimit() == true) throw ERR_CHANNELISFULL;
 	} else if (channel->isMode(KEY_MODE) == true) {
 		if (param.size() < 3) throw ERR_NEEDMOREPARAMS;
-		if (channel->checkKey(param.at(2)) == false) throw ERR_BADCHANNELKEY;
+		else if (channel->checkKey(param.at(2)) == false) throw ERR_BADCHANNELKEY;
 	} else if (channel->isMode(INVITE_MODE) == true) {
 		if (channel->isInvited(client) == false) throw ERR_INVITEONLYCHAN;
 		channel->deleteWhiteList(client);
@@ -50,7 +50,6 @@ static void parseJoinRequest(Channel *channel, Clients &client, std::vector<std:
 
 void channel( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	int channelExist = 0;
-	//std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " :Miscellaneous shit.\r\n";
 	std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + param.at(1) + " :END if /NAMES list.\r\n";
 	Channel *channel = NULL;
 

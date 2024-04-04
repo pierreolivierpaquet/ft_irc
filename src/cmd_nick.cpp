@@ -22,10 +22,14 @@ void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 
 	if (param.size() < 2) throw ERR_NONICKNAMEGIVEN;
 
-	if (ircserv.checkAvailableNickName( param.at( 1 ) ) == false) throw ERR_NICKNAMEINUSE;
-	if (param.at( 1 ).find_first_not_of( NICKNAME_CHAR ) != NOT_FOUND) throw ERR_ERRONEUSNICKNAME;
-	client.setNickName( param.at( 1 ).substr(0, 9) );
-	client.setRegistration( NICK_AUTH );
+	if (ircserv.checkAvailableNickName( param.at( 1 ) ) == false) {
+		throw ERR_NICKNAMEINUSE;
+	} else if (param.at( 1 ).find_first_not_of( NICKNAME_CHAR ) != NOT_FOUND) {
+		throw ERR_ERRONEUSNICKNAME;
+	} else {
+		client.setNickName( param.at( 1 ).substr(0, 9) );
+		client.setRegistration( NICK_AUTH );
+	}
 
 	if (client.isAuthenticatedAs( FULL_AUTH ) &&
 		client.isAuthenticatedAs( WELCOMED_AUTH ) == false) {
