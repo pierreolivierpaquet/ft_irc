@@ -20,27 +20,15 @@ void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 		}
 	}
 
-	if (param.size() < 2) {
+	if (param.size() < 2) throw ERR_NONICKNAMEGIVEN;
 
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NONICKNAMEGIVEN ) + " " + client.getNickName() + " :No nickname given\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
-
-	} else if (ircserv.checkAvailableNickName( param.at( 1 ) ) == false) {
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NICKNAMEINUSE ) + " " + client.getNickName() + " :Nickname already in use\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
-
+	if (ircserv.checkAvailableNickName( param.at( 1 ) ) == false) {
+		throw ERR_NICKNAMEINUSE;
 	} else if (param.at( 1 ).find_first_not_of( NICKNAME_CHAR ) != NOT_FOUND) {
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_ERRONEUSNICKNAME ) + " " + client.getNickName() + " :Erroneous nickname\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
-
+		throw ERR_ERRONEUSNICKNAME;
 	} else {
-
 		client.setNickName( param.at( 1 ).substr(0, 9) );
 		client.setRegistration( NICK_AUTH );
-
 	}
 
 	if (client.isAuthenticatedAs( FULL_AUTH ) &&

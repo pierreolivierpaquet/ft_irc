@@ -13,36 +13,16 @@ void	invite( Server &ircserv, Clients &client, std::vector< std::string > param 
 	Channel *channel = NULL;
 	Clients *target;
 
-	if (param.size() < 3) {
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NEEDMOREPARAMS ) + " " + client.getNickName() + " :Need more parameters\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
-		return ;
-	}
-
+	if (param.size() < 3) throw ERR_NEEDMOREPARAMS;
 	target = ircserv.getClientWithName(param.at(1));
-	if (target == NULL) {
-		std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOSUCHNICK ) + " " + client.getNickName() + " :No such nickname\r\n");
-		send( client.getFd(), temp.c_str(), temp.size(), 0 );
-		return ;
-	}
-
+	if (target == NULL) throw ERR_NOSUCHNICK; 
 	if (ircserv.getChannel(param.at(2), &channel) == false)
 		send(target->getFd(), str.c_str(), str.length(), 0);
 	else if (channel->isMode(INVITE_MODE) == true) {
-		if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_CHANOPRIVSNEEDED ) + " " + client.getNickName() + " :You're not channel operator\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
-		}
-		send(target->getFd(), str.c_str(), str.length(), 0);
+		if (channel->findOperator(client.getFd()) == channel->getOper().end()) throw ERR_CHANOPRIVSNEEDED;
 		channel->addWhiteList(*target);
 	} else {
-		if (channel->findClient(client.getNickName()) == -1) {
-			std::string temp(":127.0.0.1 " + client.getPort() + " " + std::to_string( ERR_NOTONCHANNEL ) + " " + client.getNickName() + " :User not on channel\r\n");
-			send( client.getFd(), temp.c_str(), temp.size(), 0 );
-			return ;
-		}
-		send(target->getFd(), str.c_str(), str.length(), 0);
+		if (channel->findClient(client.getNickName()) == -1) throw ERR_NOTONCHANNEL;
 		channel->addWhiteList(*target);
 	}
 }
