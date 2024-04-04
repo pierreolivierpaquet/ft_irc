@@ -23,7 +23,7 @@ std::string getSendID( Clients &client ) {
 	return ( ":" + client.getNickName() + "!" + client.getRealName() + "@127.0.0.1:" + client.getPort() );
 }
 
-static void sendError(int& errorCode, Clients& client, std::vector< std::string >& param) {
+void sendError(int& errorCode, Clients& client, std::vector< std::string >& param) {
 	std::string errMsg (":127.0.0.1 " + client.getPort() + " " + std::to_string(errorCode) + " " + client.getNickName() + " :");
 	switch (errorCode) {
 		case ERR_CHANNELISFULL:
