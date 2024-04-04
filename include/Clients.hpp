@@ -29,15 +29,16 @@ class Server;
 
 class	Clients {
 	private:
-		int _fd;
-		std::string _IPadd;
-		std::string	_input_buffer;	// Stores the input from client
-		u_int16_t	_registered;	// Bitfield to monitor registration process. 
-		std::string	_username;
-		std::string	_nickname;
-		std::string	_nickname_prev; // Previous nickname
-		std::string	_realname;
-		std::string _port;
+		int					_fd;
+		std::string			_IPadd;
+		std::string			_input_buffer;	// Stores the input from client
+		u_int16_t			_registered;	// Bitfield to monitor registration process. 
+		std::string			_username;
+		std::string			_nickname;
+		std::string			_nickname_prev; // Previous nickname
+		std::string			_realname;
+		std::string			_port;
+		std::vector<int>	_privmsgtarget;
 
 	public:
 		Clients( void );
@@ -66,6 +67,8 @@ class	Clients {
 		void		setUserName( std::string username );
 		void		setRealName( std::string realname );
 		std::string getRealName( void ) const;
+		void		addPrivmsgTarget( int fd );
+		std::vector<int> getPrivmsgTarget( void );
 
 };	/*	Client	*/
 

@@ -182,26 +182,43 @@ bool	Server::checkAvailableNickName( std::string needle ) {
 
 std::vector< int >	Server::getConcernedClients( Clients &client ) {
 	std::vector< int > concerned_clients;
+	std::vector< int > concerned_clients2;
 	int	client_fd = client.getFd();
-
-	if (this->_channelList.size() == 0) {
-		return ( concerned_clients );
-	}
-
+	bool found = false;
 	std::map<std::string, Channel >::iterator	it = this->_channelList.begin();
 	std::map<std::string, Channel >::iterator	ite = this->_channelList.end();
+	std::vector<int>::iterator itvec;
 
-	for (; it != ite; ++it) {
-		if (it->second.getClientList().find( client_fd ) != it->second.getClientList().end() ) {
-			for (	std::map<int, Clients>::iterator it_client = it->second.getClientList().begin();
-					it_client != it->second.getClientList().end(); it_client++) {
-				if (it_client->first != client_fd &&
-					std::find( concerned_clients.begin(), concerned_clients.end(), it_client->first ) == concerned_clients.end()) {
-						concerned_clients.push_back( it_client->first );
+	if (this->_channelList.size() != 0) {
+		for (; it != ite; ++it) {
+			if (it->second.getClientList().find( client_fd ) != it->second.getClientList().end() ) {
+				for (	std::map<int, Clients>::iterator it_client = it->second.getClientList().begin();
+						it_client != it->second.getClientList().end(); it_client++) {
+					if (it_client->first != client_fd &&
+						std::find( concerned_clients.begin(), concerned_clients.end(), it_client->first ) == concerned_clients.end()) {
+							concerned_clients.push_back( it_client->first );
+					}
 				}
 			}
 		}
 	}
+
+	if (client.getPrivmsgTarget().size() != 0) {
+		for (size_t i = 0; i < client.getPrivmsgTarget().size(); i++) {
+			for (itvec = concerned_clients.begin(); itvec != concerned_clients.end(); ++itvec) {
+				if (client.getPrivmsgTarget().at(i) == *itvec)
+					found = true;
+			}
+			if (found == false)
+				concerned_clients2.push_back(client.getPrivmsgTarget().at(i));
+			found = false;
+		}
+
+		for (size_t i = 0; i < concerned_clients2.size(); i++) {
+			concerned_clients.push_back(concerned_clients2[i]);
+		}
+	}
+	
 	return ( concerned_clients );
 }
 

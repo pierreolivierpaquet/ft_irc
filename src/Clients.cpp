@@ -102,6 +102,22 @@ void Clients::setPort( std::string port ) {
 	_port = port;
 }
 
+void Clients::addPrivmsgTarget( int fd ) {
+	std::vector<int>::iterator it;
+
+	for (it = _privmsgtarget.begin(); it != _privmsgtarget.end(); ++it) {
+		if (*it == fd)
+			return ;
+	}
+
+	_privmsgtarget.push_back(fd);
+	return ;
+}
+
+std::vector<int> Clients::getPrivmsgTarget( void ) {
+	return (_privmsgtarget);
+}
+
 /// @brief Default constructor.
 Clients::Clients( void ) :
 	_fd( -1 ),

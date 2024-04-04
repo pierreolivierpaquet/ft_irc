@@ -45,6 +45,7 @@ void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param
 	} else {
 		send_str = param.at(1) + " :" + param.at(2) + "\r\n";
 		sendPrivateMessage(getSendID(client), send_str.c_str(), ircserv.getClientWithName(param.at(1))->getFd());
+		client.addPrivmsgTarget(ircserv.getClientWithName(param.at(1))->getFd());
 	}
 	return ;
 }
