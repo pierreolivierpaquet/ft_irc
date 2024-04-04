@@ -30,7 +30,7 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	if ( ircserv.getChannel(param.at(1), &channel) == false ) throw ERR_NOSUCHCHANNEL; 
 	else if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
 		std::cout << "SEND() NOT OPERATOR DELETE THIS" << std::endl;
-		throw ERR_NOPRIVILEGES;
+		throw ERR_CHANOPRIVSNEEDED;
 	}
 	else if ( param.at(2).size() >= 1 &&
 				(param.at(2).find_first_of( CHMOD_CHAR ) != 0 ||

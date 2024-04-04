@@ -120,7 +120,7 @@ void	execute( Server &ircserv, Clients &client_data ) {
 				topic( ircserv, client_data, tmp_split );
 			} else if (tmp_split.at(0).compare( "KICK" ) == 0) {
 				kick( ircserv, client_data, tmp_split );
-			} else throw ERR_UNKNOWNCOMMAND;
+			} else if (tmp_split.at(0).compare( "PONG" ) == 0) {} else throw ERR_UNKNOWNCOMMAND;
 		} catch (int& errorCode) {
 			sendError(errorCode, client_data, tmp_split);
 		}
