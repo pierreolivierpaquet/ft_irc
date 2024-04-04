@@ -20,9 +20,11 @@ void	invite( Server &ircserv, Clients &client, std::vector< std::string > param 
 		send(target->getFd(), str.c_str(), str.length(), 0);
 	else if (channel->isMode(INVITE_MODE) == true) {
 		if (channel->findOperator(client.getFd()) == channel->getOper().end()) throw ERR_CHANOPRIVSNEEDED;
+		send(target->getFd(), str.c_str(), str.length(), 0);
 		channel->addWhiteList(*target);
 	} else {
 		if (channel->findClient(client.getNickName()) == -1) throw ERR_NOTONCHANNEL;
+		send(target->getFd(), str.c_str(), str.length(), 0);
 		channel->addWhiteList(*target);
 	}
 }
