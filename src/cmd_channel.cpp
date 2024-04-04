@@ -66,7 +66,6 @@ static bool parseJoinRequest(Channel *channel, Clients &client, std::vector<std:
 
 void channel( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	int channelExist = 0;
-	//std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + param.at(1) + " :Miscellaneous shit.\r\n";
 	std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + param.at(1) + " :END if /NAMES list.\r\n";
 	Channel *channel = NULL;
 
