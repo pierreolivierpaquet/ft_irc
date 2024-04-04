@@ -12,7 +12,7 @@ void	part( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	Channel *channel = NULL;
 
 	if (ircserv.getChannel(param.at(1), &channel) == false) throw ERR_NOSUCHCHANNEL;
-	//manque d'ajouter ERR_NOTONCHANNEL
+	if (channel->findClient(client.getNickName()) == -1) throw ERR_NOTONCHANNEL;
 
 	if (param.size() > 2) {
 		send_str += " :" + param.at(2);
