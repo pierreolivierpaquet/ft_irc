@@ -36,6 +36,6 @@ void	kick( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 		if (targetChannel->findClient(param.at(2)) == -1) throw ERR_USERNOTINCHANNEL;
 		channelKick(targetChannel, client, param);
 		targetChannel->deleteClient(*targetClient);
-		targetChannel->deleteOper(client);
+		targetChannel->deleteOper(*targetClient);
 	}
 }
