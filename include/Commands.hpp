@@ -20,6 +20,7 @@ class Server;
 
 void	execute( Server &ircserv, Clients &client_data );
 void	sendMessageLogging(Clients &client);
+void	sendError(int& errorCode, Clients& client, std::vector< std::string >& param);
 
 void	pass( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	user( Server &ircserv, Clients &client, std::vector< std::string > param );
