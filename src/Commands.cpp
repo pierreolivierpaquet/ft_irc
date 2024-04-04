@@ -23,7 +23,7 @@ std::string getSendID( Clients &client ) {
 	return ( ":" + client.getNickName() + "!" + client.getRealName() + "@127.0.0.1:" + client.getPort() );
 }
 
-static void sendError(int& errorCode, Clients& client) {
+static void sendError(int& errorCode, Clients& client, std::vector< std::string >& param) {
 	std::string errMsg (":127.0.0.1 " + client.getPort() + " " + std::to_string(errorCode) + " " + client.getNickName() + " :");
 	switch (errorCode) {
 		case ERR_CHANNELISFULL:
@@ -77,6 +77,9 @@ static void sendError(int& errorCode, Clients& client) {
 		case ERR_UNKNOWNCOMMAND:
 			errMsg += "Unknown command";
 			break;
+		case ERR_UNKNOWNMODE:
+			errMsg += "Unknown mode char to me for " + param.at(1);
+			break;
 		default:
 			errMsg += "Undefined error message";
 	}
@@ -119,7 +122,7 @@ void	execute( Server &ircserv, Clients &client_data ) {
 				kick( ircserv, client_data, tmp_split );
 			} else throw ERR_UNKNOWNCOMMAND;
 		} catch (int& errorCode) {
-			sendError(errorCode, client_data);
+			sendError(errorCode, client_data, tmp_split);
 		}
 		//
 		input = input.substr( cr_lf + 2 ); // '+ 2' Since CR_LF was found.
