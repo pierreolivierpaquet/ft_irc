@@ -6,8 +6,6 @@
 
 #include	"main.hpp"
 
-# define RPL_INVITING 341
-
 void	invite( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	std::string str = getSendID(client) + " INVITE " + param.at(1) + " " + param.at(2) + "\r\n";
 	Channel *channel = NULL;

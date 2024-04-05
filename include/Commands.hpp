@@ -20,7 +20,7 @@ class Server;
 
 void	execute( Server &ircserv, Clients &client_data );
 void	sendMessageLogging(Clients &client);
-void	sendError(int& errorCode, Clients& client, std::vector< std::string >& param);
+void	sendError(const int& errorCode, Clients& client, std::vector< std::string >& param);
 
 void	pass( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	user( Server &ircserv, Clients &client, std::vector< std::string > param );
@@ -29,7 +29,7 @@ void	kick( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	mode( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	topic( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	channel( Server &ircserv, Clients &client, std::vector< std::string > param );
-void	channelJoin( Server &ircserv, Clients &client, std::vector< std::string > param );
+void	channelJoin( Server &ircserv, Clients &client, std::string name );
 void	sendPrivateMessage( std::string sendID, std::string message, int fd );
 void	privmsg( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	part( Server &ircserv, Clients &client, std::vector< std::string > param );
