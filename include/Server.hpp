@@ -54,24 +54,25 @@ class	Server {
 		// Server &operator=( const Server &rhs );	//	Coplien form requisite
 		static	void checkParameters( int ac );
 
-		void	setPort( std::string portnum );
-		void	signalHandle( int num );
-		void	setSocket();
-		void	serverInit( std::string portnum, std::string passwd );
-		void	acceptNewClient( void );
-		void	receiveNewData( int fd );
-		void	clearClient( int fd );
+		void			setPort( std::string portnum );
+		void			signalHandle( int num );
+		void			setSocket();
+		void			serverInit( std::string portnum, std::string passwd );
+		void			acceptNewClient( void );
+		void			receiveNewData( int fd );
+		void			clearClient( int fd );
 
-		Clients	*getClient( int fd );
-		Clients *getClientWithName( std::string name );
+		Clients			*getClient( int fd );
+		Clients 		*getClientWithName( std::string name );
 
-		void	setPassword( std::string passwd );
-		int		checkPassword( std::string rhs ) const;
+		void			setPassword( std::string passwd );
+		int				checkPassword( std::string rhs ) const;
 
-		int		addChannel( std::string name );
-		bool	getChannel( std::string name, Channel **channel );
-		void 	deleteChannel( std::string name );
-		bool	checkAvailableNickName( std::string needle );
+		int				addChannel( std::string name );
+		bool			getChannel( std::string name, Channel **channel );
+		t_map_Channel	&getChannelsList( void );
+		void 			deleteChannel( std::string name );
+		bool			checkAvailableNickName( std::string needle );
 
 		std::vector< int >	getConcernedClients( Clients &client ) ;
 
