@@ -55,7 +55,7 @@ class	Server {
 		static	void checkParameters( int ac );
 
 		void			setPort( std::string portnum );
-		void			signalHandle( int num );
+		static void		signalHandle( int num );
 		void			setSocket();
 		void			serverInit( std::string portnum, std::string passwd );
 		void			acceptNewClient( void );

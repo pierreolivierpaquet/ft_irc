@@ -24,8 +24,8 @@ void	Server::checkParameters( int ac ) {
 }
 
 void	Server::signalHandle( int num ) {
-	static_cast< void >( num );
-	this->_sig = true;
+	static_cast<void>(num);
+	_sig = true;
 	return ;
 }
 
@@ -252,7 +252,11 @@ void Server::serverInit( std::string portnum, std::string passwd ) {
 			}
 		}
 	}
-	//function to close all the fds
+	
+	for (size_t i = 0; i < _fds.size(); i++) {
+		close(_fds[i].fd);
+	}
+
 }
 
 bool Server::getChannel( std::string name , Channel **channel) {

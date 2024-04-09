@@ -15,11 +15,14 @@ int	main ( int argc, char **argv ){
 	static_cast< void >( argc );
 	Server ircserv;
 	try {
+		signal(SIGINT, Server::signalHandle);
+		signal(SIGQUIT, Server::signalHandle);
 		ircserv.checkParameters( argc );
 		ircserv.serverInit( argv[ 1 ], argv[ 2 ] );
 
 	} catch ( std::exception &e ) {
 		std::cerr << e.what() << std::endl;
 	}
+	std::cout << "Bye bye :)" << std::endl;
 	return ( EXIT_SUCCESS );
 }
