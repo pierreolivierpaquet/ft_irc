@@ -30,9 +30,9 @@ void	Clients::setInputBuffer( std::string buffer) {
 std::string	Clients::getInputBuffer( void ) {
 	return ( this->_input_buffer );
 }
-
+//npos removed a cause des problemes de quit
 void	Clients::trimInputBuffer( void ) {
-	this->_input_buffer = this->_input_buffer.substr( this->_input_buffer.rfind( CR_LF ) + 2, std::string::npos );
+	this->_input_buffer = this->_input_buffer.substr( this->_input_buffer.rfind( CR_LF ) + 2 );
 	return ;
 }
 
