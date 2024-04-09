@@ -34,6 +34,7 @@ void	sendPrivateMessage( std::string sendID, std::string message, int fd );
 void	privmsg( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	part( Server &ircserv, Clients &client, std::vector< std::string > param );
 void	invite( Server &ircserv, Clients &client, std::vector< std::string > param );
+void	quit( Server &ircserv, Clients &client, std::vector< std::string > param );
 
 std::string		getSendID( Clients &client );
 

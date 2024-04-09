@@ -71,6 +71,10 @@ Clients *Server::getClientWithName( std::string name ) {
 	return ( NULL );
 }
 
+t_map_Channel	&Server::getChannelsList( void ) {
+	return _channelList;
+}
+
 void	Server::setPassword( std::string passwd ) {
 	this->_passwd = passwd;
 	return ;
