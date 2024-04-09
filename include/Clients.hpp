@@ -39,6 +39,7 @@ class	Clients {
 		std::string			_realname;
 		std::string			_port;
 		std::vector<int>	_privmsgtarget;
+		bool				_pendingquit;
 
 	public:
 		Clients( void );
@@ -53,6 +54,8 @@ class	Clients {
 		void		setIpAdd( std::string ipadd);
 		void		setInputBuffer( std::string buffer );
 		std::string	getInputBuffer( void );
+		void		quit( void );
+		bool		getPendingQuit( void );
 
 		void		trimInputBuffer( void );
 

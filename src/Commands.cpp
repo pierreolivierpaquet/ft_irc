@@ -131,5 +131,6 @@ void	execute( Server &ircserv, Clients &client_data ) {
 		cr_lf = input.find( CR_LF );
 	}
 	client_data.trimInputBuffer(); // DONT CLEAR, BUT TRIM UNTIL \r\n to avoid losing data
+
 	return ;
 }

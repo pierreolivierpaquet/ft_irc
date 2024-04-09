@@ -169,6 +169,11 @@ void Server::receiveNewData( int fd ) {
 		buff[ bytes ] = '\0';
 		// here is for the parsing of the data
 		execute( *this , *client_data );
+		if (client_data->getPendingQuit()) {
+			close(client_data->getFd());
+			clearClient(client_data->getFd());
+			std::cout << "Client quit" << std::endl;
+		}
 	}
 }
 

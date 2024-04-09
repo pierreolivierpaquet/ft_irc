@@ -30,9 +30,19 @@ void	Clients::setInputBuffer( std::string buffer) {
 std::string	Clients::getInputBuffer( void ) {
 	return ( this->_input_buffer );
 }
+
+void Clients::quit( void ) {
+	_pendingquit = true;
+}
+
+bool Clients::getPendingQuit( void ) {
+	return _pendingquit;
+}
+
 //npos removed a cause des problemes de quit
 void	Clients::trimInputBuffer( void ) {
-	this->_input_buffer = this->_input_buffer.substr( this->_input_buffer.rfind( CR_LF ) + 2 );
+	if (_input_buffer.size() != 0)
+		this->_input_buffer = this->_input_buffer.substr( this->_input_buffer.rfind( CR_LF ) + 2 );
 	return ;
 }
 
@@ -127,7 +137,8 @@ Clients::Clients( void ) :
 	_username( EMPTY_STR ),
 	_nickname( EMPTY_STR ),
 	_nickname_prev( EMPTY_STR ),
-	_realname( EMPTY_STR ) {
+	_realname( EMPTY_STR ),
+	_pendingquit(false) {
 	return;
 }
 

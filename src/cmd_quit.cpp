@@ -21,7 +21,6 @@ void quit( Server &ircserv, Clients &client, std::vector< std::string > param) {
 		part(ircserv, client, chanParam);
 	}
 
-	ircserv.clearClient(client.getFd());
-	close(client.getFd());
-		std::cout << "Client quit" << std::endl;
+	client.quit();
+
 }
