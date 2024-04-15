@@ -22,5 +22,4 @@ void quit( Server &ircserv, Clients &client, std::vector< std::string > param) {
 	}
 
 	client.quit();
-
 }

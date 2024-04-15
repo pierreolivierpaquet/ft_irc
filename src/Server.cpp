@@ -252,7 +252,7 @@ void Server::serverInit( std::string portnum, std::string passwd ) {
 			}
 		}
 	}
-	
+
 	for (size_t i = 0; i < _fds.size(); i++) {
 		close(_fds[i].fd);
 	}
