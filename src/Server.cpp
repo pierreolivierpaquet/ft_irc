@@ -227,7 +227,7 @@ std::vector< int >	Server::getConcernedClients( Clients &client ) {
 			concerned_clients.push_back(concerned_clients2[i]);
 		}
 	}
-	
+
 	return ( concerned_clients );
 }
 

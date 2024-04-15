@@ -80,6 +80,8 @@ void sendError(const int& errorCode, Clients& client, std::vector< std::string >
 		case ERR_UNKNOWNMODE:
 			errMsg += "Unknown mode char to me for " + param.at(1);
 			break;
+		case ERR_KEYSET:
+			errMsg += "Channel key already set";
 		default:
 			errMsg += "Undefined error message";
 	}

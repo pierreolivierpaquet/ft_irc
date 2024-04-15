@@ -49,7 +49,7 @@ class	Channel {
 		bool					checkKey( std::string key );
 		bool					checkLimit( void	 );
 
-		void					ModeOption( short set, char mode, std::vector< std::string > param );
+		void					ModeOption( Clients &client, short set, char mode, std::vector< std::string > param );
 		void					setMode( u_int16_t mask );
 		void					unsetMode( u_int16_t mask );
 		u_int16_t				getMode( void ) const;
@@ -74,14 +74,15 @@ class	Channel {
 		typedef	enum {
 			INV, TOP, KEY, OPS, LIM
 		}	e_func_mode;
-		typedef	void (Channel::*fmode)( short, char, std::vector< std::string > );
+		typedef	void (Channel::*fmode)( Clients &, short, char, std::vector< std::string > );
 		void	_modefuncmapping( void );
 		fmode	_mode_func[ MODE_FUNC_AMOUNT ];
-		void	_mode_topic( short set, char mode, std::vector< std::string > param );
-		void	_mode_invite( short set, char mode, std::vector< std::string > param );
-		void	_mode_key( short set, char mode, std::vector< std::string > param );
-		void	_mode_operator( short set, char mode, std::vector< std::string > param );
-		void	_mode_limit( short set, char mode, std::vector< std::string > param );
+		void	_mode_topic( Clients &client, short set, char mode, std::vector< std::string > param );
+		void	_mode_invite( Clients &client, short set, char mode, std::vector< std::string > param );
+		void	_mode_key( Clients &client, short set, char mode, std::vector< std::string > param );
+		void	_mode_operator( Clients &client, short set, char mode, std::vector< std::string > param );
+		void	_mode_limit( Clients &client, short set, char mode, std::vector< std::string > param );
+		void	_broadcast( std::string message ) const;
 
 };	/*	Channel	*/
 

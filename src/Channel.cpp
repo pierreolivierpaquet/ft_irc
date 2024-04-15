@@ -22,6 +22,20 @@ std::string Channel::getName( void ) {
 	return (_name);
 }
 
+/// @brief Broadcasts a message to all the clients within the channel.
+void	Channel::_broadcast( std::string message ) const {
+	std::map < int, Clients >::const_iterator it;
+	std::map< int, Clients >::const_iterator ite = this->_clientList.end();
+
+	for (it = this->_clientList.begin(); it != ite; it++) {
+		send(	it->first,
+				static_cast< const void * >(message.c_str()),
+				message.length(),
+				0 );
+	}
+	return ;
+}
+
 /// @brief Modifies the channel mode bit (flag).
 void	Channel::_ChanMode( char mode ) {
 	switch ( mode ) {
@@ -41,21 +55,30 @@ void	Channel::_ChanMode( char mode ) {
 	return ;
 }
 
-void Channel::_mode_topic( short set, char mode, std::vector< std::string > param ) {
+void Channel::_mode_topic( Clients &client, short set, char mode, std::vector< std::string > param ) {
 	static_cast< void >( param );
 	this->_ChanMode( set * mode );
+
+	std::stringstream ss;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	this->_broadcast( ss.str() );
 	return;
 }
 
-void Channel::_mode_invite( short set, char mode, std::vector< std::string > param ) {
+void Channel::_mode_invite( Clients &client, short set, char mode, std::vector< std::string > param ) {
 	static_cast< void >( param );
 	this->_ChanMode( set * mode );
+
+	std::stringstream ss;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	this->_broadcast( ss.str() );
 	return ;
 }
 
-void Channel::_mode_key( short set, char mode, std::vector< std::string > param ) {
+void Channel::_mode_key( Clients &client, short set, char mode, std::vector< std::string > param ) {
 	if (param.size() < 4) {
-		std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
+		std::cout << "Can't set/unset channel's key: Need more parameter(s)." << std::endl;
+		throw( ERR_NEEDMOREPARAMS );
 		return ;
 	}
 	if (set < 0) {
@@ -63,16 +86,24 @@ void Channel::_mode_key( short set, char mode, std::vector< std::string > param 
 			this->_key.clear();
 			this->_ChanMode( set * mode );
 		} else {
-			std::cout << "SEND() ERR CANT DEACTIVATE KEY BECAUSE NOT SAME AS PROVIDED DELETE THIS" << std::endl;
+			std::cout << "Can't deactivate channel's key: provided key is not the same as current." << std::endl;
+			throw( ERR_BADCHANNELKEY );
 		}
+	} else if (this->isMode( KEY_MODE ) == true) {
+		std::cout << "Can't set key: key already set." << std::endl;
+		throw( ERR_KEYSET );
 	} else {
 		this->_key = param.at( 3 );
 		this->_ChanMode( set * mode );
 	}
+	std::stringstream ss;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	this->_broadcast( ss.str() );
 	return ;
 }
 
-void	Channel::_mode_operator( short set, char mode, std::vector< std::string > param ) {
+void	Channel::_mode_operator( Clients &client, short set, char mode, std::vector< std::string > param ) {
+	static_cast< void >( client );
 	if (param.size() < 4) {
 	std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
 	return ;
@@ -91,10 +122,14 @@ void	Channel::_mode_operator( short set, char mode, std::vector< std::string > p
 		this->_operList.push_back( client_fd );
 		this->_ChanMode( set * mode );
 	}
+	std::stringstream ss;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << " " << param.at(3) << CR_LF;
+	this->_broadcast( ss.str() );
 	return ;
 }
 
-void	Channel::_mode_limit( short set, char mode, std::vector< std::string > param  ) {
+void	Channel::_mode_limit( Clients &client, short set, char mode, std::vector< std::string > param  ) {
+	static_cast< void >( client );
 	if (set > 0) {
 		if ( param.size() < 4 ) {
 			std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
@@ -105,19 +140,22 @@ void	Channel::_mode_limit( short set, char mode, std::vector< std::string > para
 		this->_clients_limit = 0;
 		this->_ChanMode( set * mode );
 	}
+	std::stringstream ss;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	this->_broadcast( ss.str() );
 	return ;
 }
 
-void	Channel::ModeOption( short set, char mode, std::vector< std::string > param ) {
+void	Channel::ModeOption( Clients &client, short set, char mode, std::vector< std::string > param ) {
 	switch ( mode )
 	{
 		case ( 's' ) :
-		case ( 'n' ) : std::cout << "SEND() NOT SUPPORTED" << std::endl; break;
-		case ( 'i' ) : ( this->*_mode_func[ INV ] )( set, mode, param ); break;
-		case ( 't' ) : ( this->*_mode_func[ TOP ] )( set, mode, param ); break;
-		case ( 'k' ) : ( this->*_mode_func[ KEY ] )( set, mode, param ); break;
-		case ( 'o' ) : ( this->*_mode_func[ OPS ] )( set, mode, param ); break;
-		case ( 'l' ) : ( this->*_mode_func[ LIM ] )( set, mode, param ); break;
+		case ( 'n' ) : std::cout << "{s;n} channel modes not supported." << std::endl; break;
+		case ( 'i' ) : ( this->*_mode_func[ INV ] )( client, set, mode, param ); break;
+		case ( 't' ) : ( this->*_mode_func[ TOP ] )( client, set, mode, param ); break;
+		case ( 'k' ) : ( this->*_mode_func[ KEY ] )( client, set, mode, param ); break;
+		case ( 'o' ) : ( this->*_mode_func[ OPS ] )( client, set, mode, param ); break;
+		case ( 'l' ) : ( this->*_mode_func[ LIM ] )( client, set, mode, param ); break;
 		default : break;
 	}
 	return ;

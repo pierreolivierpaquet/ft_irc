@@ -36,6 +36,8 @@ static void makeUserListSend(Channel *channel, Clients &client, int channelExist
 		str += "\r\n";
 	}
 	send(client.getFd(), str.c_str(), str.length(), 0);
+	std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + channel->getName() + " :END if /NAMES list.\r\n";
+	send(client.getFd(), str4.c_str(), str4.length(), 0);
 }
 
 static bool parseJoinRequest(Channel *channel, Clients &client, std::vector<std::string> param, std::string key) {
@@ -75,10 +77,10 @@ static t_vec_pair	splitNames(std::string names, std::string key) {
 
 void channel( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	int channelExist = 0;
-	
+
 	Channel *channel = NULL;
 	t_vec_pair tokens;
-	
+
 	if (param.size() < 3)
 		tokens = splitNames(param.at(1), "");
 	else
@@ -93,7 +95,7 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 
 		if (channelExist == 0)
 			channel->setOper(client);
-			
+
 		if (channel->addClient(client) == 1) throw ERR_USERONCHANNEL;
 
 		channelJoin(channel, client, channel->getName());
@@ -101,7 +103,7 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 		std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + channel->getName() + " " + channel->getTopic() + "\r\n";
 		send(client.getFd(), str2.c_str(), str2.length(), 0);
 		makeUserListSend(channel, client, channelExist);
-		std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + channel->getName() + " :END if /NAMES list.\r\n";
-		send(client.getFd(), str4.c_str(), str4.length(), 0);
+		// std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + channel->getName() + " :END if /NAMES list.\r\n";
+		// send(client.getFd(), str4.c_str(), str4.length(), 0);
 	}
 }

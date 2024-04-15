@@ -27,7 +27,7 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 
 	if (param.size() < 3) throw ERR_NEEDMOREPARAMS;
 
-	if ( ircserv.getChannel(param.at(1), &channel) == false ) throw ERR_NOSUCHCHANNEL; 
+	if ( ircserv.getChannel(param.at(1), &channel) == false ) throw ERR_NOSUCHCHANNEL;
 	else if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
 		std::cout << "SEND() NOT OPERATOR DELETE THIS" << std::endl;
 		throw ERR_CHANOPRIVSNEEDED;
@@ -41,7 +41,8 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	}
 
 	if (param.size() >= 3) {
-		channel->ModeOption(	mode_set( param.at( 2 ) ),
+		channel->ModeOption(	client,
+								mode_set( param.at( 2 ) ),
 								mode_id( param.at( 2 ) ),
 								param ) ;
 	}
