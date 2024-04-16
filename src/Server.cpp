@@ -153,14 +153,17 @@ void Server::acceptNewClient( void ) {
 void Server::receiveNewData( int fd ) {
 	char buff[ 1024 ]; // buffer to receive the data
 	memset(buff, 0, sizeof(buff)); // set the buffer to 0
+	std::vector<std::string> vec_quit = {"QUIT", "Leaving..."};
 
 	Clients	*client_data = this->getClient( fd );	// Retrieves the right client to store it's buffer
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1, 0); // receive the actual data
 
 	if (bytes <= 0) { // checks if the client disconnected
-		std::cout << "Client disconnected" << std::endl;
+		if (!client_data->getPendingQuit())
+			quit(*this, *client_data, vec_quit);
 		close(fd);
 		clearClient(fd);
+		std::cout << "Client disconnected" << std::endl;
 	} else {
 		client_data->setInputBuffer( buff );
 		if (client_data->getInputBuffer().find_first_of( CR_LF ) == NOT_FOUND) {
