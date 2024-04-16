@@ -6,15 +6,15 @@
 
 #include "Channel.hpp"
 
-int Channel::addClient( Clients client ) {
-	std::map<int, Clients>::iterator it;
+int Channel::addClient( Clients & client ) {
+	std::map<int, Clients *>::iterator it;
 
 	for (it = _clientList.begin(); it != _clientList.end(); ++it) {
 		if (it->first == client.getFd())
 			return (1);
 	}
 
-	_clientList.insert(std::make_pair(client.getFd(), client));
+	_clientList.insert(std::make_pair(client.getFd(), &client));
 	return (0);
 }
 
@@ -24,8 +24,8 @@ std::string Channel::getName( void ) {
 
 /// @brief Broadcasts a message to all the clients within the channel.
 void	Channel::_broadcast( std::string message ) const {
-	std::map < int, Clients >::const_iterator it;
-	std::map< int, Clients >::const_iterator ite = this->_clientList.end();
+	std::map < int, Clients *>::const_iterator it;
+	std::map< int, Clients *>::const_iterator ite = this->_clientList.end();
 
 	for (it = this->_clientList.begin(); it != ite; it++) {
 		send(	it->first,
@@ -164,11 +164,11 @@ void	Channel::ModeOption( Clients &client, short set, char mode, std::vector< st
 	return ;
 }
 
-int	Channel::findClient( std::string name ) const {
-	std::map< int, Clients >::const_iterator it = this->_clientList.begin();
-	std::map< int, Clients >::const_iterator ite = this->_clientList.end();
+int	Channel::findClient( std::string name ) {
+	std::map< int, Clients *>::iterator it = this->_clientList.begin();
+	std::map< int, Clients *>::iterator ite = this->_clientList.end();
 	for (; it != ite; it++) {
-		if (it->second.getNickName().compare( name ) == 0) {
+		if (it->second->getNickName().compare( name ) == 0) {
 			return ( it->first );
 		}
 	}
@@ -214,7 +214,7 @@ bool	Channel::isMode( u_int16_t mode ) const {
 	return ( status == mode );
 }
 
-std::map<int, Clients> & Channel::getClientList( void ) {
+std::map<int, Clients *> & Channel::getClientList( void ) {
 	return (_clientList);
 }
 
@@ -227,7 +227,7 @@ std::vector<int> & Channel::getOper( void ) {
 }
 
 void Channel::deleteClient( Clients client) {
-	std::map<int, Clients>::iterator it;
+	std::map<int, Clients *>::iterator it;
 
 	for (it = _clientList.begin(); it != _clientList.end(); ++it) {
 		if (it->first == client.getFd()) {

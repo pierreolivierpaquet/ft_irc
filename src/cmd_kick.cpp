@@ -7,7 +7,7 @@
 #include	"main.hpp"
 
 void channelKick( Channel *channel, Clients &client, std::vector< std::string > param ) {
-	std::map<int, Clients>::iterator it;
+	std::map<int, Clients *>::iterator it;
 	std::string str = getSendID(client) + " KICK " + param.at(1) + ' ' + param.at(2) + ' ' + " :";
 
 	if (param.size() > 3)

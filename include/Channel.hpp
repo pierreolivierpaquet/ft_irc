@@ -38,9 +38,9 @@ class	Channel {
 
 		std::string				getName( void );
 		std::vector<int>		&getOper( void );
-		std::map<int, Clients>	&getClientList( void );
+		std::map<int, Clients *>	&getClientList( void );
 		void					setOper( Clients & client );
-		int						addClient( Clients client );
+		int						addClient( Clients & client );
 		void					addWhiteList( Clients & client );
 		void					deleteWhiteList( Clients & client );
 		bool					isInvited( Clients & client );
@@ -58,12 +58,12 @@ class	Channel {
 		std::string				getTopic( void ) const;
 		void					setTopic( const std::string& );
 		bool					isMode( u_int16_t mode ) const;
-		int						findClient( std::string name ) const;
+		int						findClient( std::string name );
 		std::vector< int >::const_iterator	findOperator( int client_fd ) const;
 
 	private:
 
-		std::map <int, Clients>		_clientList;
+		std::map <int, Clients *>		_clientList;
 		std::vector <int> 			_operList;
 		std::vector <std::string>	_whiteList;
 		std::string					_name;

@@ -25,7 +25,7 @@ static std::vector<std::string>	splitNames(std::string names) {
 
 void	part( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 	std::string send_str;
-	std::map<int, Clients>::iterator it;
+	std::map<int, Clients *>::iterator it;
 	Channel *channel = NULL;
 	std::vector<std::string> tokens;
 

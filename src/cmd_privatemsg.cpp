@@ -12,7 +12,7 @@ void sendPrivateMessage(std::string sendID, std::string message, int fd) {
 }
 
 void privmsg( Server &ircserv, Clients &client, std::vector< std::string > param ) {
-	std::map<int, Clients>::iterator it;
+	std::map<int, Clients *>::iterator it;
 	std::string send_str;
 	Channel *channel = NULL;
 
