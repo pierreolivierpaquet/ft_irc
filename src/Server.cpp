@@ -159,8 +159,8 @@ void Server::receiveNewData( int fd ) {
 
 	if (bytes <= 0) { // checks if the client disconnected
 		std::cout << "Client disconnected" << std::endl;
-		clearClient(fd);
 		close(fd);
+		clearClient(fd);
 	} else {
 		client_data->setInputBuffer( buff );
 		if (client_data->getInputBuffer().find_first_of( CR_LF ) == NOT_FOUND) {

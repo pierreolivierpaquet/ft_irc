@@ -82,9 +82,9 @@ void	Clients::setNickName( std::string nickname ) {
 }
 
 std::string	Clients::getNickName( void ) const {
-	if (this->isAuthenticatedAs( FULL_AUTH ) == false) {
-		return ( "Unauthorized client" );
-	}
+	// if (this->isAuthenticatedAs( FULL_AUTH ) == false) {
+	// 	return ( "Unauthorized client" );
+	// }
 	return ( this->_nickname );
 }
 

@@ -19,7 +19,7 @@ void	sendMessageLogging(Clients &client) {
 }
 
 std::string getSendID( Clients &client ) {
-	return ( ":" + client.getNickName() + "!" + client.getRealName() + "@127.0.0.1:" + client.getPort() );
+	return ( ":" + client.getNickName() + "!" + client.getNickName() + "@127.0.0.1:" + client.getPort() ); // replaced realname by nickname
 }
 
 void sendError(const int& errorCode, Clients& client, std::vector< std::string >& param) {
