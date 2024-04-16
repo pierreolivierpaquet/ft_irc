@@ -21,21 +21,17 @@ class Server;
 # define	USER_AUTH		0b00001000
 # define	FULL_AUTH		0b00001111
 
-///	--------------------------------------------------------- @section TYPEDEF.S
-
-
-
 ///	---------------------------------------------------------- @section CLASS.ES
 
 class	Clients {
 	private:
 		int					_fd;
 		std::string			_IPadd;
-		std::string			_input_buffer;	// Stores the input from client
-		u_int16_t			_registered;	// Bitfield to monitor registration process. 
+		std::string			_input_buffer;
+		u_int16_t			_registered;
 		std::string			_username;
 		std::string			_nickname;
-		std::string			_nickname_prev; // Previous nickname
+		std::string			_nickname_prev;
 		std::string			_realname;
 		std::string			_port;
 		std::vector<int>	_privmsgtarget;
@@ -44,34 +40,32 @@ class	Clients {
 	public:
 		Clients( void );
 		~Clients( void );
-		// Client( const Client &rhs );	//	Coplien form requisite
-		// Client &operator=( const Client &rhs );	//	Coplien form requisite
 
-		int			getFd( void );
-		void		setFd( int fd );
-		std::string getPort( void );
-		void 		setPort( std::string port );
-		void		setIpAdd( std::string ipadd);
-		void		setInputBuffer( std::string buffer );
-		std::string	getInputBuffer( void );
-		void		quit( void );
-		bool		getPendingQuit( void );
+		int					getFd( void );
+		void				setFd( int fd );
+		std::string 		getPort( void );
+		void 				setPort( std::string port );
+		void				setIpAdd( std::string ipadd);
+		void				setInputBuffer( std::string buffer );
+		std::string			getInputBuffer( void );
+		void				quit( void );
+		bool				getPendingQuit( void );
 
-		void		trimInputBuffer( void );
+		void				trimInputBuffer( void );
 
-		bool		isAuthenticatedAs( u_int16_t status ) const;
-		u_int16_t	getRegistration( void ) const;
-		void		setRegistration( u_int16_t mask );
-		bool		validateServerPassword( const Server &ircserv );
+		bool				isAuthenticatedAs( u_int16_t status ) const;
+		u_int16_t			getRegistration( void ) const;
+		void				setRegistration( u_int16_t mask );
+		bool				validateServerPassword( const Server &ircserv );
 
-		void		setNickName( std::string nickname );
-		std::string	getNickName( void ) const;
-		std::string	getNickNamePrev( void ) const;
-		void		setUserName( std::string username );
-		void		setRealName( std::string realname );
-		std::string getRealName( void ) const;
-		void		addPrivmsgTarget( int fd );
-		std::vector<int> getPrivmsgTarget( void );
+		void				setNickName( std::string nickname );
+		std::string			getNickName( void ) const;
+		std::string			getNickNamePrev( void ) const;
+		void				setUserName( std::string username );
+		void				setRealName( std::string realname );
+		std::string			getRealName( void ) const;
+		void				addPrivmsgTarget( int fd );
+		std::vector<int>	getPrivmsgTarget( void );
 
 };	/*	Client	*/
 

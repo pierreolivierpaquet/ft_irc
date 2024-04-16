@@ -18,7 +18,6 @@ void	sendMessageLogging(Clients &client) {
 	send(client.getFd(), str4.c_str(), str4.length(), 0);
 }
 
-
 std::string getSendID( Clients &client ) {
 	return ( ":" + client.getNickName() + "!" + client.getRealName() + "@127.0.0.1:" + client.getPort() );
 }

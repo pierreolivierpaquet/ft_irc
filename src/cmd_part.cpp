@@ -16,10 +16,10 @@ static std::vector<std::string>	splitNames(std::string names) {
 			std::cout << "Error: Bad channel format!" << std::endl;
 			continue ;
 		}
-		
+
 		tokens.push_back(token_name);
 	}
-	
+
 	return (tokens);
 }
 
@@ -30,13 +30,13 @@ void	part( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	std::vector<std::string> tokens;
 
 	tokens = splitNames(param.at(1));
-	
+
 	for (size_t i = 0; i < tokens.size(); i++) {
 		if (ircserv.getChannel(tokens.at(i), &channel) == false) {
 			sendError(ERR_NOSUCHCHANNEL, client, param);
 			continue;
 		}
-			
+
 		if (channel->findClient(client.getNickName()) == -1) {
 			sendError(ERR_NOTONCHANNEL, client, param);
 			continue;

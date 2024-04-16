@@ -101,12 +101,12 @@ void	Server::setSocket( void ) {
 		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_SOCK_FD ) );
 	} else if (setsockopt(	this->_sock_fd,
 							SOL_SOCKET,	// socket level: https://stackoverflow.com/questions/21515946/what-is-sol-socket-used-for
-							SO_REUSEADDR,	// 
+							SO_REUSEADDR,
 							&option_value,
 							sizeof(option_value) )) {
 		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_SETSOCKOPT ) );
 	} else if (fcntl(	this->_sock_fd,
-						F_SETFL,	// Sets flag
+						F_SETFL,
 						O_NONBLOCK ) < 0) {
 		throw( std::runtime_error( BLD_RED ERR_MSG WHI ERR_FCNTL ) );
 	} else if (	bind(this->_sock_fd,
@@ -306,8 +306,6 @@ Server::Server( void ) :
 Server::~Server( void ) {
 	return ;
 }
-
-/******************************************************************************/
 
 /// @brief Creates and fills a new poll_fd.
 t_pollfd	serv::newPoll( int socket_fd) {

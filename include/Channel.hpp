@@ -33,7 +33,7 @@ class	Channel {
 
 	public:
 
-		Channel( std::string name );			// Name of the channel
+		Channel( std::string name );
 		~Channel( void );
 
 		std::string				getName( void );
@@ -48,8 +48,10 @@ class	Channel {
 		void					deleteOper( Clients client );
 		bool					checkKey( std::string key );
 		bool					checkLimit( void	 );
-
-		void					ModeOption( Clients &client, short set, char mode, std::vector< std::string > param );
+		void					ModeOption( Clients &,
+											short,
+											char,
+											std::vector < std::string > );
 		void					setMode( u_int16_t mask );
 		void					unsetMode( u_int16_t mask );
 		u_int16_t				getMode( void ) const;
@@ -61,27 +63,30 @@ class	Channel {
 
 	private:
 
-		std::map<int, Clients>	_clientList;		//	MAP Container: <key>[ Clients->_fd ]:<value>[ Clients instance ]
-		std::vector<int> 		_operList;
-		std::vector<std::string> _whiteList;
-		std::string				_name;
-		std::string				_topic;
-		u_int16_t				_mode; // Bitfield to monitor channel's mode(s).
-		void					_ChanMode( char mode );
-		std::string	 			_key;
-		u_int32_t				_clients_limit;
+		std::map <int, Clients>		_clientList;
+		std::vector <int> 			_operList;
+		std::vector <std::string>	_whiteList;
+		std::string					_name;
+		std::string					_topic;
+		u_int16_t					_mode;
+		void						_ChanMode( char mode );
+		std::string	 				_key;
+		u_int32_t					_clients_limit;
 
 		typedef	enum {
 			INV, TOP, KEY, OPS, LIM
 		}	e_func_mode;
 		typedef	void (Channel::*fmode)( Clients &, short, char, std::vector< std::string > );
+
 		void	_modefuncmapping( void );
 		fmode	_mode_func[ MODE_FUNC_AMOUNT ];
-		void	_mode_topic( Clients &client, short set, char mode, std::vector< std::string > param );
-		void	_mode_invite( Clients &client, short set, char mode, std::vector< std::string > param );
-		void	_mode_key( Clients &client, short set, char mode, std::vector< std::string > param );
-		void	_mode_operator( Clients &client, short set, char mode, std::vector< std::string > param );
-		void	_mode_limit( Clients &client, short set, char mode, std::vector< std::string > param );
+
+		void	_mode_topic( Clients &, short, char, std::vector< std::string > );
+		void	_mode_invite( Clients &, short, char, std::vector< std::string > );
+		void	_mode_key( Clients &, short, char, std::vector< std::string > );
+		void	_mode_operator( Clients &, short, char, std::vector< std::string > );
+		void	_mode_limit( Clients &, short, char, std::vector< std::string > );
+
 		void	_broadcast( std::string message ) const;
 
 };	/*	Channel	*/

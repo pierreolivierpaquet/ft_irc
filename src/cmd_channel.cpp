@@ -68,10 +68,10 @@ static t_vec_pair	splitNames(std::string names, std::string key) {
 		}
 		if (!std::getline(str_key, token_key, ','))
 			token_key = "";
-		
+
 		tokens.push_back(std::make_pair(token_name, token_key));
 	}
-	
+
 	return (tokens);
 }
 
@@ -103,7 +103,5 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 		std::string str2 = ":127.0.0.1 332 " + client.getNickName() + " " + channel->getName() + " " + channel->getTopic() + "\r\n";
 		send(client.getFd(), str2.c_str(), str2.length(), 0);
 		makeUserListSend(channel, client, channelExist);
-		// std::string str4 = ":127.0.0.1 366 " + client.getNickName() + " " + channel->getName() + " :END if /NAMES list.\r\n";
-		// send(client.getFd(), str4.c_str(), str4.length(), 0);
 	}
 }
