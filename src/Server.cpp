@@ -153,7 +153,9 @@ void Server::acceptNewClient( void ) {
 void Server::receiveNewData( int fd ) {
 	char buff[ 1024 ]; // buffer to receive the data
 	memset(buff, 0, sizeof(buff)); // set the buffer to 0
-	std::vector<std::string> vec_quit = {"QUIT", "Leaving..."};
+	std::vector<std::string> vec_quit;
+	vec_quit.push_back("QUIT");
+	vec_quit.push_back("Leaving...");
 
 	Clients	*client_data = this->getClient( fd );	// Retrieves the right client to store it's buffer
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1, 0); // receive the actual data
