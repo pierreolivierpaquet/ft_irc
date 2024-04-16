@@ -29,14 +29,14 @@ void	mode(Server &ircserv, Clients &client, std::vector< std::string > param ) {
 
 	if ( ircserv.getChannel(param.at(1), &channel) == false ) throw ERR_NOSUCHCHANNEL;
 	else if (channel->findOperator(client.getFd()) == channel->getOper().end()) {
-		std::cout << "SEND() NOT OPERATOR DELETE THIS" << std::endl;
+		std::cout << "Can't set/unset mode: operator privileges needed." << std::endl;
 		throw ERR_CHANOPRIVSNEEDED;
 	}
 	else if ( param.at(2).size() >= 1 &&
 				(param.at(2).find_first_of( CHMOD_CHAR ) != 0 ||
 				param.at(2).find_first_of( MODE_CHAR ) == NOT_FOUND ||
 				param.at(2).find_first_not_of( static_cast< std::string >(CHMOD_CHAR) + MODE_CHAR ) != NOT_FOUND )) {
-		std::cout << "MODE BAD TOKEN DELETE THIS" << std::endl;
+		std::cout << "Can't set/unset mode: unknown mode." << std::endl;
 		throw ERR_UNKNOWNMODE;
 	}
 

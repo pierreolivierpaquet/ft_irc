@@ -60,7 +60,7 @@ void Channel::_mode_topic( Clients &client, short set, char mode, std::vector< s
 	this->_ChanMode( set * mode );
 
 	std::stringstream ss;
-	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+" : "-") << mode << CR_LF;
 	this->_broadcast( ss.str() );
 	return;
 }
@@ -70,14 +70,14 @@ void Channel::_mode_invite( Clients &client, short set, char mode, std::vector< 
 	this->_ChanMode( set * mode );
 
 	std::stringstream ss;
-	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+" : "-") << mode << CR_LF;
 	this->_broadcast( ss.str() );
 	return ;
 }
 
 void Channel::_mode_key( Clients &client, short set, char mode, std::vector< std::string > param ) {
 	if (param.size() < 4) {
-		std::cout << "Can't set/unset channel's key: Need more parameter(s)." << std::endl;
+		std::cout << "Can't set/unset channel's key: need more parameter(s)." << std::endl;
 		throw( ERR_NEEDMOREPARAMS );
 		return ;
 	}
@@ -90,14 +90,14 @@ void Channel::_mode_key( Clients &client, short set, char mode, std::vector< std
 			throw( ERR_BADCHANNELKEY );
 		}
 	} else if (this->isMode( KEY_MODE ) == true) {
-		std::cout << "Can't set key: key already set." << std::endl;
+		std::cout << "Can't add key: already set." << std::endl;
 		throw( ERR_KEYSET );
 	} else {
 		this->_key = param.at( 3 );
 		this->_ChanMode( set * mode );
 	}
 	std::stringstream ss;
-	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+" : "-") << mode << CR_LF;
 	this->_broadcast( ss.str() );
 	return ;
 }
@@ -105,12 +105,14 @@ void Channel::_mode_key( Clients &client, short set, char mode, std::vector< std
 void	Channel::_mode_operator( Clients &client, short set, char mode, std::vector< std::string > param ) {
 	static_cast< void >( client );
 	if (param.size() < 4) {
-	std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
+	std::cout << "Can't add/remove channel operator: no nickname given/missing parameter(s)." << std::endl;
+	throw( ERR_NONICKNAMEGIVEN );
 	return ;
 	}
 	int client_fd = this->findClient( param.at( 3 ) );
 	if (client_fd < 0) {
-		std::cout << "SEND() OPERATOR NOT FOUND - DELETE THIS" << std::endl;
+		std::cout << "Can't add/remove channel operator: mentionned user not in channel." << std::endl;
+		throw( ERR_USERNOTINCHANNEL );
 		return ;
 	}
 	if (set < 0) {
@@ -123,7 +125,7 @@ void	Channel::_mode_operator( Clients &client, short set, char mode, std::vector
 		this->_ChanMode( set * mode );
 	}
 	std::stringstream ss;
-	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << " " << param.at(3) << CR_LF;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+" : "-") << mode << " " << param.at(3) << CR_LF;
 	this->_broadcast( ss.str() );
 	return ;
 }
@@ -132,7 +134,8 @@ void	Channel::_mode_limit( Clients &client, short set, char mode, std::vector< s
 	static_cast< void >( client );
 	if (set > 0) {
 		if ( param.size() < 4 ) {
-			std::cout << "SEND() ERR_NEEDMOREPARAM - DELETE THIS" << std::endl;
+			std::cout << "Can't add channel limit: missing parameter(s)." << std::endl;
+			throw( ERR_NEEDMOREPARAMS );
 		}
 		this->_clients_limit = std::atoi( param.at( 3 ).c_str() );
 		this->_ChanMode( set * mode );
@@ -141,7 +144,7 @@ void	Channel::_mode_limit( Clients &client, short set, char mode, std::vector< s
 		this->_ChanMode( set * mode );
 	}
 	std::stringstream ss;
-	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+ " : "- ") << mode << CR_LF;
+	ss << ":" << client.getNickName() << " MODE " << this->getName() << " " << (( set > 0 ) ? "+" : "-") << mode << CR_LF;
 	this->_broadcast( ss.str() );
 	return ;
 }

@@ -82,6 +82,10 @@ void sendError(const int& errorCode, Clients& client, std::vector< std::string >
 			break;
 		case ERR_KEYSET:
 			errMsg += "Channel key already set";
+			break;
+		case ERR_NOTREGISTERED:
+			errMsg += "Not registered";
+			break;
 		default:
 			errMsg += "Undefined error message";
 	}
@@ -97,10 +101,7 @@ void	execute( Server &ircserv, Clients &client_data ) {
 	input = client_data.getInputBuffer();
 	cr_lf = input.find( CR_LF );
 	while (cr_lf != NOT_FOUND) {
-		tmp_split = cmd::split( input.substr( 0, cr_lf ) );
-		/*
-			tmp_split >> TOKENIZE + EXECUTION HERE
-		*/
+		tmp_split = cmd::split( client_data, input.substr( 0, cr_lf ) );
 		try {
 			if (tmp_split.at(0).compare( "PASS" ) == 0) {
 				pass( ircserv, client_data, tmp_split );
@@ -128,11 +129,9 @@ void	execute( Server &ircserv, Clients &client_data ) {
 		} catch (int& errorCode) {
 			sendError(errorCode, client_data, tmp_split);
 		}
-		//
-		input = input.substr( cr_lf + 2 ); // '+ 2' Since CR_LF was found.
+		input = input.substr( cr_lf + 2 );
 		cr_lf = input.find( CR_LF );
 	}
-	client_data.trimInputBuffer(); // DONT CLEAR, BUT TRIM UNTIL \r\n to avoid losing data
-
+	client_data.trimInputBuffer();
 	return ;
 }

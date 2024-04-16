@@ -68,7 +68,6 @@ void	Clients::setRegistration( u_int16_t mask ) {
 /// @returns Whether if the client can execute authentication commands.
 bool	Clients::validateServerPassword( const Server &ircserv ) {
 	if (ircserv.checkPassword( EMPTY_STR ) != 0) {
-			std::cout << "NEED TO KICK OUT/ CLOSE CLIENT FD" << std::endl;
 			return ( false );
 		} else {
 			this->setRegistration( PASS_AUTH );
@@ -83,6 +82,9 @@ void	Clients::setNickName( std::string nickname ) {
 }
 
 std::string	Clients::getNickName( void ) const {
+	if (this->isAuthenticatedAs( FULL_AUTH ) == false) {
+		return ( "Unauthorized client" );
+	}
 	return ( this->_nickname );
 }
 

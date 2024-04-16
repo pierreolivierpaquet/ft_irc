@@ -45,7 +45,7 @@
 /// @param input	String from Client (user) used to populate the container, to be
 ///					used in the tokenization process of each IRC command.
 /// @return The populated container.
-std::vector< std::string >	cmd::split( std::string input ) {
+std::vector< std::string >	cmd::split( Clients &client_data, std::string input ) {
 	std::vector< std::string >	tmp_split;
 	std::istringstream			IN( input );
 	std::string					buffer = EMPTY_STR;
@@ -63,10 +63,12 @@ std::vector< std::string >	cmd::split( std::string input ) {
 			buffer.clear();
 		}
 	}
-	//	PRINT DELETE --------
+
+	std::cout << client_data.getNickName() << " request : ";
 		for(std::vector<std::string>::iterator it = tmp_split.begin(); it != tmp_split.end(); it++) {
-			std::cout << *it << std::endl;
+			std::cout << *it << " ";
 		}
-	//	DELETE --------------
+		std::cout << std::endl;
+
 	return ( tmp_split );
 }

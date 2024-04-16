@@ -13,9 +13,12 @@
 /// @link https://dd.ircdocs.horse/refs/commands/nick
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 
-	if ( client.isAuthenticatedAs(DEFAULT_AUTH | PASS_AUTH) == false ) {
+	if ( client.isAuthenticatedAs( DEFAULT_AUTH | PASS_AUTH ) == false ) {
 		if (client.validateServerPassword( ircserv ) == false) {
-			std::cout << "NEED TO KICK OUT/ CLOSE CLIENT FD" << std::endl;
+			std::cout << "Can't set nickame: not registered." << std::endl;
+			close( client.getFd() );
+			ircserv.clearClient( client.getFd() );
+			throw( ERR_NOTREGISTERED );
 			return ;
 		}
 	}

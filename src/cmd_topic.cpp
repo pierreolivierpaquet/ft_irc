@@ -23,7 +23,7 @@ void	topic( Server &ircserv, Clients &client, std::vector< std::string > param )
 	if(!ircserv.getChannel(param.at(1), &targetChannel)) throw ERR_NOSUCHCHANNEL; 
 	if (param.size() == 3) {
 		if (targetChannel->findClient(client.getNickName()) != -1) {
-			if ( targetChannel->isMode(TOPIC_MODE) && targetChannel->findOperator(client.getFd()) == targetChannel->getOper().end()) throw ERR_CHANOPRIVSNEEDED;
+			if ( targetChannel->isMode( TOPIC_MODE ) && targetChannel->findOperator(client.getFd()) == targetChannel->getOper().end()) throw ERR_CHANOPRIVSNEEDED;
 			targetChannel->setTopic(param.at(2));
 			channelTopic(targetChannel, client, param);
 		} else throw ERR_NOTONCHANNEL;
