@@ -167,7 +167,6 @@ void Server::receiveNewData( int fd ) {
 			return ;
 		}
 		buff[ bytes ] = '\0';
-		// here is for the parsing of the data
 		execute( *this , *client_data );
 		if (client_data->getPendingQuit()) {
 			close(client_data->getFd());
