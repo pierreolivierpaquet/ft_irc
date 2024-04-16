@@ -180,6 +180,8 @@ bool	Server::checkAvailableNickName( std::string needle ) {
 	t_vec_Clients::iterator it = this->_clients.begin();
 	t_vec_Clients::iterator ite = this->_clients.end();
 
+	needle = needle.substr(0, 9);
+
 	for (; it != ite; it++) {
 		if (it->getNickName().compare( needle ) == 0){
 			return ( false );
