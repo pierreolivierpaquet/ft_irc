@@ -6,10 +6,24 @@
 
 #include	"main.hpp"
 
-/// @brief 
-/// @param ircserv 
-/// @param client 
-/// @param param 
+static	void	updateChannels( std::string new_nickname, int client_fd, Server &ircserver ) {
+	std::map<std::string, Channel >::iterator	it = ircserver.getChannelsList().begin();
+	std::map<std::string, Channel >::iterator	ite = ircserver.getChannelsList().end();
+
+	if (ircserver.getChannelsList().size() != 0) {
+		for (; it != ite; ++it) {
+			if (it->second.getClientList().find( client_fd ) != it->second.getClientList().end() ) {
+				for (	std::map<int, Clients *>::iterator it_client = it->second.getClientList().begin();
+						it_client != it->second.getClientList().end(); it_client++) {
+					if (it_client->first == client_fd) {
+							it_client->second->setNickName( new_nickname );
+					}
+				}
+			}
+		}
+	}
+}
+
 /// @link https://dd.ircdocs.horse/refs/commands/nick
 void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) {
 
@@ -46,6 +60,8 @@ void	nick( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 		send(*it, str2.c_str(), str2.length(), 0);
 	}
 	send(client.getFd(), str2.c_str(), str2.length(), 0);
+
+	updateChannels( client.getNickName(), client.getFd(), ircserv ); // test
 
 	return ;
 }
