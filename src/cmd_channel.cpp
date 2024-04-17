@@ -9,7 +9,7 @@
 typedef std::vector< std::pair<std::string, std::string> > t_vec_pair;
 
 void channelJoin( Channel *channel, Clients &client, std::string name ) {
-	std::map<int, Clients *>::iterator it;
+	std::map<int, Clients>::iterator it;
 	std::string str = getSendID(client) + " JOIN " + name + "\r\n";
 
 	for (it = channel->getClientList().begin(); it != channel->getClientList().end(); ++it) {
@@ -18,7 +18,7 @@ void channelJoin( Channel *channel, Clients &client, std::string name ) {
 }
 
 static void makeUserListSend(Channel *channel, Clients &client, int channelExist) {
-	std::map<int, Clients *>::iterator it;
+	std::map<int, Clients>::iterator it;
 	std::vector<int>::iterator it1;
 	std::string str;
 
@@ -28,10 +28,10 @@ static void makeUserListSend(Channel *channel, Clients &client, int channelExist
 		str = ":127.0.0.1 353 " + client.getNickName() + " = " + channel->getName() + " :";
 		for (it = channel->getClientList().begin(); it != channel->getClientList().end(); ++it) {
 			for (it1 = channel->getOper().begin(); it1 != channel->getOper().end(); ++it1) {
-				if (*it1 == it->second->getFd())
+				if (*it1 == it->second.getFd())
 					str += "@";
 			}
-			str += it->second->getNickName() + " ";
+			str += it->second.getNickName() + " ";
 		}
 		str += "\r\n";
 	}
