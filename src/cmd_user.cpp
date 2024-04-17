@@ -11,6 +11,8 @@ void	user( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	if ( client.isAuthenticatedAs( DEFAULT_AUTH | PASS_AUTH ) == false ) {
 		if (client.validateServerPassword( ircserv ) == false) {
 			std::cout << "Can't set user: not authenticated/registered." << std::endl;
+			// close( client.getFd() );				// To disconnect immediatetly
+			// ircserv.clearClient( client.getFd() );	// To disconnect immediatetly
 			throw( ERR_NOTREGISTERED );
 		}
 		return ;

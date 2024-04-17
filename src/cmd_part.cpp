@@ -29,6 +29,7 @@ void	part( Server &ircserv, Clients &client, std::vector< std::string > param ) 
 	Channel *channel = NULL;
 	std::vector<std::string> tokens;
 
+	if (param.size() < 2) throw( ERR_NEEDMOREPARAMS );
 	tokens = splitNames(param.at(1));
 
 	for (size_t i = 0; i < tokens.size(); i++) {
