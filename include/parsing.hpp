@@ -18,6 +18,6 @@
 /// @brief Parsing realated to the commands.
 namespace	cmd {
 	std::vector< std::string >	split( Clients &client_data, std::string input );
-};	/*		cmd	*/
+}	/*		cmd	*/
 
 #endif	/*	PARSING_HPP_	*/

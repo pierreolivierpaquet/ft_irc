@@ -12,15 +12,22 @@
 ///	------------------------------------------------------------------- @section MACRO.S
 
 # ifndef	DEFAULT_MODE
-#  define	DEFAULT_MODE		0b00000001
+#  define	DEFAULT_MODE		0b00/000001
+// #  define	DEFAULT_MODE		0x01
 # endif	/*	DEFAULT_MODE	*/
 
 # define	INVITE_MODE			0b00000010
+// # define	INVITE_MODE			0x02
 # define	TOPIC_MODE			0b00000100
+// # define	TOPIC_MODE			0x04
 # define	KEY_MODE			0b00001000
+// # define	KEY_MODE			0x08
 # define	OPERATOR_MODE		0b00010000
+// # define	OPERATOR_MODE		0x10
 # define	LIMIT_MODE			0b00100000
+// # define	LIMIT_MODE			0x32
 # define	FULL_MODE			0b00111111
+// # define	FULL_MODE			0x3f
 
 # define	CHMOD_CHAR			"+-"
 # define	MODE_CHAR			"snitkol"
