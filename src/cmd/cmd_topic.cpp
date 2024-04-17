@@ -7,7 +7,7 @@
 #include	"main.hpp"
 
 static void channelTopic( Channel *channel, Clients &client, std::vector< std::string > param ) {
-	std::map<int, Clients *>::iterator it;
+	std::map<int, Clients>::iterator it;
 	std::string str = getSendID(client) + " TOPIC " + param.at(1) + ' ' + param.at(2) + "\r\n";
 
 	for (it = channel->getClientList().begin(); it != channel->getClientList().end(); ++it) {

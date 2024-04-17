@@ -45,7 +45,7 @@ class	Channel {
 
 		std::string				getName( void );
 		std::vector<int>		&getOper( void );
-		std::map<int, Clients *>	&getClientList( void );
+		std::map<int, Clients>	&getClientList( void );
 		void					setOper( Clients & client );
 		int						addClient( Clients & client );
 		void					addWhiteList( Clients & client );
@@ -70,7 +70,7 @@ class	Channel {
 
 	private:
 
-		std::map <int, Clients *>		_clientList;
+		std::map <int, Clients>		_clientList;
 		std::vector <int> 			_operList;
 		std::vector <std::string>	_whiteList;
 		std::string					_name;
