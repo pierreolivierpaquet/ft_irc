@@ -13,10 +13,10 @@ static	void	updateChannels( std::string new_nickname, int client_fd, Server &irc
 	if (ircserver.getChannelsList().size() != 0) {
 		for (; it != ite; ++it) {
 			if (it->second.getClientList().find( client_fd ) != it->second.getClientList().end() ) {
-				for (	std::map<int, Clients *>::iterator it_client = it->second.getClientList().begin();
+				for (	std::map<int, Clients >::iterator it_client = it->second.getClientList().begin();
 						it_client != it->second.getClientList().end(); it_client++) {
 					if (it_client->first == client_fd) {
-							it_client->second->setNickName( new_nickname );
+							it_client->second.setNickName( new_nickname );
 					}
 				}
 			}
