@@ -81,6 +81,8 @@ void channel( Server &ircserv, Clients &client, std::vector< std::string > param
 	Channel *channel = NULL;
 	t_vec_pair tokens;
 
+	if (param.size() < 2) throw ERR_NEEDMOREPARAMS;
+
 	if (param.size() < 3)
 		tokens = splitNames(param.at(1), "");
 	else

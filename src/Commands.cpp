@@ -102,6 +102,7 @@ void	execute( Server &ircserv, Clients &client_data ) {
 	while (cr_lf != NOT_FOUND) {
 		tmp_split = cmd::split( client_data, input.substr( 0, cr_lf ) );
 		try {
+			if (tmp_split.size() == 0) throw ERR_UNKNOWNCOMMAND;
 			if (tmp_split.at(0).compare( "PASS" ) == 0) {
 				pass( ircserv, client_data, tmp_split );
 			} else if (tmp_split.at(0).compare( "NICK" ) == 0 ) {
