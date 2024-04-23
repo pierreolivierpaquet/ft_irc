@@ -14,7 +14,7 @@
 # define	ERR				"error"
 # define	ERR_MSG			"error: "
 
-# define	MISSING_PARAM	"specify <password> and <port>."
+# define	MISSING_PARAM	"specify <port> and <password>."
 # define	EXCEEDING_PARAM	"too many arguments."
 # define	INVALID_PORT	"invalid port number."
 
